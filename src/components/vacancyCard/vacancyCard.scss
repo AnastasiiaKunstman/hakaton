@@ -1,0 +1,89 @@
+.card {
+    width: 592px;
+    padding: 24px 40px 0;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    &>.box {
+        display: flex;
+        justify-content: space-between;
+
+        &>h3 {
+            font-weight: 500;
+        }
+
+        &>.icon-box {
+            display: flex;
+            gap: 20px;
+        }
+
+        &>.icon-button {
+           width: 24px;
+           height: 24px;
+        }
+    }
+
+    &>.info-box {
+        height: 48px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        &>.row {
+            height: 20px;
+            display: flex;
+            justify-content: space-between;
+
+            &>.location-box {
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+            }
+
+            &>.label {
+                font-weight: 400;
+            }
+
+            &>.value {
+                font-weight: 400;
+            }
+        }
+
+        &>.location-box {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            &>.location {
+                font-weight: 400;
+            }
+
+            &>.type {
+                font-weight: 400;
+            }
+
+            &>.work-type {
+                font-weight: 400;
+            }
+        }
+    }
+
+    &>.description {
+        height: 100px;
+
+        // &>p {
+        //     /* Стили для текста описания */
+        // }
+    }
+
+    &>.date {
+        height: 24px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 20px;
+    }
+}
