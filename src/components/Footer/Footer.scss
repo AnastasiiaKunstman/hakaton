@@ -1,0 +1,22 @@
+.footer{
+    padding-bottom: 24px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  
+    .link {
+        text-decoration: none;
+        color: #B5B5B7;
+    
+        &:hover {
+            opacity: .7;
+        }
+    }
+    
+    .svg {
+        width: 24px;
+        height: 24px;
+        margin: 0 8px -5px 0;
+    }
+}
+

@@ -33,7 +33,7 @@ export default function ActiveVacancy() {
       </Box>
       <Box display="flex" flexDirection="column" alignItems="center" gap="8px">
         <Typography variant="h3" color="#797981" paddingTop="210px">У вас еще нет активных вакансий</Typography>
-        <Link style={{ textDecoration: 'none', color: '#5A9BFF' }} to='/vacancies'>Создать вакансию</Link>
+        <Link style={{ textDecoration: 'none', color: '#5A9BFF' }} to="/vacancies">Создать вакансию</Link>
       </Box>
       {/* <VacancyCard /> */}
     </Box>

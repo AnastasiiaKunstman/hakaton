@@ -1,23 +1,90 @@
 import * as yup from 'yup';
 
-export const errors = {
-  InvalidEmail: 'Введите корректный email',
-  RequiredField: 'Это поле обязательное',
-  minLength: 'Минимальная длина 8 символов',
-  minLength2: 'Минимальная длина 2 символа',
-  InvalidPassword: 'Пароль должен содержать спецсимвол, однин заглавный символ, одну цифру',
-  InvalidTelegram: 'Введите корректный telegram',
-  InvalidPhoneNumber: 'Введите корректный номер телефона',
-};
+const phoneRegExp = /^(\+7)\s\d{3}\s\d{3}\s\d{2}\s\d{2}$/;
+const passwordRegExp = {};
 
-export const schema = yup.object().shape({
-  email: yup.string().email(errors.InvalidEmail).required(errors.RequiredField),
-  password: yup.string().min(8, errors.minLength)
-    .required(errors.RequiredField).matches(/^(?=.*[A-Z])(?=.*[0-9]).{8,40}$/, errors.InvalidPassword),
-  name: yup.string().required(errors.RequiredField).min(2, errors.minLength2),
-  lastName: yup.string().required(errors.RequiredField).min(2, errors.minLength2),
-  telegram: yup.string().matches(/^@[A-Za-z\d_-]{5,32}$/, errors.InvalidTelegram),
-  phoneNumber: yup.string().matches(/^\d{11}$/, errors.InvalidPhoneNumber),
-  company: yup.string().min(2, errors.minLength2),
-  avatar: yup.string().min(8, errors.minLength),
+export const loginShema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Неверный формат email')
+    .required('Email обязателен'),
+  password: yup.string().required('Пароль обязателен'),
+});
+
+export const registrationShema = yup.object().shape({
+  first_name: yup
+    .string()
+    .min(2, 'Имя должно содержать минимум 2 знака')
+    .max(50, 'Имя не может быть длинее 50 знаков')
+    .matches(/^[A-ZА-ЯЁ].*$/, 'Первая буква имени должна быть заглавной')
+    .matches(
+      /^[A-ZА-ЯЁ][a-zа-яё]+$/,
+      'Символы, следующие за первым, должны быть строчными',
+    )
+    .matches(/^[А-ЯЁа-яё]*$/, 'Используйте только кириллические буквы')
+    .required('Имя обязательно'),
+  last_name: yup
+    .string()
+    .min(2, 'Фамилия должна содержать минимум 2 знака')
+    .max(50, 'Фамилия не может быть длинее 50 знаков')
+    .matches(/^[A-ZА-ЯЁ].*$/, 'Первая буква фамилии должна быть заглавной')
+    .matches(
+      /^[A-ZА-ЯЁ][a-zа-яё]+$/,
+      'Символы, следующие за первым, должны быть написаны строчными буквами',
+    )
+    .matches(/^[А-ЯЁа-яё]*$/, 'Используйте только кириллические буквы')
+    .required('Фамилия обязательна'),
+  email: yup
+    .string()
+    .email('Неверный формат email')
+    .required('Email обязателен'),
+  password: yup
+    .string()
+    .min(5, 'Пароль должен содержать минимум 5 символов')
+    .max(50, 'Пароль не может содержать более 50 символов')
+    .matches(
+      /^[a-zA-Z0-9!_@#$%^&+=]*$/,
+      'Пароль может содержать только символы латинского алфавита и специальные символы',
+    )
+    .matches(/[0-9]/, 'Пароль должен содержать хотя бы одну цифру (0-9)')
+    .matches(
+      /[a-z]/,
+      'Пароль должен содержать хотя бы одну прописную букву (a-z)',
+    )
+    .matches(
+      /[A-Z]/,
+      'Пароль должен содержать хотя бы одну заглавную букву (A-Z)',
+    )
+    .required('Пароль обязателен для заполнения'),
+  phone: yup
+    .string()
+    .required('Телефон обязателен')
+    .matches(
+      phoneRegExp,
+      'Неверный формат номера телефона (Пример: +7 999 444 88 11)',
+    )
+    .required('Телефон обязателен для заполнения'),
+});
+
+export const vacancyShema = yup.object().shape({
+  name: yup.string().required('Заполните поле'),
+  location: yup.string().required('Заполните поле'),
+  salary: yup.string().required('Заполните поле'),
+  schedule: yup.string().required('Заполните поле'),
+  specialization: yup.string().required('Заполните поле'),
+  required_education_level: yup.string().required('Заполните поле'),
+  required_skills: yup.string().required('Заполните поле'),
+  text: yup.string().required('Заполните поле'),
+  langGrade: yup.string(),
+  age: yup.string(),
+});
+
+export const filterShema = yup.object().shape({
+  required_skills: yup.string(),
+  required_education_level: yup.string().required('Заполните поле'),
+  location: yup.string().required('Заполните поле'),
+  salary: yup.string(),
+  langGrade: yup.string(),
+  age: yup.string(),
+  schedule: yup.string(),
 });

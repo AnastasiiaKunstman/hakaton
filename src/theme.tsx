@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
-import './fonts/fonts.css';
+import './vendor/fonts/fonts.css';
 
 // A custom theme for this app
 const theme = createTheme({
@@ -16,7 +16,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ['"YS Text"', '"YS Display"'].join(','),
+    fontFamily: ['YS Display', 'YS Text'].join(','),
     h1: {
       fontFamily: 'YS Display',
       fontSize: '34px',

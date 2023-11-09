@@ -11,9 +11,9 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../../store/store';
-import { Store } from '../../store/store.types';
-import { fetchStudents } from '../../store/studensSlice';
+import { useAppDispatch } from '../../store/hooks';
+// import { Store } from '../../store/store.types';
+// import { fetchStudents } from '../../store/studensSlice';
 
 { /* Костыль */ }
 const employmentTypes = ['Полная занятость', 'Частичная занятость', 'Удаленная работа'];
@@ -62,23 +62,23 @@ export default function TableDynamic() {
   };
 
   const dispatch = useAppDispatch();
-  const ResponseData = useSelector((state: Store) => state.students.students);
+  // const ResponseData = useSelector((state: Store) => state.students.students);
   const [loading, setLoading] = useState(true);
-  const students = ResponseData.results || [];
+  // const students = ResponseData.results || [];
   const [employmentType, setEmploymentType] = useState<string | null>(null);
   const [skills, setSkills] = useState<string | null>(null);
   const [location, setLocation] = useState<string | null>(null);
   const [english, setEnglish] = useState<string | null>(null);
 
-  useEffect(() => {
-    dispatch(fetchStudents())
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchStudents())
+  //     .then(() => {
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, [dispatch]);
 
   return (
     <Box>

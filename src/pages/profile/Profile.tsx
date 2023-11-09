@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 import {
-  CssBaseline,
-  Container,
   Avatar,
   Typography,
   TextField,
@@ -15,23 +13,23 @@ import EditIcon from '@mui/icons-material/Edit';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SearchIcon from '@mui/icons-material/Search';
-import { blue } from '@mui/material/colors';
 import { useState, ChangeEvent } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import { schema } from '../../utils/validation/yupSchema';
+import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
 
 const testData = {
-  avatar: 'https://funart.pro/uploads/posts/2021-04/1618313148_42-funart_pro-p-kapibara-i-chelovek-zhivotnie-krasivo-foto-42.jpg',
-  firstName: 'Иван',
-  lastName: 'Иванов',
-  email: 'good-hr@ya.ru',
+  avatar: 'https://images.unsplash.com/photo-1693438672953-409b661134fd?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDEwNnx0b3dKWkZza3BHZ3x8ZW58MHx8fHx8',
+  firstName: 'Марина',
+  lastName: 'Егорова',
+  email: 'MarinaHr@mail.ru',
   telegram: '@good-hr',
   phoneNumber: '88005553535',
   company: 'Yandex',
   password: 'secretWeShouldNotShow!1',
   info: 'Менеджер по подбору персонала',
 };
+
 export default function Profile() {
   const {
     register,
@@ -48,6 +46,7 @@ export default function Profile() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [telegram, setTelegram] = useState('');
   const [company, setCompany] = useState('');
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget as HTMLInputElement;
     const fieldName = (e.currentTarget as HTMLInputElement).id;
@@ -102,16 +101,11 @@ export default function Profile() {
   function handleEditClick() {
     setIsProfileEdit(!isProfileEdit);
   }
+
   return (
-    <>
-      <CssBaseline />
-      <Container
-        maxWidth="lg"
-        sx={{
-          mt: 5,
-          mb: 2,
-        }}
-      >
+    <Box sx={{ pb: '64px', height: '100vh' }}>
+      <LoggedUserHeader />
+      <Box sx={{ p: '28px 117px 0' }}>
         <Box
           sx={{
             display: 'flex',
@@ -120,14 +114,7 @@ export default function Profile() {
             mb: 2,
           }}
         >
-          <Typography
-            variant="h5"
-            component="h1"
-            sx={{
-              height: 16,
-              mb: 3,
-            }}
-          >
+          <Typography variant="h2" sx={{ fontWeight: 500 }}>
             Информация профиля
           </Typography>
           <IconButton
@@ -151,42 +138,27 @@ export default function Profile() {
                 <Box
                   sx={{
                     border: '1px solid rgba(0, 0, 0, .2)',
-                    borderRadius: 2,
+                    borderRadius: '12px',
                     p: 2,
                     pr: 3,
                     display: 'flex',
                     position: 'relative',
+                    alignItems: 'center',
                   }}
                 >
                   <Avatar
                     alt={testData.firstName}
                     src={testData.avatar}
-                    sx={{
-                      height: 60,
-                      width: 60,
-                      mr: 2,
-                    }}
+                    sx={{ height: '60px', width: '60px', mr: 2 }}
                   />
                   <Box>
-                    <Typography>
+                    <Typography variant="h3" sx={{ fontWeight: 500, maxWidth: 300, mb: '8px' }}>
                       {`${testData.lastName} ${testData.firstName}`}
                     </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: 14,
-                        lineHeight: '14px',
-                        maxWidth: 300,
-                      }}
-                    >
+                    <Typography variant="body1" sx={{ maxWidth: 300 }}>
                       {testData.info}
                     </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: 14,
-                        lineHeight: '16px',
-                        color: `${blue[500]}`,
-                      }}
-                    >
+                    <Typography variant="body1" sx={{ color: '#5A9BFF' }}>
                       {testData.email}
                     </Typography>
                     <IconButton
@@ -206,96 +178,86 @@ export default function Profile() {
                 <Box
                   sx={{
                     border: '1px solid rgba(0, 0, 0, .2)',
-                    borderRadius: 2,
+                    borderRadius: '12px',
                     p: 2,
                     pr: 3,
                     mt: 2,
                     position: 'relative',
+                    height: '550px',
                   }}
                 >
-                  <Typography>
+                  <Typography variant="body1">
                     Шаблон
                   </Typography>
                   <Box
                     sx={{
-                      border: '1px solid rgba(0, 0, 0, .2)',
-                      borderRadius: 1,
+                      borderRadius: '12px',
+                      mt: '28px',
                       p: 1,
-                      height: 196,
+                      height: '196px',
                     }}
                   >
-                    <Typography
-                      fontSize={14}
-                      sx={{
-                        opacity: '.5',
-                      }}
-                    >
-                      Подготовьте заранее письмо или ссылку на тестовое задание
+                    <Typography variant="body2" sx={{ color: '#797981' }}>
+                      В разработке
                     </Typography>
                   </Box>
-                  <IconButton
+                  <Button
                     onClick={handleEditClick}
                     sx={{
-                      width: 30,
-                      height: 30,
+                      width: '30px',
+                      height: '30px',
                       position: 'absolute',
                       top: 10,
                       right: 10,
                     }}
                   >
                     <EditIcon fontSize="small" />
-                  </IconButton>
+                  </Button>
                 </Box>
               </Grid>
-              <Grid
-                item
-                xs={12}
-                sm={7}
-              >
+
+              <Grid item xs={12} sm={7}>
                 <Box
                   sx={{
                     border: '1px solid rgba(0, 0, 0, .2)',
-                    borderRadius: 2,
+                    borderRadius: '12px',
                     p: 2,
                     position: 'relative',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '20px',
+                    height: '673px',
                   }}
                 >
                   <Box>
-                    <Typography
-                      variant="h5"
-                      component="h2"
-                    >
+                    <Typography variant="h3" sx={{ fontWeight: 500, mb: '8px' }}>
                       {testData.company}
                     </Typography>
-                    <Typography
-                      component="p"
-                      fontSize={18}
-                      sx={{
-                        opacity: '.5',
-                        lineHeight: '18px',
-                        mt: 1,
-                      }}
-                    >
+                    <Typography variant="body2" sx={{ color: '#797981' }}>
                       <LocationOnIcon fontSize="small" />
                       Москва
                     </Typography>
-                    <Typography
-                      fontSize={16}
-                      fontWeight={500}
-                      sx={{
-                        mt: 1,
-                        mb: 2,
-                      }}
-                    >
+                  </Box>
+                  <Box>
+                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px'}}>
+                      Вакансии в работе
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      placeholder="У вас еще нет активных вакансий"
+                      variant="outlined"
+                      sx={{ maxWidth: 600, border: 'none' }}
+                    />
+                  </Box>
+                  <Box>
+                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px'}}>
                       Сфера деятельности
                     </Typography>
                     <TextField
                       fullWidth
                       placeholder="В разработке"
                       variant="outlined"
-                      sx={{
-                        maxWidth: 600,
-                      }}
+                      sx={{ maxWidth: 600 }}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -304,25 +266,18 @@ export default function Profile() {
                         ),
                       }}
                     />
-                    <Typography
-                      fontSize={16}
-                      fontWeight={500}
-                      sx={{
-                        mt: 1,
-                        mb: 1,
-                      }}
-                    >
+                  </Box>
+                  <Box>
+                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px'}}>
                       Описание
                     </Typography>
                     <TextField
                       placeholder="В разработке"
                       fullWidth
                       variant="outlined"
-                      sx={{
-                        maxWidth: 600,
-                      }}
+                      sx={{ maxWidth: 600 }}
                       multiline
-                      rows={4}
+                      rows={12.5}
                     />
                     <IconButton
                       sx={{
@@ -512,7 +467,7 @@ export default function Profile() {
               </Box>
             </form>
           )}
-      </Container>
-    </>
+      </Box>
+    </Box>
   );
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, TextField } from '@mui/material';
 import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
 // import VacancyCard from '../../components/vacancyCard/VacancyCard';
@@ -30,7 +30,7 @@ export default function ArchivedVacancy() {
           />
         </Box>
       </Box>
-      <Typography variant='h3' color={'#797981'} paddingTop={'210px'} textAlign={'center'}>У вас еще нет закрытых вакансий</Typography>
+      <Typography variant="h3" color="#797981" paddingTop="210px" textAlign="center">У вас еще нет закрытых вакансий</Typography>
       {/* <VacancyCard /> */}
     </Box>
   );

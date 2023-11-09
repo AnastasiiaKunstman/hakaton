@@ -7,7 +7,7 @@ export default function CreateVacancy() {
   return (
     <Box maxWidth="xl" sx={{ p: '0 118px' }}>
       <NavigationMenu />
-      <VacancyForm /> 
+      <VacancyForm />
     </Box>
   );
 }

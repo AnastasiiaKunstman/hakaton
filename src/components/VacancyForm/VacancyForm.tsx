@@ -1,12 +1,38 @@
-import React, { useState } from 'react';
+/* eslint-disable no-console */
 import {
-  Box, TextField, Button, Typography, Grid, Autocomplete, Stack, SvgIcon,
+  SyntheticEvent, useState,
+} from 'react';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { vacancyShema } from "../../utils/index";
+import {
+  Grid,
+  Button,
+  Autocomplete,
+  Typography,
+  TextField,
+  Box,
+  Stack,
+  SvgIcon,
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BtnVacancy from '../btnVacancy/BtnVacancy';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { createVacancy } from '../../store/index';
+import Input from '../../UI/Input/Input';
+
+type VacancyFormProps = {
+  tab: number
+  togglePopup: () => void
+};
+
+type TSelectedOpt = {
+  id: number
+  name: string
+};
 
 // Вынести в отдельный файл с константами
 const employmentTypes = ['Полная занятость', 'Частичная занятость', 'Удаленная работа'];
@@ -27,54 +53,64 @@ const locations = [
   // Можно добавить еще другие местоположения
 ];
 
-const keySkills = [
-  { title: 'Java Script' },
-  { title: 'React' },
-  { title: 'Figma' },
-  { title: 'Photoshop' },
-  { title: 'HTML5' },
-  { title: 'Node.js' },
-  { title: 'API' },
-  { title: 'Type Script' },
-  { title: 'MUI' },
-  { title: 'CSS3' },
-  { title: 'Адаптивная верстка' },
-  // и тп.
-];
-
-const VacancyForm: React.FC = () => {
-  // Переделать на Redux
-  const [jobTitle, setJobTitle] = useState('');
-  const [jobDescription, setJobDescription] = useState('');
+function VacancyForm({ togglePopup }: VacancyFormProps) {
   const [location, setLocation] = useState<string | null>(null);
   const [employmentType, setEmploymentType] = useState<string | null>(null);
   const [experience, setExperience] = useState<string | null>(null);
   const [english, setEnglish] = useState<string | null>(null);
   const [age, setAge] = useState<number | null>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({resolver: yupResolver(vacancyShema)});
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Здесь отправка данных на сервер
+  const dispatch = useAppDispatch();
+  const {
+    skillsOpt,
+    schedulesOpt,
+    experienceOpt, // опыт работы
+    employmentsOpt, // тип
+  } = useAppSelector((state) => state.filters);
+
+  const [selectedSkills, setSelectedSkills] = useState<TSelectedOpt[]>([]);
+
+  const handleSkillsChange = (
+    evt: SyntheticEvent,
+    selectedSkills: TSelectedOpt[],
+  ) => {
+    setSelectedSkills([...selectedSkills]);
   };
+
+  function handleSubmit((data) => {
+    console.log(data);
+    const transformedData = {
+      ...data,
+      skills: selectedSkills.map((skills) => skills.id),
+      employment: Number(data.employment),
+      experience: Number(data.experience),
+      schedule: Number(data.schedule),
+    };
+    togglePopup();
+    dispatch(createVacancy(transformedData));
+  });
 
   return (
     <Box maxWidth="xl" sx={{ p: '28px 0 71px' }}>
-      <form onSubmit={handleFormSubmit}>
+      <form noValidate onSubmit={handleSubmit} >
+
         <Grid container xs={12}>
           <Grid container xs={5} flexDirection="column" marginRight="42px" width="39%">
             <Grid sx={{ p: 0, mb: '20px' }}>
               <Typography variant="body1" sx={{ marginBottom: '4px', fontWeight: '500' }}>
                 Вакансия
               </Typography>
-              <TextField
+              <Input
+                customLabel="Вакансия"
                 type="text"
-                name="title"
-                value={jobTitle}
-                onChange={(e) => setJobTitle(e.target.value)}
-                fullWidth
-                size="small"
                 placeholder="Введите название должности"
-                required
+                register={register}
+                registerName="name"
               />
             </Grid>
             <Grid
@@ -93,7 +129,7 @@ const VacancyForm: React.FC = () => {
                 <Button
                   type="button"
                   size="small"
-                                    // onClick={onClearFilter}
+                // onClick={onClearFilter}
                   sx={{ color: '#797981', fontSize: '14px' }}
                 >
                   <DeleteIcon color="disabled" fontSize="small" />
@@ -104,15 +140,13 @@ const VacancyForm: React.FC = () => {
                 <Typography variant="caption" sx={{ marginBottom: '4px' }}>
                   Зарплата или вилка
                 </Typography>
-                <TextField
-                  type="text"
-                  name="salary"
-                  fullWidth
-                  size="small"
-                  placeholder="от"
-                  value={jobTitle}
-                  onChange={(e) => setJobTitle(e.target.value)}
-                  required
+                <Input
+                  customLabel="Зарплата"
+                  type="number"
+                  placeholder="От"
+                  register={register}
+                  registerName="salary"
+                  registerOptions={{ valueAsNumber: true }}
                 />
               </Grid>
 
@@ -137,20 +171,6 @@ const VacancyForm: React.FC = () => {
                   onChange={(_, newValue) => setLocation(newValue)}
                   renderInput={(params) => <TextField {...params} fullWidth size="small" placeholder="Город" />}
                 />
-                {/* <Autocomplete
-                  options={dropdownData}
-                  getOptionLabel={(option) => option.label}
-                  value={formData.selectedValue}
-                  onChange={(_, newValue) => handleFieldChange('selectedValue', newValue)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      fullWidth
-                      size="small"
-                      placeholder="Город"
-                      />
-                  )}
-                 /> */}
               </Grid>
 
               <Grid padding={0}>
@@ -341,56 +361,52 @@ const VacancyForm: React.FC = () => {
                 <Stack spacing={3}>
                   <Autocomplete
                     multiple
-                    id="tags-outlined"
-                    options={keySkills}
-                    getOptionLabel={(option) => option.title}
-                    defaultValue={[keySkills[1]]}
+                    options={skillsOpt}
+                    getOptionLabel={(skillsOpt) => skillsOpt.name}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                    onChange={handleSkillsChange}
+                    value={selectedSkills}
                     filterSelectedOptions
+                    noOptionsText="Нет подходящих вариантов"
                     renderInput={(params) => (
-                      <TextField
+                      <Input
                         {...params}
-                        multiline
+                        customLabel="Ключевые навыки"
+                        type="text"
+                        placeholder={
+                          selectedSkills.length === 0
+                            ? 'Например, React'
+                            : ''
+                        }
+                        register={register}
+                        registerName="required-skills"
                       />
                     )}
                   />
                 </Stack>
               </Grid>
 
-              {/* <Autocomplete
-                    multiple
-                    id="tags-outlined"
-                    options={formData.required_skills}
-                    renderInput={(params) => (
-                      <TextField
-                          {...params}
-                          name="required_skills"
-                          value={formData.required_skills}
-                          rows={2}
-                          multiline
-                          />
-                    )}
-                  /> */}
               <Grid xs={12}>
                 <Typography variant="caption" sx={{ marginBottom: '4px' }}>
                   Описание работы
                 </Typography>
-                <TextField
-                  type="text"
-                  name="text"
-                  value={jobDescription}
-                  onChange={(e) => setJobDescription(e.target.value)}
-                  rows={20}
+                <Input
                   fullWidth
                   multiline
+                  maxRows={2}
+                  customLabel="Описание работы"
+                  type="text"
+                  register={register}
+                  registerName="text"
                 />
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-        <BtnVacancy/>
+        <BtnVacancy />
       </form>
     </Box>
   );
-};
+}
 
 export default VacancyForm;

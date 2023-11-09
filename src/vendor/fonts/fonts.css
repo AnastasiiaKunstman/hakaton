@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'YS Display';
+    src: url('YSDisplay-Regular.woff2') format('woff2'),
+        url('YSDisplay-Regular.woff') format('woff'),
+        url('YSDisplay-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'YS Display';
+    src: url('YSDisplay-Medium.woff2') format('woff2'),
+        url('YSDisplay-Medium.woff') format('woff'),
+        url('YSDisplay-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'YS Text';
+    src: url('YSText-Regular.woff2') format('woff2'),
+        url('YSText-Regular.woff') format('woff'),
+        url('YSText-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'YS Text';
+    src: url('YSText-Medium.woff2') format('woff2'),
+        url('YSText-Medium.woff') format('woff'),
+        url('YSText-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
