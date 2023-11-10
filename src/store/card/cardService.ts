@@ -5,12 +5,9 @@ const API_URL = 'https://tracker-hiring.ddns.net/api';
 const json = localStorage.getItem('user');
 const user = json && JSON.parse(json);
 
-const getStudents = async (query: any) => {
-  const response = await axios.get(`${API_URL}/students/`, {
+const getCards = async (query: any) => {
+  const response = await axios.get(`${API_URL}/vacancies/`, {
     params: query,
-    paramsSerializer: {
-      indexes: null,
-    },
     headers: {
       Authorization: `Bearer ${user.access}`,
     },
@@ -19,8 +16,8 @@ const getStudents = async (query: any) => {
   return response.data;
 };
 
-const searchService = {
-  getStudents,
+const cardService = {
+  getCards,
 };
 
-export default searchService;
+export default cardService;

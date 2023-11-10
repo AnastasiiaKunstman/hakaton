@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import { Link } from 'react-router-dom';
 import {
   Avatar,
@@ -13,7 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SearchIcon from '@mui/icons-material/Search';
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, FC } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
@@ -30,7 +31,7 @@ const testData = {
   info: 'Менеджер по подбору персонала',
 };
 
-export default function Profile() {
+const Profile: FC = () => {
   const {
     register,
     formState: { errors },
@@ -471,3 +472,5 @@ export default function Profile() {
     </Box>
   );
 }
+
+export default Profile;

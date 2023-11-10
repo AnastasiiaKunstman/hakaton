@@ -33,7 +33,7 @@ const Login = () => {
   const { user, isError, message } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    if (user) navigate('/active-vacancies');
+    if (user) navigate('/vacancies/active');
   }, [user, navigate]);
 
   const onSubmit = async (userData: Inputs) => {

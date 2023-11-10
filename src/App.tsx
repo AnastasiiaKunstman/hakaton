@@ -15,12 +15,11 @@ import ArchivedVacancy from './pages/ArchivedVacanciesPage/ArchivedVacanciesPage
 import Student from './pages/student/Student';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import {
-  getCity,
-  getCurrency,
-  getEmployments,
-  getExperiences,
-  getSchedules,
-  getSkills,
+  // getCurrency,
+  // getEmployments,
+  // getExperiences,
+  // getSchedules,
+  // getSkills,
   getVacancies,
 } from './store/index';
 import PasswordRecovery from './components/Auth/PasswordRecovery/PasswordRecovery';
@@ -32,12 +31,12 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getCurrency());
-    dispatch(getCity());
-    dispatch(getSkills());
-    dispatch(getSchedules());
-    dispatch(getEmployments());
-    dispatch(getExperiences());
+    // dispatch(getCurrency());
+    // dispatch(getCity());
+    // dispatch(getSkills());
+    // dispatch(getSchedules());
+    // dispatch(getEmployments());
+    // dispatch(getExperiences());
     dispatch(getVacancies());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -47,16 +46,16 @@ function App() {
       <Route path="/sign-in" element={<Auth podComponent="login" />} />
       <Route path="/sign-up" element={<Auth podComponent="registration" />} />
       <Route path="/password-recovery" element={<PasswordRecovery />} />
-      <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
-      <Route path="/student" element={<ProtectedRoute element={<Student />} />} />
-      <Route path="*" element={<ProtectedRoute element={<NotFoundError />} />} />
-      <Route path="/vacancies" element={<ProtectedRoute element={<CreateVacancy />} />} />
-      <Route path="/active-vacancies" element={<ProtectedRoute element={<ActiveVacancy />} />} />
-      <Route path="/archive-vacancies" element={<ProtectedRoute element={<ArchivedVacancy />} />} />
-      <Route path="/students" element={<ProtectedRoute element={<StudentsPage />} />} />
-      <Route path="/viewed-students" element={<ProtectedRoute element={<ViewedStudent />} />} />
-      <Route path="/invited-students" element={<ProtectedRoute element={<InvitedStudents />} />} />
-      <Route path="/save-students" element={<ProtectedRoute element={<SaveStudents />} />} />
+      <Route path="/profile" element={<ProtectedRoute element={Profile} />} />
+      <Route path="/student" element={<ProtectedRoute element={Student} />} />
+      <Route path="*" element={<ProtectedRoute element={NotFoundError} />} />
+      <Route path="/vacancies" element={<ProtectedRoute element={CreateVacancy} />} />
+      <Route path="/vacancies/active" element={<ProtectedRoute element={ActiveVacancy} />} />
+      <Route path="/vacancies/archive" element={<ProtectedRoute element={ArchivedVacancy} />} />
+      <Route path="/students" element={<ProtectedRoute element={StudentsPage} />} />
+      <Route path="/students/viewed" element={<ProtectedRoute element={ViewedStudent} />} />
+      <Route path="/students/invited" element={<ProtectedRoute element={InvitedStudents} />} />
+      <Route path="/students/save" element={<ProtectedRoute element={SaveStudents} />} />
     </Routes>
   );
 }

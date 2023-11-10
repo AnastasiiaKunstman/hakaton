@@ -1,19 +1,18 @@
 /* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import studentService from './studentService';
+import cardService from './cardService';
 
 interface IResult {
-  id: number;
-  avatar?: string;
-  last_name: string;
-  first_name: string;
+  id: number,
+  name: string;
+  author: string;
+  salary: string;
   location: { id: number; name: string };
   schedule: ISchedule[];
-  telegram: string;
-  email: string;
-  skills: ISkills[];
-  is_favorited: boolean;
+  required_education_level: IEducationLevel[],
+  required_skills: ISkill[],
+  pub_date: string,
 }
 
 interface ISchedule {
@@ -21,7 +20,12 @@ interface ISchedule {
   name: string
 }
 
-interface ISkills {
+interface IEducationLevel {
+  id: number
+  name: string
+}
+
+interface ISkill {
   id: number
   name: string
 }
@@ -44,11 +48,11 @@ const initialState: IinitialState = {
   message: '',
 };
 
-export const getStudents = createAsyncThunk(
-  'student/get',
+export const getCards = createAsyncThunk(
+  'card/get',
   async (query: any, thunkAPI) => {
     try {
-      return await studentService.getStudents(query);
+      return await cardService.getCards(query);
     } catch (error) {
       const err = error as AxiosError;
       return thunkAPI.rejectWithValue(err.response?.data);
@@ -56,28 +60,28 @@ export const getStudents = createAsyncThunk(
   },
 );
 
-const studentSlice = createSlice({
-  name: 'student',
+const cardSlice = createSlice({
+  name: 'card',
   initialState,
   reducers: {
-    setStudents: (state, action) => {
+    setQuery: (state, action) => {
       state.query = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getStudents.pending, (state) => {
-        console.log('getStudents.pending');
+      .addCase(getCards.pending, (state) => {
+        console.log('getCards.pending');
         state.isLoading = true;
       })
-      .addCase(getStudents.fulfilled, (state, action) => {
-        console.log('getStudents.fulfilled', action.payload);
+      .addCase(getCards.fulfilled, (state, action) => {
+        console.log('getCards.fulfilled', action.payload);
         state.isLoading = false;
         state.isSuccess = true;
         state.results = action.payload.results || [];
       })
-      .addCase(getStudents.rejected, (state, action) => {
-        console.log('getStudents.rejected');
+      .addCase(getCards.rejected, (state, action) => {
+        console.log('getCards.rejected');
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -86,5 +90,5 @@ const studentSlice = createSlice({
   },
 });
 
-export const { setStudents } = studentSlice.actions;
-export default studentSlice.reducer;
+export const { setQuery } = cardSlice.actions;
+export default cardSlice.reducer;

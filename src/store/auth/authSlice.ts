@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import authService from './authService';
 
-interface IUser {
+export interface IUser {
   id?: number
   email: string
   first_name?: string

@@ -23,7 +23,7 @@ export const pages = [
   },
 ];
 
-export default function Header() {
+export default function LoggedUserHeader() {
   const dispatch = useAppDispatch();
 
   const onLogout = () => {
@@ -31,7 +31,7 @@ export default function Header() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#1A1B22', height: '65px', boxShadow: 'none' }}>
+    <AppBar position="static" sx={{ backgroundColor: '#1A1B22', height: '65px', boxShadow: 'none', padding: '0 46px' }}>
       <Container maxWidth="xl">
         <Toolbar>
           <MenuItem component={Link} to="/">
@@ -71,7 +71,7 @@ export default function Header() {
                 <AccountCircleOutlinedIcon />
               </IconButton>
             </MenuItem>
-            <MenuItem>
+            <MenuItem sx={{ paddingRight: '24px' }}>
               <Button
                 variant="outlined"
                 onClick={onLogout}

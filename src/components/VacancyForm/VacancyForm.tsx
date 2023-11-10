@@ -2,9 +2,8 @@
 import {
   SyntheticEvent, useState,
 } from 'react';
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import { vacancyShema } from "../../utils/index";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import {
   Grid,
   Button,
@@ -19,9 +18,10 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { vacancyShema } from '../../utils/index';
 import BtnVacancy from '../btnVacancy/BtnVacancy';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { createVacancy } from '../../store/index';
+// import { createVacancy } from '../../store/index';
 import Input from '../../UI/Input/Input';
 
 type VacancyFormProps = {
@@ -53,7 +53,7 @@ const locations = [
   // Можно добавить еще другие местоположения
 ];
 
-function VacancyForm({ togglePopup }: VacancyFormProps) {
+function VacancyForm() {
   const [location, setLocation] = useState<string | null>(null);
   const [employmentType, setEmploymentType] = useState<string | null>(null);
   const [experience, setExperience] = useState<string | null>(null);
@@ -63,9 +63,9 @@ function VacancyForm({ togglePopup }: VacancyFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({resolver: yupResolver(vacancyShema)});
+  } = useForm({ resolver: yupResolver(vacancyShema) });
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const {
     skillsOpt,
     schedulesOpt,
@@ -82,22 +82,22 @@ function VacancyForm({ togglePopup }: VacancyFormProps) {
     setSelectedSkills([...selectedSkills]);
   };
 
-  function handleSubmit((data) => {
-    console.log(data);
-    const transformedData = {
-      ...data,
-      skills: selectedSkills.map((skills) => skills.id),
-      employment: Number(data.employment),
-      experience: Number(data.experience),
-      schedule: Number(data.schedule),
-    };
-    togglePopup();
-    dispatch(createVacancy(transformedData));
-  });
+  // const handleSubmit((data) => {
+  //   console.log(data);
+  //   const transformedData = {
+  //     ...data,
+  //     skills: selectedSkills.map((skills) => skills.id),
+  //     employment: Number(data.employment),
+  //     experience: Number(data.experience),
+  //     schedule: Number(data.schedule),
+  //   };
+  //   togglePopup();
+  //   dispatch(createVacancy(transformedData));
+  // });
 
   return (
     <Box maxWidth="xl" sx={{ p: '28px 0 71px' }}>
-      <form noValidate onSubmit={handleSubmit} >
+      <form noValidate>
 
         <Grid container xs={12}>
           <Grid container xs={5} flexDirection="column" marginRight="42px" width="39%">
@@ -106,7 +106,6 @@ function VacancyForm({ togglePopup }: VacancyFormProps) {
                 Вакансия
               </Typography>
               <Input
-                customLabel="Вакансия"
                 type="text"
                 placeholder="Введите название должности"
                 register={register}
@@ -140,13 +139,15 @@ function VacancyForm({ togglePopup }: VacancyFormProps) {
                 <Typography variant="caption" sx={{ marginBottom: '4px' }}>
                   Зарплата или вилка
                 </Typography>
-                <Input
-                  customLabel="Зарплата"
-                  type="number"
-                  placeholder="От"
-                  register={register}
-                  registerName="salary"
-                  registerOptions={{ valueAsNumber: true }}
+                <TextField
+                  type="text"
+                  name="salary"
+                  fullWidth
+                  size="small"
+                  placeholder="от"
+                  // value={salary}
+                  // onChange={handleChange}
+                  required
                 />
               </Grid>
 
@@ -371,7 +372,6 @@ function VacancyForm({ togglePopup }: VacancyFormProps) {
                     renderInput={(params) => (
                       <Input
                         {...params}
-                        customLabel="Ключевые навыки"
                         type="text"
                         placeholder={
                           selectedSkills.length === 0
@@ -390,14 +390,14 @@ function VacancyForm({ togglePopup }: VacancyFormProps) {
                 <Typography variant="caption" sx={{ marginBottom: '4px' }}>
                   Описание работы
                 </Typography>
-                <Input
+                <TextField
+                  type="text"
+                  name="text"
+                  // value={text}
+                  // onChange={handleChange}
+                  rows={20}
                   fullWidth
                   multiline
-                  maxRows={2}
-                  customLabel="Описание работы"
-                  type="text"
-                  register={register}
-                  registerName="text"
                 />
               </Grid>
             </Grid>

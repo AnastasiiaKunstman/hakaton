@@ -9,11 +9,10 @@ interface TOpts {
 }
 
 interface IinitialState {
-  cityOpt: TOpts[]
+  locationOpt: TOpts[]
   skillsOpt: TOpts[]
   experienceOpt: TOpts[]
   employmentsOpt: TOpts[]
-  currencyOpt: TOpts[]
   schedulesOpt: TOpts[]
   isLoading: boolean
   isError: boolean
@@ -22,11 +21,10 @@ interface IinitialState {
 }
 
 const initialState: IinitialState = {
-  cityOpt: [],
+  locationOpt: [],
   skillsOpt: [],
   employmentsOpt: [],
   experienceOpt: [],
-  currencyOpt: [],
   schedulesOpt: [],
   isLoading: false,
   isError: false,

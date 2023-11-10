@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://tracker-hiring.ddns.net/api/';
+const API_URL = 'https://tracker-hiring.ddns.net/api';
 
 interface IVacancyData {
   id: number
@@ -47,7 +47,7 @@ const updateVacancy = async (vacancyData: IVacancyData) => {
   return response.data;
 };
 
-// Получить свои вакансии
+// Получить данные для создания вакансии
 const getVacancies = async () => {
   const response = await axios.get(`${API_URL}/vacancies/`, {
     headers: {

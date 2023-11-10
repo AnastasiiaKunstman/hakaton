@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import {
-  authReducer, vacancyReducer, filtersReducer, searchReducer,
+  authReducer, vacancyReducer, filtersReducer, searchReducer, cardReducer, studentReducer,
 } from './index';
 
 export const store = configureStore({
@@ -9,6 +9,8 @@ export const store = configureStore({
     filters: filtersReducer,
     vacancies: vacancyReducer,
     search: searchReducer,
+    card: cardReducer,
+    student: studentReducer,
   },
 });
 

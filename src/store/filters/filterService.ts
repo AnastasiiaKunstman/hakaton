@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://tracker-hiring.ddns.net/api/';
+const API_URL = 'https://tracker-hiring.ddns.net/api';
 
 const getCity = async () => {
   const json = localStorage.getItem('user');

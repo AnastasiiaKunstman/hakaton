@@ -27,11 +27,11 @@ function NavigationMenu() {
     },
     {
       label: 'Активные',
-      path: '/active-vacancies',
+      path: '/vacancies/active',
     },
     {
       label: 'Архив',
-      path: '/archive-vacancies',
+      path: '/vacancies/archive',
     },
   ];
 
@@ -42,15 +42,15 @@ function NavigationMenu() {
     },
     {
       label: 'Просмотренные',
-      path: '/viewed-students ',
+      path: '/students/viewed ',
     },
     {
       label: 'Приглашенные',
-      path: '/invited-students',
+      path: '/students/invited',
     },
     {
       label: 'Избранное',
-      path: '/save-students',
+      path: '/students/save',
     },
   ];
 

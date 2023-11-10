@@ -6,8 +6,8 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useAppDispatch } from '../../store/index';
-import { deleteVacancy } from '../../store/vacantionSlice';
+import { useAppDispatch } from '../../store/hooks';
+import { deleteVacancy } from '../../store/vacancy/vacancySlice';
 
 interface EditVacancyProps {
   id: number;
