@@ -14,7 +14,7 @@ export default function StudentsPage() {
         maxWidth="xl"
         className="StudentsPage"
         sx={{
-          p: '0 118px',
+          p: '0 116px',
           height: '92vh',
           display: 'flex',
           flexDirection: 'column',

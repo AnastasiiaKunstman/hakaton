@@ -35,6 +35,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@mui/icons-material": "5.14.14",
     "@mui/material": "5.14.14",
+    "@mui/x-data-grid": "^6.18.1",
     "@mui/x-date-pickers": "^6.17.0",
     "@reduxjs/toolkit": "^1.9.7",
     "@vitejs/plugin-react": "4.1.0",

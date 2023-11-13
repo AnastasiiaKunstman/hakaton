@@ -31,4 +31,4 @@ export { getCards, setQuery } from './card/cardSlice';
 
 export { default as studentReducer } from './students/studentSlice';
 export { default as studentService } from './students/studentService';
-export { getStudents, setQuery } from './students/studentSlice';
+export { getStudents } from './students/studentSlice';

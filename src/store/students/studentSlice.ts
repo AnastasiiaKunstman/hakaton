@@ -74,7 +74,7 @@ const studentSlice = createSlice({
         console.log('getStudents.fulfilled', action.payload);
         state.isLoading = false;
         state.isSuccess = true;
-        state.results = action.payload.results || [];
+        state.results = action.payload.results;
       })
       .addCase(getStudents.rejected, (state, action) => {
         console.log('getStudents.rejected');
