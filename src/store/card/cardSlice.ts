@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import cardService from './cardService';
 
-interface IResult {
+export interface IResult {
   id: number,
   name: string;
   author: string;
@@ -60,10 +60,30 @@ export const getCards = createAsyncThunk(
   },
 );
 
+export const deleteCard = createAsyncThunk(
+  'card/delete',
+  async (cardID: number, thunkAPI) => {
+    try {
+      await cardService.deleteCard(cardID);
+      return cardID;
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkAPI.rejectWithValue(err.response?.data);
+    }
+  },
+);
+
 const cardSlice = createSlice({
   name: 'card',
   initialState,
   reducers: {
+    closeCard: (state) => {
+      state.results = null;
+      state.isError = false;
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.message = '';
+    },
     setQuery: (state, action) => {
       state.query = action.payload;
     },
@@ -71,24 +91,37 @@ const cardSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getCards.pending, (state) => {
-        console.log('getCards.pending');
         state.isLoading = true;
       })
       .addCase(getCards.fulfilled, (state, action) => {
-        console.log('getCards.fulfilled', action.payload);
         state.isLoading = false;
         state.isSuccess = true;
-        state.results = action.payload.results || [];
+        state.results = action.payload.results;
       })
       .addCase(getCards.rejected, (state, action) => {
-        console.log('getCards.rejected');
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
         state.results = null;
+      })
+
+      .addCase(deleteCard.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteCard.fulfilled, (state, action) => {
+        // Успешно удаленная карточка
+        const deletedCardId = action.payload;
+        // Обновляем состояние, удаляя карточку с указанным id
+        state.results = state.results.filter((card) => card.id !== deletedCardId);
+        state.isLoading = false;
+        state.isError = false;
+      })
+      .addCase(deleteCard.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
       });
   },
 });
 
-export const { setQuery } = cardSlice.actions;
+export const { setQuery, closeCard } = cardSlice.actions;
 export default cardSlice.reducer;

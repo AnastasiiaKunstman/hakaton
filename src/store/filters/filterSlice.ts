@@ -9,11 +9,11 @@ interface TOpts {
 }
 
 interface IinitialState {
-  locationOpt: TOpts[]
   skillsOpt: TOpts[]
-  experienceOpt: TOpts[]
-  employmentsOpt: TOpts[]
+  educationLevelOpt: TOpts[]
   schedulesOpt: TOpts[]
+  specializationsOpt: TOpts[]
+  locationsOpt: TOpts[]
   isLoading: boolean
   isError: boolean
   isSuccess: boolean
@@ -21,31 +21,26 @@ interface IinitialState {
 }
 
 const initialState: IinitialState = {
-  locationOpt: [],
   skillsOpt: [],
-  employmentsOpt: [],
-  experienceOpt: [],
+  educationLevelOpt: [],
+  specializationsOpt: [],
   schedulesOpt: [],
+  locationsOpt: [],
   isLoading: false,
   isError: false,
   isSuccess: false,
   message: '',
 };
 
-export const getCity = createAsyncThunk('filters/city', async () => await filtersService.getCity());
+export const getEducationLevel = createAsyncThunk('filters/educationLevel', async () => filtersService.getEducationLevel());
 
-export const getCurrency = createAsyncThunk('filters/currency', async () => await filtersService.getCurrency());
+export const getSkills = createAsyncThunk('filters/skills', async () => filtersService.getSkills());
 
-export const getSkills = createAsyncThunk('filters/skills', async () => await filtersService.getSkills());
-export const getSchedules = createAsyncThunk('filters/schedules', async () => await filtersService.getSchedules());
-export const getEmployments = createAsyncThunk(
-  'filters/employments',
-  async () => await filtersService.getEmployments(),
-);
-export const getExperiences = createAsyncThunk(
-  'filters/experiences',
-  async () => await filtersService.getExperiences(),
-);
+export const getSchedules = createAsyncThunk('filters/schedules', async () => filtersService.getSchedules());
+
+export const getSpecializations = createAsyncThunk('filters/specializations', async () => filtersService.getSpecializations());
+
+export const getLocations = createAsyncThunk('filters/locations', async () => filtersService.getLocations());
 
 const filtersSlice = createSlice({
   name: 'filters',
@@ -53,17 +48,6 @@ const filtersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getCity.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getCity.fulfilled, (state, action) => {
-        state.cityOpt = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(getCity.rejected, (state) => {
-        state.isLoading = false;
-      })
-
       .addCase(getSchedules.pending, (state) => {
         state.isLoading = true;
       })
@@ -75,25 +59,14 @@ const filtersSlice = createSlice({
         state.isLoading = false;
       })
 
-      .addCase(getEmployments.pending, (state) => {
+      .addCase(getSpecializations.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getEmployments.fulfilled, (state, action) => {
-        state.employmentsOpt = action.payload;
+      .addCase(getSpecializations.fulfilled, (state, action) => {
+        state.specializationsOpt = action.payload;
         state.isLoading = false;
       })
-      .addCase(getEmployments.rejected, (state) => {
-        state.isLoading = false;
-      })
-
-      .addCase(getExperiences.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getExperiences.fulfilled, (state, action) => {
-        state.experienceOpt = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(getExperiences.rejected, (state) => {
+      .addCase(getSpecializations.rejected, (state) => {
         state.isLoading = false;
       })
 
@@ -108,14 +81,25 @@ const filtersSlice = createSlice({
         state.isLoading = false;
       })
 
-      .addCase(getCurrency.pending, (state) => {
+      .addCase(getEducationLevel.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getCurrency.fulfilled, (state, action) => {
-        state.currencyOpt = action.payload;
+      .addCase(getEducationLevel.fulfilled, (state, action) => {
+        state.educationLevelOpt = action.payload;
         state.isLoading = false;
       })
-      .addCase(getCurrency.rejected, (state) => {
+      .addCase(getEducationLevel.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(getLocations.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getLocations.fulfilled, (state, action) => {
+        state.locationsOpt = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(getLocations.rejected, (state) => {
         state.isLoading = false;
       });
   },

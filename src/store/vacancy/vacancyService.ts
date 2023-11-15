@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'https://tracker-hiring.ddns.net/api';
 
-interface IVacancyData {
+export interface IVacancyData {
   id: number
   name: string
   location: string
@@ -10,10 +10,9 @@ interface IVacancyData {
   salary: string
   specialization: string
   schedule: string
+  pub_date: string
   required_education_level: string
   required_skills: string
-  lang: string
-  langGrade: string
 }
 
 const json = localStorage.getItem('user');
@@ -47,9 +46,9 @@ const updateVacancy = async (vacancyData: IVacancyData) => {
   return response.data;
 };
 
-// Получить данные для создания вакансии
-const getVacancies = async () => {
-  const response = await axios.get(`${API_URL}/vacancies/`, {
+// Получить данные о вакансии
+const getVacancies = async (vacancyData: IVacancyData) => {
+  const response = await axios.get(`${API_URL}/vacancies/${vacancyData.id}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${user.access}`,
@@ -59,26 +58,10 @@ const getVacancies = async () => {
   return response.data;
 };
 
-// Удалить вакансию
-const daleteVacancy = async (vacancyData: IVacancyData) => {
-  const response = await axios.delete(
-    `${API_URL}/vacancies/${vacancyData.id}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${user.access}`,
-      },
-    },
-  );
-
-  return response.data;
-};
-
 const vacancyService = {
   createVacancy,
   getVacancies,
   updateVacancy,
-  daleteVacancy,
 };
 
 export default vacancyService;

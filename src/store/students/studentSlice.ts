@@ -67,17 +67,14 @@ const studentSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getStudents.pending, (state) => {
-        console.log('getStudents.pending');
         state.isLoading = true;
       })
       .addCase(getStudents.fulfilled, (state, action) => {
-        console.log('getStudents.fulfilled', action.payload);
         state.isLoading = false;
         state.isSuccess = true;
         state.results = action.payload.results;
       })
       .addCase(getStudents.rejected, (state, action) => {
-        console.log('getStudents.rejected');
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

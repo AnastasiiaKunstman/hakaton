@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 import './BtnVacancy.scss';
 
-export default function BtnVacancy() {
+export default function BtnVacancy({ onSubmit }) {
   const location = useLocation();
 
   return (
@@ -19,8 +19,8 @@ export default function BtnVacancy() {
             <button type="submit" className="clear-button" >
               Сохранить
             </button>
-            <button type="submit" className="publish-button">
-              <Link style={{ textDecoration: 'none', color: '#fff' }} to="/students">Опубликовать вакансию и начать поиск</Link>
+            <button type="submit" className="publish-button" onSubmit={onSubmit}>
+              <Link style={{ textDecoration: 'none', color: '#fff' }} to="">Опубликовать вакансию и начать поиск</Link>
             </button>
           </div>
         </Box>

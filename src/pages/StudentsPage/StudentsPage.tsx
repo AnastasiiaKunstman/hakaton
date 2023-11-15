@@ -1,12 +1,22 @@
 /* eslint-disable no-console */
 /* eslint-disable react/function-component-definition */
 import React from 'react';
-import { Box, TextField, Typography } from '@mui/material';
+import {
+  Autocomplete,
+  Box, TextField, Typography,
+} from '@mui/material';
 import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
 import TableDynamic from '../../components/Table/TableDinamic';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
+import { useAppSelector } from '../../store/hooks';
 
 export default function StudentsPage() {
+  const [value, setValue] = React.useState<string | null>(null);
+  const [inputValue, setInputValue] = React.useState('');
+
+  const { specializationsOpt } = useAppSelector((state) => state.filters);
+  const specialization = specializationsOpt.map((options) => options.name);
+
   return (
     <>
       <LoggedUserHeader />
@@ -33,11 +43,19 @@ export default function StudentsPage() {
           }}
           >
             <Typography variant="subtitle1" fontWeight={500}>Вакансия</Typography>
-            <TextField
-              placeholder="Например, Фронтенд-разработчик"
-              variant="outlined"
+            <Autocomplete
+              value={value}
+              onChange={(event: any, newValue: string | null) => {
+                setValue(newValue);
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
               fullWidth
-              size="small"
+              options={specialization}
+              renderInput={(params) => <TextField {...params} placeholder="Например, Fronend разработчик" />}
             />
           </Box>
         </Box>
@@ -45,4 +63,4 @@ export default function StudentsPage() {
       </Box>
     </>
   );
-};
+}

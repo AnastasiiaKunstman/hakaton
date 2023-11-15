@@ -16,8 +16,19 @@ const getCards = async (query: any) => {
   return response.data;
 };
 
+const deleteCard = async (cardID: number) => {
+  const response = await axios.delete(`${API_URL}/vacancies/${cardID}`, {
+    headers: {
+      Authorization: `Bearer ${user.access}`,
+    },
+  });
+
+  return response.data;
+};
+
 const cardService = {
   getCards,
+  deleteCard,
 };
 
 export default cardService;

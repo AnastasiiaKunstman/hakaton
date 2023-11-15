@@ -6,48 +6,20 @@ import {
 import './vacancyCard.scss';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { format } from 'date-fns';
-import { useAppDispatch } from '../../store/hooks';
-import { deleteVacancy } from '../../store/vacancy/vacancySlice';
+import { IResult } from '../../store/card/cardSlice';
 
 interface VacancyСardProps {
-  card: ICard
+  card: IResult
+  onDelete: () => void;
 }
 
-interface ICard {
-  id: number,
-  name: string;
-  salary: string;
-  location: { id: number; name: string };
-  specialization: ISpecialization[];
-  required_education_level: IEducationLevel[];
-  required_skills: ISkill[];
-  pub_date: string;
-}
-
-interface ISpecialization {
-  id: number;
-  name: string;
-}
-
-interface IEducationLevel {
-  id: number;
-  name: string;
-}
-
-interface ISkill {
-  id: number;
-  name: string;
-}
-
-function VacancyCard({ card }: VacancyСardProps) {
-  const dispatch = useAppDispatch();
-
+function VacancyCard({ card, onDelete }: VacancyСardProps) {
   const skillsString = card.required_skills.map((name) => name.name).join(',  ');
   const formattedDate = format(new Date(card.pub_date), 'dd.MM');
   const educationLevel = card.required_education_level.map((name) => name.name);
 
   return (
-    <Card className="card" style={{ borderRadius: '12px', backgroundColor: '#F1F6FF', boxShadow: 'none' }}>
+    <Card className="card" key={card.id} style={{ borderRadius: '12px', backgroundColor: '#F1F6FF', boxShadow: 'none' }}>
       <CardContent className="card-content" sx={{ p: 0 }}>
         <Box className="box">
           <Typography variant="h3">
@@ -61,7 +33,7 @@ function VacancyCard({ card }: VacancyСardProps) {
                 </svg>
               </SvgIcon>
             </IconButton>
-            <IconButton sx={{ width: '24px', padding: 0 }} onClick={() => dispatch(deleteVacancy(card.id))}>
+            <IconButton sx={{ width: '24px', padding: 0 }} onClick={onDelete}>
               <SvgIcon>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path d="M18 6C17.8125 5.81253 17.5582 5.70721 17.293 5.70721C17.0278 5.70721 16.7735 5.81253 16.586 6L12 10.586L7.414 6C7.22647 5.81253 6.97216 5.70721 6.707 5.70721C6.44184 5.70721 6.18753 5.81253 6 6C5.81253 6.18753 5.70721 6.44184 5.70721 6.707C5.70721 6.97216 5.81253 7.22647 6 7.414L10.586 12L6 16.586C5.81253 16.7735 5.70721 17.0278 5.70721 17.293C5.70721 17.5582 5.81253 17.8125 6 18C6.18753 18.1875 6.44184 18.2928 6.707 18.2928C6.97216 18.2928 7.22647 18.1875 7.414 18L12 13.414L16.586 18C16.7735 18.1875 17.0278 18.2928 17.293 18.2928C17.5582 18.2928 17.8125 18.1875 18 18C18.1875 17.8125 18.2928 17.5582 18.2928 17.293C18.2928 17.0278 18.1875 16.7735 18 16.586L13.414 12L18 7.414C18.1875 7.22647 18.2928 6.97216 18.2928 6.707C18.2928 6.44184 18.1875 6.18753 18 6Z" fill="#797981" />

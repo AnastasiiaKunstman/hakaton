@@ -2,17 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'https://tracker-hiring.ddns.net/api';
 
-const getCity = async () => {
-  const json = localStorage.getItem('user');
-  const user = json && JSON.parse(json);
-  const response = await axios.get(`${API_URL}/cities/`, {
-    headers: {
-      Authorization: `Bearer ${user.access}`,
-    },
-  });
-  return response.data;
-};
-
+// скилы
 const getSkills = async () => {
   const json = localStorage.getItem('user');
   const user = json && JSON.parse(json);
@@ -24,49 +14,51 @@ const getSkills = async () => {
   return response.data;
 };
 
-const getCurrency = async () => {
+// направление специальности
+const getSpecializations = async () => {
   const json = localStorage.getItem('user');
   const user = json && JSON.parse(json);
 
-  const response = await axios.get(`${API_URL}/currencies/`, {
+  const response = await axios.get(`${API_URL}/specializations/`, {
     headers: {
-      'content-type': 'application/x-www-form-urlencoded;charset=windows-1251',
       Authorization: `Bearer ${user.access}`,
     },
   });
   return response.data;
 };
-const getExperiences = async () => {
+
+const getEducationLevel = async () => {
   const json = localStorage.getItem('user');
   const user = json && JSON.parse(json);
 
-  const response = await axios.get(`${API_URL}/experiences/`, {
+  const response = await axios.get(`${API_URL}/education_levels/`, {
     headers: {
-      'content-type': 'application/x-www-form-urlencoded;charset=windows-1251',
       Authorization: `Bearer ${user.access}`,
     },
   });
   return response.data;
 };
+
+// график работы
 const getSchedules = async () => {
   const json = localStorage.getItem('user');
   const user = json && JSON.parse(json);
 
   const response = await axios.get(`${API_URL}/schedules/`, {
     headers: {
-      'content-type': 'application/x-www-form-urlencoded;charset=windows-1251',
       Authorization: `Bearer ${user.access}`,
     },
   });
   return response.data;
 };
-const getEmployments = async () => {
+
+// локация
+const getLocations = async () => {
   const json = localStorage.getItem('user');
   const user = json && JSON.parse(json);
 
-  const response = await axios.get(`${API_URL}/employments/`, {
+  const response = await axios.get(`${API_URL}/locations/`, {
     headers: {
-      'content-type': 'application/x-www-form-urlencoded;charset=windows-1251',
       Authorization: `Bearer ${user.access}`,
     },
   });
@@ -74,12 +66,11 @@ const getEmployments = async () => {
 };
 
 const filtersService = {
-  getCity,
-  getCurrency,
   getSkills,
-  getEmployments,
-  getExperiences,
+  getSpecializations,
+  getEducationLevel,
   getSchedules,
+  getLocations,
 };
 
 export default filtersService;

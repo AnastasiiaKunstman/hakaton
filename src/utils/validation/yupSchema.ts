@@ -75,16 +75,10 @@ export const vacancyShema = yup.object().shape({
   required_education_level: yup.string().required('Заполните поле'),
   required_skills: yup.string().required('Заполните поле'),
   text: yup.string().required('Заполните поле'),
-  langGrade: yup.string(),
-  age: yup.string(),
 });
 
 export const filterShema = yup.object().shape({
   required_skills: yup.string(),
   required_education_level: yup.string().required('Заполните поле'),
-  location: yup.string().required('Заполните поле'),
-  salary: yup.string(),
-  langGrade: yup.string(),
-  age: yup.string(),
   schedule: yup.string(),
 });

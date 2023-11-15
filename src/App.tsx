@@ -15,12 +15,11 @@ import ArchivedVacancy from './pages/ArchivedVacanciesPage/ArchivedVacanciesPage
 import Student from './pages/student/Student';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import {
-  // getCurrency,
-  // getEmployments,
-  // getExperiences,
-  // getSchedules,
-  // getSkills,
-  getVacancies,
+  getSkills,
+  getSpecializations,
+  getEducationLevel,
+  getSchedules,
+  getLocations,
 } from './store/index';
 import PasswordRecovery from './components/Auth/PasswordRecovery/PasswordRecovery';
 import NotFoundError from './components/NotFoundError/NotFoundError';
@@ -31,13 +30,11 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // dispatch(getCurrency());
-    // dispatch(getCity());
-    // dispatch(getSkills());
-    // dispatch(getSchedules());
-    // dispatch(getEmployments());
-    // dispatch(getExperiences());
-    dispatch(getVacancies());
+    dispatch(getSkills());
+    dispatch(getSpecializations());
+    dispatch(getEducationLevel());
+    dispatch(getSchedules());
+    dispatch(getLocations());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
