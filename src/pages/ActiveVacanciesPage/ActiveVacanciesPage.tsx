@@ -31,9 +31,9 @@ const ActiveVacancy: FC = () => {
   const handleDeleteCard = (cardId: number) => {
     dispatch(deleteCard(cardId));
 
-    const isDeletionSuccessful = deleteCard(cardId);
+    // const isDeletionSuccessful = deleteCard(cardId);
 
-    if (isDeletionSuccessful) {
+    if (deleteCard(cardId)) {
       setSnackbarSeverity('success');
       setSnackbarMessage('Вакансия успешно удалена.');
     } else {

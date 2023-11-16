@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable max-len */
-import React, { useState, useEffect, SyntheticEvent } from 'react';
+import React, { useState, useEffect, SyntheticEvent, SetStateAction } from 'react';
 import {
   Table, TableBody, TableCell, TableHead, TableRow, Autocomplete,
   TableContainer, Grid, Box, Typography, Button, SvgIcon, CircularProgress, TextField,
@@ -19,8 +20,8 @@ function TableDynamic() {
   const { results } = useAppSelector((state) => state.student);
   const { isLoading, isError } = useAppSelector((state) => state.student);
 
-  const [value, setValue] = React.useState<string | null>(null);
-  const [inputValue, setInputValue] = React.useState('');
+  const [value, setValue] = useState<string | null>(null);
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     dispatch(getStudents());
@@ -39,7 +40,7 @@ function TableDynamic() {
   const handleLocationChange = (
     evt: SyntheticEvent,
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    selectedLocation: React.SetStateAction<TSelectedOpt | null>,
+    selectedLocation: SetStateAction<TSelectedOpt | null>,
   ) => {
     if (selectedLocation) {
       setSelectedLocation(selectedLocation);
@@ -195,7 +196,7 @@ function TableDynamic() {
               </TableRow>
               )}
 
-              {results.map((student) => (
+              {results?.map((student) => (
                 <TableActive key={student.id} student={student} />
               ))}
 

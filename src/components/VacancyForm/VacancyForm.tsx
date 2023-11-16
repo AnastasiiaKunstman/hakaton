@@ -94,9 +94,9 @@ function VacancyForm() {
             schedule: [{ id: Number(data.schedule), name: String(data.schedule) }],
           };
           await dispatch(createVacancy(transformedData));
-          const isCreateSuccessful = createVacancy(transformedData);
+          // const isCreateSuccessful = createVacancy(transformedData);
 
-          if (isCreateSuccessful) {
+          if (createVacancy(transformedData)) {
             setSnackbarSeverity('success');
             setSnackbarMessage('Вакансия успешно создана.');
           } else {

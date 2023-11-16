@@ -59,9 +59,9 @@ const initialState: IinitialState = {
 
 export const getCards = createAsyncThunk(
   'card/get',
-  async (query: any, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      return await cardService.getCards(query);
+      return await cardService.getCards();
     } catch (error) {
       const err = error as AxiosError;
       return thunkAPI.rejectWithValue(err.response?.data);

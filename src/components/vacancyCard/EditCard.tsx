@@ -110,9 +110,9 @@ export default function EditVacancy({ card }: EditVacancyProps) {
                 schedule: [{ id: Number(data.schedule), name: String(data.schedule) }],
               };
               await dispatch(updateVacancy(transformedData));
-              const isUpdateSuccessful = updateVacancy(transformedData);
+              // const isUpdateSuccessful = updateVacancy(transformedData);
 
-              if (isUpdateSuccessful) {
+              if (updateVacancy(transformedData)) {
                 setSnackbarSeverity('success');
                 setSnackbarMessage('Изменения сохранены.');
               } else {

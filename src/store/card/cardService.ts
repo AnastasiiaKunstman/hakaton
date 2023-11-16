@@ -18,9 +18,8 @@ export interface ICardData {
   required_skills: string
 }
 
-const getCards = async (query: any) => {
+const getCards = async () => {
   const response = await axios.get(`${API_URL}/vacancies/`, {
-    params: query,
     headers: {
       Authorization: `Bearer ${user.access}`,
     },

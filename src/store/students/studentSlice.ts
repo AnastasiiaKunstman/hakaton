@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
@@ -46,9 +47,9 @@ const initialState: IinitialState = {
 
 export const getStudents = createAsyncThunk(
   'student/get',
-  async (query: any, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      return await studentService.getStudents(query);
+      return await studentService.getStudents();
     } catch (error) {
       const err = error as AxiosError;
       return thunkAPI.rejectWithValue(err.response?.data);
