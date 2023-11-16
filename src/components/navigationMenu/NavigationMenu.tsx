@@ -38,19 +38,19 @@ function NavigationMenu() {
   const tableTabConfig: TabConfig[] = [
     {
       label: 'Новые',
-      path: '/students',
+      path: '/students/',
     },
     {
       label: 'Просмотренные',
-      path: '/students/viewed ',
+      path: '/students/viewed/',
     },
     {
       label: 'Приглашенные',
-      path: '/students/invited',
+      path: '/students/invited/',
     },
     {
       label: 'Избранное',
-      path: '/students/save',
+      path: '/students/save/',
     },
   ];
 
@@ -73,7 +73,7 @@ function NavigationMenu() {
                 onClick={() => handleTabClick(tab.path)}
               />
             ))
-          ) : location.pathname.startsWith('/students') ? (
+          ) : location.pathname.startsWith('/students/') ? (
             tableTabConfig.map((tab) => (
               <Tab
                 key={tab.path}

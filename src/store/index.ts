@@ -27,7 +27,7 @@ export { default as searchService } from './search/searchService';
 export { default as cardReducer } from './card/cardSlice';
 export { default as cardService } from './card/cardService';
 export {
-  getCards, setQuery, closeCard, deleteCard,
+  getCards, setQuery, closeCard, deleteCard, getBigCards,
 } from './card/cardSlice';
 
 export { default as studentReducer } from './students/studentSlice';

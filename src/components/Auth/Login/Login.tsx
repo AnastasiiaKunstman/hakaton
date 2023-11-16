@@ -30,7 +30,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { user, isError, message } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     if (user) navigate('/vacancies/active');

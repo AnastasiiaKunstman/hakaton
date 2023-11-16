@@ -9,8 +9,8 @@ const sxStyles: SxProps = {
   '& .MuiInputBase-input.MuiOutlinedInput-input': {
     height: '20px',
     padding: '10px 12px',
-    // margin: "4px 0",
-    background: '#FFFFFF',
+    margin: '0',
+    backgroundColor: '#fff',
   },
   '& .MuiInputBase-input:disabled': {
     border: '1px solid #DDE0E4',

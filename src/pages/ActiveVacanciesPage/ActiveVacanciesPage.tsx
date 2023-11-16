@@ -2,7 +2,7 @@
 /* eslint-disable react/function-component-definition */
 import React, { FC, useEffect, useState } from 'react';
 import {
-  Box, Typography, TextField, CircularProgress,
+  Box, Typography, CircularProgress,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
@@ -11,9 +11,9 @@ import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
 import { deleteCard, getCards } from '../../store/index';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import Snackbars from '../../components/SnackBars/SnackBars';
+import VacancyFilter from '../../components/Filter/VacancyFilter';
 
 const ActiveVacancy: FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -47,29 +47,9 @@ const ActiveVacancy: FC = () => {
   return (
     <>
       <LoggedUserHeader />
-      <Box maxWidth="xl" sx={{ p: '0 118px', height: '92vh' }}>
+      <Box maxWidth="xl" sx={{ p: '0 100px', height: '92vh' }}>
         <NavigationMenu />
-        <Box>
-          <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '8px',
-            maxWidth: '438px',
-            marginTop: '22px',
-          }}
-          >
-            <Typography variant="subtitle1" fontWeight={500}>Вакансия</Typography>
-            <TextField
-              placeholder="Например, Фронтенд-разработчик"
-              variant="outlined"
-              fullWidth
-              size="small"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </Box>
-        </Box>
+        <VacancyFilter />
         <Box
           display="flex"
           flexDirection={results && results.length === 0 ? 'column' : 'row'}

@@ -1,5 +1,5 @@
 import {
-  Routes, Route, useNavigate,
+  Routes, Route,
 } from 'react-router-dom';
 import { useEffect } from 'react';
 import Auth from './components/Auth/Auth';
@@ -27,7 +27,7 @@ import NotFoundError from './components/NotFoundError/NotFoundError';
 function App() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getSkills());
@@ -49,10 +49,10 @@ function App() {
       <Route path="/vacancies" element={<ProtectedRoute element={CreateVacancy} />} />
       <Route path="/vacancies/active" element={<ProtectedRoute element={ActiveVacancy} />} />
       <Route path="/vacancies/archive" element={<ProtectedRoute element={ArchivedVacancy} />} />
-      <Route path="/students" element={<ProtectedRoute element={StudentsPage} />} />
-      <Route path="/students/viewed" element={<ProtectedRoute element={ViewedStudent} />} />
-      <Route path="/students/invited" element={<ProtectedRoute element={InvitedStudents} />} />
-      <Route path="/students/save" element={<ProtectedRoute element={SaveStudents} />} />
+      <Route path="/students/" element={<ProtectedRoute element={StudentsPage} />} />
+      <Route path="/students/viewed/" element={<ProtectedRoute element={ViewedStudent} />} />
+      <Route path="/students/invited/" element={<ProtectedRoute element={InvitedStudents} />} />
+      <Route path="/students/save/" element={<ProtectedRoute element={SaveStudents} />} />
     </Routes>
   );
 }

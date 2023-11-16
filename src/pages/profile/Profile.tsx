@@ -1,4 +1,4 @@
-/* eslint-disable react/function-component-definition */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link } from 'react-router-dom';
 import {
   Avatar,
@@ -18,6 +18,7 @@ import { useState, ChangeEvent, FC } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
+import { registrationShema } from '../../utils/validation/yupSchema';
 
 const testData = {
   avatar: 'https://images.unsplash.com/photo-1693438672953-409b661134fd?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDEwNnx0b3dKWkZza3BHZ3x8ZW58MHx8fHx8',
@@ -31,13 +32,13 @@ const testData = {
   info: 'Менеджер по подбору персонала',
 };
 
-const Profile: FC = () => {
+function Profile() {
   const {
     register,
     formState: { errors },
-    handleSubmit,
+    // handleSubmit,
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registrationShema),
   });
   const [isProfileEdit, setIsProfileEdit] = useState(false);
   const [email, setEmail] = useState('');
@@ -77,31 +78,32 @@ const Profile: FC = () => {
         break;
     }
   };
-  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    interface UpdateData {
-      email: string,
-      password: string,
-      firstName: string,
-      lastName: string,
-      company: string,
-      phoneNumber: string,
-      telegram: string,
-    }
-    const updateData: UpdateData = {
-      email,
-      password,
-      firstName,
-      lastName,
-      company,
-      phoneNumber,
-      telegram,
-    };
-  };
 
-  function handleEditClick() {
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   interface UpdateData {
+  //     email: string,
+  //     password: string,
+  //     firstName: string,
+  //     lastName: string,
+  //     company: string,
+  //     phoneNumber: string,
+  //     telegram: string,
+  //   }
+  //   const updateData: UpdateData = {
+  //     email,
+  //     password,
+  //     firstName,
+  //     lastName,
+  //     company,
+  //     phoneNumber,
+  //     telegram,
+  //   };
+  // };
+
+  const handleEditClick = () => {
     setIsProfileEdit(!isProfileEdit);
-  }
+  };
 
   return (
     <Box sx={{ pb: '64px', height: '100vh' }}>
@@ -240,7 +242,7 @@ const Profile: FC = () => {
                     </Typography>
                   </Box>
                   <Box>
-                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px'}}>
+                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px' }}>
                       Вакансии в работе
                     </Typography>
                     <TextField
@@ -251,7 +253,7 @@ const Profile: FC = () => {
                     />
                   </Box>
                   <Box>
-                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px'}}>
+                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px' }}>
                       Сфера деятельности
                     </Typography>
                     <TextField
@@ -269,7 +271,7 @@ const Profile: FC = () => {
                     />
                   </Box>
                   <Box>
-                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px'}}>
+                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px' }}>
                       Описание
                     </Typography>
                     <TextField
@@ -298,7 +300,7 @@ const Profile: FC = () => {
             </Grid>
           )
           : (
-            <form onSubmit={handleSubmitForm} noValidate>
+            <form noValidate>
               <Grid container spacing={4}>
                 <Grid
                   item
@@ -332,9 +334,9 @@ const Profile: FC = () => {
                         label="Имя"
                         variant="outlined"
                         defaultValue={testData.firstName}
-                        error={!!errors.name}
-                        helperText={errors.name ? `${errors.name.message}` : ''}
-                        {...register('name')}
+                        error={!!errors.first_name}
+                        helperText={errors.first_name ? `${errors.first_name.message}` : ''}
+                        {...register('first_name')}
                         onChange={handleChange}
                       />
                       <TextField
@@ -344,9 +346,9 @@ const Profile: FC = () => {
                         label="Фамилия"
                         variant="outlined"
                         defaultValue={testData.lastName}
-                        error={!!errors.lastName}
-                        helperText={errors.lastName ? `${errors.lastName.message}` : ''}
-                        {...register('lastName')}
+                        error={!!errors.last_name}
+                        helperText={errors.last_name ? `${errors.last_name.message}` : ''}
+                        {...register('last_name')}
                         onChange={handleChange}
                       />
                     </Box>
@@ -357,9 +359,6 @@ const Profile: FC = () => {
                     label="Аватар"
                     variant="outlined"
                     defaultValue={testData.avatar}
-                    error={!!errors.avatar}
-                    helperText={errors.avatar ? `${errors.avatar.message}` : ''}
-                    {...register('avatar')}
                     onChange={handleChange}
                   />
                 </Grid>
@@ -377,9 +376,6 @@ const Profile: FC = () => {
                     label="Компания"
                     variant="outlined"
                     defaultValue={testData.company}
-                    error={!!errors.company}
-                    helperText={errors.company ? `${errors.company.message}` : ''}
-                    {...register('company')}
                     onChange={handleChange}
                   />
                   <Grid container spacing={2}>
@@ -418,9 +414,6 @@ const Profile: FC = () => {
                         label="Telegram"
                         variant="outlined"
                         defaultValue={testData.telegram}
-                        error={!!errors.telegram}
-                        helperText={errors.telegram ? `${errors.telegram.message}` : ''}
-                        {...register('telegram')}
                         onChange={handleChange}
                       />
                     </Grid>
@@ -431,9 +424,9 @@ const Profile: FC = () => {
                         label="Номер телефона"
                         variant="outlined"
                         defaultValue={testData.phoneNumber}
-                        error={!!errors.phoneNumber}
-                        helperText={errors.phoneNumber ? `${errors.phoneNumber.message}` : ''}
-                        {...register('phoneNumber')}
+                        error={!!errors.phone}
+                        helperText={errors.phone ? `${errors.phone.message}` : ''}
+                        {...register('phone')}
                         onChange={handleChange}
                       />
                     </Grid>

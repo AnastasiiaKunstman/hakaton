@@ -1,21 +1,28 @@
-import React from 'react';
+/* eslint-disable react/function-component-definition */
+/* eslint-disable react/display-name */
+import React, { forwardRef } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
+interface SnackbarsProps {
+  open: boolean;
+  onClose: () => void;
+  message: string;
+  severity: 'error' | 'warning' | 'info' | 'success';
+}
+
+const Alert = forwardRef<HTMLDivElement, AlertProps>((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 ));
 
-function Snackbars({
+const Snackbars: React.FC<SnackbarsProps> = ({
   open, onClose, message, severity,
-}) {
-  return (
-    <Snackbar open={open} autoHideDuration={3000} onClose={onClose}>
-      <Alert onClose={onClose} severity={severity} sx={{ width: '100%' }}>
-        {message}
-      </Alert>
-    </Snackbar>
-  );
-}
+}) => (
+  <Snackbar open={open} autoHideDuration={3000} onClose={onClose}>
+    <Alert onClose={onClose} severity={severity} sx={{ width: '100%' }}>
+      {message}
+    </Alert>
+  </Snackbar>
+);
 
 export default Snackbars;

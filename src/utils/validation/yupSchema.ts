@@ -73,7 +73,7 @@ export const vacancyShema = yup.object().shape({
   schedule: yup.string().required('Заполните поле'),
   specialization: yup.string().required('Заполните поле'),
   required_education_level: yup.string().required('Заполните поле'),
-  required_skills: yup.string().required('Заполните поле'),
+  required_skills: yup.string(),
   text: yup.string().required('Заполните поле'),
 });
 

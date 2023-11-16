@@ -46,7 +46,7 @@ const updateVacancy = async (vacancyData: IVacancyData) => {
   return response.data;
 };
 
-// Получить данные о вакансии
+// Получить полные данные о вакансии
 const getVacancies = async (vacancyData: IVacancyData) => {
   const response = await axios.get(`${API_URL}/vacancies/${vacancyData.id}`, {
     headers: {

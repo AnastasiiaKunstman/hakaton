@@ -1,9 +1,12 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Box } from '@mui/material';
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/function-component-definition */
+/* eslint-disable react/jsx-no-useless-fragment */
+import React, { FC } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Box, Button } from '@mui/material';
 import './BtnVacancy.scss';
 
-export default function BtnVacancy({ onSubmit }) {
+const BtnVacancy: FC = () => {
   const location = useLocation();
 
   return (
@@ -15,16 +18,16 @@ export default function BtnVacancy({ onSubmit }) {
           pt: '27px',
         }}
         >
-          <div className="edit-buttons">
-            <button type="submit" className="clear-button" >
+          <Box className="edit-buttons">
+            <Button type="submit" className="clear-button">
               Сохранить
-            </button>
-            <button type="submit" className="publish-button" onSubmit={onSubmit}>
-              <Link style={{ textDecoration: 'none', color: '#fff' }} to="">Опубликовать вакансию и начать поиск</Link>
-            </button>
-          </div>
+            </Button>
+            <Button type="submit" className="publish-button">
+              Опубликовать вакансию и начать поиск
+            </Button>
+          </Box>
         </Box>
-      ) : location.pathname === '/vacancies/id' ? (
+      ) : location.pathname === '/vacancies/active#contained-buttons' ? (
         <Box
           sx={{
             display: 'flex',
@@ -32,24 +35,26 @@ export default function BtnVacancy({ onSubmit }) {
             pt: '27px',
           }}
         >
-          <div className="edit-buttons">
-            <button type="button" className="edit-button">
+          <Box className="edit-buttons">
+            <Button className="edit-button">
               Удалить вакансию
-            </button>
-            <button type="button" className="edit-button">
+            </Button>
+            <Button className="edit-button">
               В архив
-            </button>
-          </div>
-          <div className="edit-buttons">
-            <button type="button" className="clear-button">
+            </Button>
+          </Box>
+          <Box className="edit-buttons">
+            <Button className="clear-button">
               Очистить текст
-            </button>
-            <button type="button" className="publish-button">
+            </Button>
+            <Button type="submit" className="publish-button">
               Сохранить
-            </button>
-          </div>
+            </Button>
+          </Box>
         </Box>
       ) : null}
     </>
   );
-}
+};
+
+export default BtnVacancy;

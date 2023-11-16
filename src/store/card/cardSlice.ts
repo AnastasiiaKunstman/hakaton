@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
@@ -13,6 +15,13 @@ export interface IResult {
   required_education_level: IEducationLevel[],
   required_skills: ISkill[],
   pub_date: string,
+  text: string,
+  specialization: ISpecialization[],
+}
+
+interface ISpecialization {
+  id: number
+  name: string
 }
 
 interface ISchedule {
@@ -53,6 +62,18 @@ export const getCards = createAsyncThunk(
   async (query: any, thunkAPI) => {
     try {
       return await cardService.getCards(query);
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkAPI.rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const getBigCards = createAsyncThunk(
+  'card/bigGet',
+  async (cardData: any, thunkAPI) => {
+    try {
+      return await cardService.getBigCards(cardData);
     } catch (error) {
       const err = error as AxiosError;
       return thunkAPI.rejectWithValue(err.response?.data);
@@ -103,6 +124,21 @@ const cardSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.results = null;
+      })
+
+      .addCase(getBigCards.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBigCards.fulfilled, (state, action) => {
+        state.results = action.payload.results;
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(getBigCards.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
 
       .addCase(deleteCard.pending, (state) => {

@@ -7,29 +7,21 @@ import {
   Button,
 } from '@mui/material';
 import { format } from 'date-fns';
-import { useEffect } from 'react';
-import { IVacancy, getVacancies } from '../../../store/vacancy/vacancySlice';
-import { useAppDispatch } from '../../../store/hooks';
+import { IResult } from '../../../store/card/cardSlice';
 
 interface CardBigProps {
-  vacancy: IVacancy;
+  card: IResult;
 }
 
-function CardBig({ vacancy }: CardBigProps) {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getVacancies());
-  }, [dispatch]);
-
-  const skills = vacancy.required_skills.map((name) => name.name).join(',  ');
-  const formattedDate = format(new Date(vacancy.pub_date), 'dd.MM');
-  const edLevel = vacancy.required_education_level.map((name) => name.name);
-  const scheduleString = vacancy.schedule.map((name) => name.name);
-  const specString = vacancy.specialization.map((name) => name.name);
+function CardBig({ card }: CardBigProps) {
+  const skills = card.required_skills.map((name) => name.name).join(',  ');
+  const formattedDate = format(new Date(card.pub_date), 'dd.MM');
+  const edLevel = card.required_education_level.map((name) => name.name);
+  const scheduleString = card.schedule.map((name) => name.name);
+  // const specString = card.specialization.map((name) => name.name);
 
   return (
-    <Box maxWidth="xl" sx={{ p: '28px 44px' }}>
+    <Box maxWidth="xl" key={card.id} sx={{ p: '28px 44px' }}>
       <form>
         <Grid container item xs={12}>
           <Grid item container xs={5} flexDirection="column" gap="20px">
@@ -37,13 +29,13 @@ function CardBig({ vacancy }: CardBigProps) {
               <Typography variant="body1" sx={{ marginBottom: '4px', fontWeight: '500' }}>
                 Вакансия
               </Typography>
-              <Typography>{vacancy.name}</Typography>
+              <Typography>{card.name}</Typography>
             </Grid>
             <Grid padding={0}>
               <Typography variant="caption" sx={{ marginBottom: '4px' }}>
                 Зарплата:
                 {' '}
-                {vacancy.salary}
+                {card.salary}
               </Typography>
             </Grid>
 
@@ -59,7 +51,7 @@ function CardBig({ vacancy }: CardBigProps) {
               <Typography variant="caption" sx={{ marginBottom: '4px' }}>
                 Локация:
                 {' '}
-                {vacancy.location}
+                {card.location.name}
               </Typography>
             </Grid>
 
@@ -83,7 +75,7 @@ function CardBig({ vacancy }: CardBigProps) {
               <Typography variant="caption" sx={{ marginBottom: '4px' }}>
                 Специализация:
                 {' '}
-                {specString}
+                {}
               </Typography>
             </Grid>
           </Grid>
@@ -122,7 +114,7 @@ function CardBig({ vacancy }: CardBigProps) {
                 <Typography variant="caption" sx={{ marginBottom: '4px' }}>
                   Описание работы:
                 </Typography>
-                <Typography>{vacancy.text}</Typography>
+                <Typography>{card.text}</Typography>
               </Grid>
             </Grid>
           </Grid>

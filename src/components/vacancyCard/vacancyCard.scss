@@ -2,105 +2,112 @@
     width: 592px;
     padding: 24px 40px 0;
     background-color: #F1F6FF;
-}
+    transition: background-color 0.6s;
+    cursor: pointer;
 
-.card-content {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-
-    &>.box {
-        display: flex;
-        justify-content: space-between;
-        height: 48px;
-        align-items: center;
-
-        &>h3 {
-            font-weight: 500;
-        }
-
-        &>.icon-box {
-            display: flex;
-            justify-content: flex-end;
-            gap: 20px;
-        }
-
-        &>.icon-button {
-           width: 24px;
-           height: 24px;
-        }
+    &:hover {
+        background-color: #ACCCFF;
     }
 
-    &>.info-box {
-        height: 48px;
+
+    .card-content {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 18px;
 
-        &>.row {
-            height: 20px;
+        &>.box {
             display: flex;
             justify-content: space-between;
+            height: 48px;
+            align-items: center;
+
+            &>h3 {
+                font-weight: 500;
+            }
+
+            &>.icon-box {
+                display: flex;
+                justify-content: flex-end;
+                gap: 20px;
+            }
+
+            &>.icon-button {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        &>.info-box {
+            height: 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            &>.row {
+                height: 20px;
+                display: flex;
+                justify-content: space-between;
+
+                &>.location-box {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 20px;
+                }
+
+                &>.label {
+                    font-weight: 400;
+                }
+
+                &>.value {
+                    font-weight: 400;
+                }
+            }
 
             &>.location-box {
                 display: flex;
                 flex-direction: row;
-                gap: 20px;
-            }
+                justify-content: space-between;
 
-            &>.label {
-                font-weight: 400;
-            }
+                &>.location {
+                    font-weight: 400;
+                }
 
-            &>.value {
-                font-weight: 400;
+                &>.type {
+                    font-weight: 400;
+                }
+
+                &>.work-type {
+                    font-weight: 400;
+                }
             }
         }
 
-        &>.location-box {
+        &>.description {
+            height: 90px;
+
+            // &>p {
+            //     /* Стили для текста описания */
+            // }
+        }
+
+        &>.date {
+            height: 34px;
             display: flex;
-            flex-direction: row;
             justify-content: space-between;
 
-            &>.location {
-                font-weight: 400;
-            }
+            &>.date_btn {
+                background-color: #5A9BFF;
+                border-radius: 6px;
+                padding: 8px 20px;
+                font-family: 'YS Text';
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 20px;
 
-            &>.type {
-                font-weight: 400;
-            }
-
-            &>.work-type {
-                font-weight: 400;
-            }
-        }
-    }
-
-    &>.description {
-        height: 90px;
-
-        // &>p {
-        //     /* Стили для текста описания */
-        // }
-    }
-
-    &>.date {
-        height: 34px;
-        display: flex;
-        justify-content: space-between;
-
-        &>.date_btn {
-            background-color: #5A9BFF;
-            border-radius: 6px;
-            padding: 8px 20px;
-            font-family: 'YS Text';
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 20px; 
-
-            &>.date_btn:hover {
-                opacity: .7;
+                &>.date_btn:hover {
+                    opacity: .7;
+                }
             }
         }
     }
