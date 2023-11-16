@@ -24,7 +24,7 @@ function FormFilter() {
     specialization: '',
   });
 
-  const handleFilterChange = (filterName, value) => {
+  const handleFilterChange = (filterName: string, value: string) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filterName]: value,

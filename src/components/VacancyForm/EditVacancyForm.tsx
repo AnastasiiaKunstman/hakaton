@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
 import {
@@ -11,7 +12,6 @@ import {
   Box,
   Select,
   MenuItem,
-  FormControl,
   Autocomplete,
 } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
@@ -69,7 +69,7 @@ interface ISkill {
   name: string;
 }
 
-function EditVacancyForm({ vacancy, isEditing }: VacancyEditProps) {
+function EditVacancyForm({ vacancy }: VacancyEditProps) {
   const {
     control,
     register,
@@ -89,7 +89,6 @@ function EditVacancyForm({ vacancy, isEditing }: VacancyEditProps) {
 
   const [selectedLocation, setSelectedLocation] = useState<TSelectedOpt | null>(null);
   const [selectedSkills, setSelectedSkills] = useState<TSelectedOpt[]>([]);
-  const skills = vacancy.required_skills.map((name) => name.name).join(',  ');
 
   const handleLocationChange = (
     evt: SyntheticEvent,
@@ -111,7 +110,7 @@ function EditVacancyForm({ vacancy, isEditing }: VacancyEditProps) {
 
   const [editedVacancy, setEditedVacancy] = useState({ ...vacancy });
 
-  const handleFieldChange = (fieldName, value) => {
+  const handleFieldChange = (fieldName: string, value: string) => {
     setEditedVacancy((prev) => ({
       ...prev,
       [fieldName]: value,

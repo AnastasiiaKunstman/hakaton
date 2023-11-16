@@ -205,7 +205,6 @@ export default function EditVacancy({ card }: EditVacancyProps) {
                     <Controller
                       name="location"
                       control={control}
-                      defaultValue={editedVacancy?.location || ''}
                       render={({ field }) => (
                         <Select
                           {...field}

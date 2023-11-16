@@ -24,7 +24,6 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { createVacancy } from '../../store';
 import { vacancyShema } from '../../utils/index';
 import Input from '../../UI/Input/Input';
-import BtnVacancy from '../btnVacancy/BtnVacancy';
 import Delete from '../../images/delete.svg';
 import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
@@ -37,7 +36,7 @@ type TSelectedOpt = {
 
 function VacancyForm() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleCloseSnackbar = () => {

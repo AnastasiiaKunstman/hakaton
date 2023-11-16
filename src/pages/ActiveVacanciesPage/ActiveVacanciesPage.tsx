@@ -15,7 +15,7 @@ import VacancyFilter from '../../components/Filter/VacancyFilter';
 
 const ActiveVacancy: FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const { results, isLoading, isError } = useAppSelector((state) => state.card);
   const dispatch = useAppDispatch();
@@ -64,7 +64,7 @@ const ActiveVacancy: FC = () => {
           </Box>
           )}
           {isError && <Typography>Ошибка! Что-то пошло не так</Typography>}
-          {!isLoading && !isError && results.length === 0 ? (
+          {!isLoading && !isError && results?.length === 0 ? (
             <Box sx={{ textAlign: 'center', paddingTop: '210px' }}>
               <Typography variant="h3" color="#797981">
                 У вас еще нет активных вакансий
@@ -74,7 +74,7 @@ const ActiveVacancy: FC = () => {
               </Link>
             </Box>
           ) : null}
-          {!isLoading && !isError && results.length > 0 && results.map((card) => (
+          {!isLoading && !isError && results !== null && results?.map((card) => (
             <VacancyCard key={card.id} card={card} onDelete={() => handleDeleteCard(card.id)} />
           ))}
         </Box>
