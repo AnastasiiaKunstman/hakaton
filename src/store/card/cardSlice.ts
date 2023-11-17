@@ -27,7 +27,7 @@ export interface TVacancyCard {
 }
 
 interface IInitialState {
-  vacancyCard: TVacancyCard[],
+  vacancyCard: TVacancyCard[] | null,
   isLoading: boolean,
   isError: boolean,
   isSuccess: boolean,
@@ -123,7 +123,7 @@ const cardSlice = createSlice({
       .addCase(deleteCard.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteCard.fulfilled, (state) => {
+      .addCase(deleteCard.fulfilled, (state, action) => {
         state.vacancyCard = state.vacancyCard.filter((card) => card.id !== action.payload);
         state.isLoading = false;
         state.isError = false;
@@ -135,5 +135,5 @@ const cardSlice = createSlice({
   },
 });
 
-export const { setQuery, closeCard } = cardSlice.actions;
+export const { setQuery } = cardSlice.actions;
 export default cardSlice.reducer;

@@ -29,11 +29,11 @@ type TSelectedOpt = {
   name: string
 };
 
-interface СardProps {
+interface CardProps {
   card: IVacancy
 }
 
-const EditVacancy: React.FC<СardProps> = ({ card }) => {
+const EditVacancy: React.FC<CardProps> = ({ card }) => {
   const dispatch = useAppDispatch();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
