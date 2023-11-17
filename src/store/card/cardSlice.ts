@@ -84,6 +84,13 @@ const cardSlice = createSlice({
   name: 'card',
   initialState,
   reducers: {
+    closeCard: (state) => {
+      state.vacancyCard = null;
+      state.isError = false;
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.message = '';
+    },
     setQuery: (state, action) => {
       state.vacancyCard = action.payload;
     }
@@ -135,5 +142,5 @@ const cardSlice = createSlice({
   },
 });
 
-export const { setQuery } = cardSlice.actions;
+export const { setQuery, closeCard } = cardSlice.actions;
 export default cardSlice.reducer;

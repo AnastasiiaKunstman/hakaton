@@ -3,33 +3,34 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import vacancyService from './vacancyService';
 
-export interface IVacancy {
-  id: number
-  name: string
-  location: { id: number, name: string }
-  text: string
-  salary: string
-  pub_date: string
-  specialization: IEmployment[]
-  schedule: IEmployment[]
-  required_education_level: IEmployment[]
-  required_skills: IEmployment[]
-  is_archived: boolean
-}
+export type IVacancy = {
+  id: number;
+  name: string;
+  location: { id: number; name: string };
+  text: string;
+  salary: string;
+  pub_date: string;
+  specialization: IEmployment[];
+  schedule: IEmployment[];
+  required_education_level: IEmployment[];
+  required_skills: IEmployment[];
+  is_archived: boolean;
+  results: IVacancy[];
+};
 
 interface IEmployment {
-  name: string
+  name: string;
 }
 
-interface IinitialState {
-  vacancyList: IVacancy[]
-  isLoading: boolean
-  isError: boolean
-  isSuccess: boolean
-  message: string | unknown
+interface IInitialState {
+  vacancyList: IVacancy[];
+  isLoading: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+  message: string | unknown;
 }
 
-const initialState: IinitialState = {
+const initialState: IInitialState = {
   vacancyList: [],
   isLoading: false,
   isError: false,

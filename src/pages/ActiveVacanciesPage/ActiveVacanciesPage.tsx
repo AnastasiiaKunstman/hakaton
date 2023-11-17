@@ -12,7 +12,7 @@ import { deleteCard, getVacancies } from '../../store/index';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import Snackbars from '../../components/SnackBars/SnackBars';
 import VacancyFilter from '../../components/Filter/VacancyFilter';
-import { IVacancy, deleteVacancy } from '../../store/vacancy/vacancySlice';
+import { IVacancy } from '../../store/vacancy/vacancySlice';
 
 const ActiveVacancy: FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);

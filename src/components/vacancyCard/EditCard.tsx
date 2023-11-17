@@ -33,7 +33,7 @@ interface CardProps {
   card: IVacancy
 }
 
-const EditVacancy: React.FC<CardProps> = ({ card }) => {
+const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
   const dispatch = useAppDispatch();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
