@@ -130,7 +130,14 @@ const cardSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(deleteCard.fulfilled, (state, action) => {
-        state.vacancyCard = state.vacancyCard.filter((card) => card.id !== action.payload);
+        if (state.vacancyCard !== null && state.vacancyCard !== undefined) {
+          const deletedCardId = action.payload;
+          state.vacancyCard = state.vacancyCard.filter((card) => card.id !== deletedCardId);
+        } else {
+          console.error('state.vacancyCard is null or undefined. Unable to delete card.');
+          state.isLoading = false;
+          state.isError = true;
+        }
         state.isLoading = false;
         state.isError = false;
       })
