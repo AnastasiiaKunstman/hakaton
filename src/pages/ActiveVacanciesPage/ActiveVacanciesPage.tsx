@@ -18,7 +18,7 @@ const ActiveVacancy: FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const { results, isLoading, isError } = useAppSelector((state) => state.vacancies.vacancyList);
+  const { vacancyList, isLoading, isError } = useAppSelector((state) => state.vacancies);
 
   const dispatch = useAppDispatch();
 
@@ -54,10 +54,10 @@ const ActiveVacancy: FC = () => {
         <VacancyFilter />
         <Box
           display="flex"
-          flexDirection={results && results?.length === 0 ? 'column' : 'row'}
-          flexWrap={results && results?.length === 0 ? 'nowrap' : 'wrap'}
-          alignItems={results && results.length === 0 ? 'center' : 'flex-start'}
-          gap={results && results.length === 0 ? '8px' : '20px'}
+          flexDirection={vacancyList && vacancyList?.length === 0 ? 'column' : 'row'}
+          flexWrap={vacancyList && vacancyList?.length === 0 ? 'nowrap' : 'wrap'}
+          alignItems={vacancyList && vacancyList.length === 0 ? 'center' : 'flex-start'}
+          gap={vacancyList && vacancyList.length === 0 ? '8px' : '20px'}
           marginTop="24px"
         >
           {isLoading && (
@@ -66,7 +66,7 @@ const ActiveVacancy: FC = () => {
           </Box>
           )}
           {isError && <Typography>Ошибка! Что-то пошло не так</Typography>}
-          {!isLoading && !isError && results?.length === 0 ? (
+          {!isLoading && !isError && vacancyList?.length === 0 ? (
             <Box sx={{ textAlign: 'center', paddingTop: '210px' }}>
               <Typography variant="h3" color="#797981">
                 У вас еще нет активных вакансий
@@ -76,8 +76,8 @@ const ActiveVacancy: FC = () => {
               </Link>
             </Box>
           ) : null}
-          {!isLoading && !isError && results !== null
-          && results?.map((vacancies: IVacancy) => (
+          {!isLoading && !isError && vacancyList !== null
+          && vacancyList?.map((vacancies: IVacancy) => (
             <VacancyCard
               key={vacancies.id}
               card={vacancies}
