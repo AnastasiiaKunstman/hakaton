@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import cardService from './cardService';
 
-export type TVacancyCard = {
+export interface TVacancyCard {
   id: number,
   name: string;
   author: string;
@@ -24,7 +24,7 @@ export type TVacancyCard = {
     id: number
     name: string
   }[]
-};
+}
 
 interface IInitialState {
   vacancyCard: TVacancyCard[],
@@ -84,13 +84,6 @@ const cardSlice = createSlice({
   name: 'card',
   initialState,
   reducers: {
-    closeCard: (state) => {
-      state.vacancyCard = null;
-      state.isError = false;
-      state.isLoading = false;
-      state.isSuccess = false;
-      state.message = '';
-    },
     setQuery: (state, action) => {
       state.vacancyCard = action.payload;
     }
