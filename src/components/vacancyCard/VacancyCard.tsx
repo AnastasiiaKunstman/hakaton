@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 import {
@@ -7,28 +8,37 @@ import './vacancyCard.scss';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { IResult } from '../../store/card/cardSlice';
+import { closeCard, getVacancyCard } from '../../store/card/cardSlice';
+import { useAppDispatch } from '../../store/hooks';
+import { IVacancy } from '../../store/vacancy/vacancySlice';
 import EditVacancy from './EditCard';
 
 interface VacancyСardProps {
-  card: IResult
-  onDelete: () => void;
+  card: IVacancy
+  onDelete: () => void
 }
 
 function VacancyCard({ card, onDelete }: VacancyСardProps) {
   const [open, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
 
   const skillsString = card.required_skills.map((name) => name.name);
   const formattedDate = format(new Date(card.pub_date), 'dd.MM');
   const educationLevel = card.required_education_level.map((name) => name.name);
   const schedule = card.schedule.map((name) => name.name).join(', ');
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handelOpenPopup = () => {
+    if (open === true) {
+      setOpen(false);
+      dispatch(closeCard());
+    } else {
+      setOpen(true);
+    }
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const onClickCard = () => {
+    handelOpenPopup();
+    dispatch(getVacancyCard(card.id));
   };
 
   return (
@@ -89,7 +99,7 @@ function VacancyCard({ card, onDelete }: VacancyСardProps) {
             ))}
           </Box>
           <Box className="date">
-            <Button className="date_btn" variant="contained" href="#contained-buttons" onClick={handleOpen}>Перейти</Button>
+            <Button className="date_btn" variant="contained" href="#contained-buttons" onClick={onClickCard}>Перейти</Button>
             <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
               <KeyboardArrowDownIcon className="icon-button" color="disabled" fontSize="small" />
               <Typography variant="body2">{formattedDate}</Typography>
@@ -98,8 +108,8 @@ function VacancyCard({ card, onDelete }: VacancyСardProps) {
         </CardContent>
       </Card>
 
-      <Dialog fullScreen onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-        <EditVacancy key={card.id} card={card} educationLevel={educationLevel} />
+      <Dialog fullScreen onClose={handelOpenPopup} aria-labelledby="customized-dialog-title" open={open}>
+        <EditVacancy key={card.id} card={card} />
       </Dialog>
     </>
   );

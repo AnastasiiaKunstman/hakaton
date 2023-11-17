@@ -15,7 +15,7 @@ const sxStyles: SxProps = {
   '& .MuiInputBase-input:disabled': {
     border: '1px solid #DDE0E4',
     borderRadius: '4px',
-    backgroundColor: '#DDE0E4',
+    backgroundColor: '#F9FAFB',
   },
   '& .MuiFormHelperText-root.Mui-error': {
     color: '#FF0200',

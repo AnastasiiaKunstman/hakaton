@@ -8,32 +8,34 @@ import { Link } from 'react-router-dom';
 import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
 import VacancyCard from '../../components/vacancyCard/VacancyCard';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
-import { deleteCard, getCards } from '../../store/index';
+import { deleteCard, getVacancies } from '../../store/index';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import Snackbars from '../../components/SnackBars/SnackBars';
 import VacancyFilter from '../../components/Filter/VacancyFilter';
+import { IVacancy, deleteVacancy } from '../../store/vacancy/vacancySlice';
 
 const ActiveVacancy: FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const { results, isLoading, isError } = useAppSelector((state) => state.card);
+  const { vacancyList, isLoading, isError } = useAppSelector((state) => state.vacancies);
+
   const dispatch = useAppDispatch();
 
+  const { results } = vacancyList;
+
   useEffect(() => {
-    dispatch(getCards());
+    dispatch(getVacancies());
   }, [dispatch]);
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
 
-  const handleDeleteCard = (cardId: number) => {
-    dispatch(deleteCard(cardId));
+  const handleDeleteCard = (cardID: number) => {
+    dispatch(deleteCard(cardID));
 
-    // const isDeletionSuccessful = deleteCard(cardId);
-
-    if (deleteCard(cardId)) {
+    if (deleteCard(cardID)) {
       setSnackbarSeverity('success');
       setSnackbarMessage('Вакансия успешно удалена.');
     } else {
@@ -44,6 +46,8 @@ const ActiveVacancy: FC = () => {
     setSnackbarOpen(true);
   };
 
+  console.log(vacancyList);
+
   return (
     <>
       <LoggedUserHeader />
@@ -52,8 +56,8 @@ const ActiveVacancy: FC = () => {
         <VacancyFilter />
         <Box
           display="flex"
-          flexDirection={results && results.length === 0 ? 'column' : 'row'}
-          flexWrap={results && results.length === 0 ? 'nowrap' : 'wrap'}
+          flexDirection={results && results?.length === 0 ? 'column' : 'row'}
+          flexWrap={results && results?.length === 0 ? 'nowrap' : 'wrap'}
           alignItems={results && results.length === 0 ? 'center' : 'flex-start'}
           gap={results && results.length === 0 ? '8px' : '20px'}
           marginTop="24px"
@@ -74,8 +78,13 @@ const ActiveVacancy: FC = () => {
               </Link>
             </Box>
           ) : null}
-          {!isLoading && !isError && results !== null && results?.map((card) => (
-            <VacancyCard key={card.id} card={card} onDelete={() => handleDeleteCard(card.id)} />
+          {!isLoading && !isError && results !== null
+          && results?.map((vacancies: IVacancy) => (
+            <VacancyCard
+              key={vacancies.id}
+              card={vacancies}
+              onDelete={() => handleDeleteCard(vacancies.id)}
+            />
           ))}
         </Box>
       </Box>

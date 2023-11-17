@@ -18,7 +18,7 @@ export {
 
 export { default as vacancyReducer } from './vacancy/vacancySlice';
 export { default as vacancyService } from './vacancy/vacancyService';
-export { createVacancy, getVacancies } from './vacancy/vacancySlice';
+export { createVacancy, getVacancies, getVacancy } from './vacancy/vacancySlice';
 
 export { default as searchReducer } from './search/searchSlice';
 export { default as searchService } from './search/searchService';
@@ -27,7 +27,7 @@ export { default as searchService } from './search/searchService';
 export { default as cardReducer } from './card/cardSlice';
 export { default as cardService } from './card/cardService';
 export {
-  getCards, setQuery, closeCard, deleteCard, getBigCards,
+  getCards, setQuery, closeCard, deleteCard, getVacancyCard,
 } from './card/cardSlice';
 
 export { default as studentReducer } from './students/studentSlice';

@@ -1,6 +1,9 @@
+/* eslint-disable react/function-component-definition */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable max-len */
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Box, Button, FormControlLabel, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography,
 } from '@mui/material';
@@ -11,7 +14,6 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import NavigationMenu from '../navigationMenu/NavigationMenu';
 import LoggedUserHeader from '../Header/LoggedUserHeader';
-import { ICardData } from '../../store/card/cardService';
 import Snackbars from '../SnackBars/SnackBars';
 import Input from '../../UI/Input/Input';
 import Delete from '../../images/delete.svg';
@@ -19,7 +21,7 @@ import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { vacancyShema } from '../../utils/index';
-import { updateVacancy } from '../../store/vacancy/vacancySlice';
+import { IVacancy, updateVacancy } from '../../store/vacancy/vacancySlice';
 import '../btnVacancy/BtnVacancy.scss';
 
 type TSelectedOpt = {
@@ -27,24 +29,19 @@ type TSelectedOpt = {
   name: string
 };
 
-interface EditVacancyProps {
-  card: ICardData;
+interface СardProps {
+  card: IVacancy
 }
 
-export default function EditVacancy({ card }: EditVacancyProps) {
+const EditVacancy: React.FC<СardProps> = ({ card }) => {
+  const dispatch = useAppDispatch();
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const [editedVacancy, setEditedVacancy] = useState<ICardData | null>(null);
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (card) {
-      setEditedVacancy(card);
-    }
-  }, [card]);
+  const { vacancyCard } = useAppSelector((state) => state.card);
+  const [editedVacancy, setEditedVacancy] = useState<IVacancy | null>(null);
 
   const handleFieldChange = (fieldName: string, value: any) => {
     setEditedVacancy((prev) => ({
@@ -53,38 +50,46 @@ export default function EditVacancy({ card }: EditVacancyProps) {
     }));
   };
 
+  console.log(vacancyCard);
+
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
 
   const {
-    control,
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm({ resolver: yupResolver(vacancyShema) });
 
-  const {
-    skillsOpt,
-    educationLevelOpt,
-    specializationsOpt,
-    schedulesOpt,
-    locationsOpt,
-  } = useAppSelector((state) => state.filters);
+  // const {
+  //   skillsOpt,
+  //   educationLevelOpt,
+  //   specializationsOpt,
+  //   schedulesOpt,
+  //   locationsOpt,
+  // } = useAppSelector((state) => state.filters);
+
+  const schedule = vacancyCard?.schedule.map((name) => name.name).join(', ');
+  const educationLevel = vacancyCard?.required_education_level.map((name) => name.name).join(', ');
+  const skills = vacancyCard?.required_skills.map((name) => name.name).join(', ');
+  const specialization = vacancyCard?.specialization.map((name) => name.name).join(', ');
+
+  console.log(schedule, educationLevel, skills);
 
   const [hidden, setHidden] = useState(false);
   const [selectedSkills, setSelectedSkills] = useState<TSelectedOpt[]>([]);
 
-  const handleSkillsChange = (event: SelectChangeEvent<typeof selectedSkills>) => {
-    const {
-      target: { value },
-    } = event;
+  // const handleSkillsChange = (event: SelectChangeEvent<typeof selectedSkills>) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
 
-    const selectedValues: TSelectedOpt[] = typeof value === 'string' ? value.split(',').map((item) => ({ id: Number(item), name: String(item) })) : value;
+  //   const selectedValues: TSelectedOpt[] = typeof value === 'string' ? value.split(',').map((item) => ({ id: Number(item), name: String(item) })) : value;
 
-    setSelectedSkills(selectedValues);
-  };
+  //   setSelectedSkills(selectedValues);
+  // };
 
   const handleHiddenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHidden(event.target.checked);
@@ -95,7 +100,7 @@ export default function EditVacancy({ card }: EditVacancyProps) {
       <LoggedUserHeader />
       <Box maxWidth="xl" sx={{ p: '0 118px' }}>
         <NavigationMenu />
-        <Box maxWidth="xl" sx={{ p: '28px 0 71px' }}>
+        <Box maxWidth="xl" key={card.id} sx={{ p: '28px 0 71px' }}>
 
           <form
             noValidate
@@ -135,7 +140,7 @@ export default function EditVacancy({ card }: EditVacancyProps) {
                     fullWidth
                     type="text"
                     placeholder="Введите название должности"
-                    value={editedVacancy?.name || ''}
+                    value={vacancyCard?.name || ''}
                     onChange={(e) => handleFieldChange('name', e.target.value)}
                     register={register}
                     registerName="name"
@@ -178,7 +183,7 @@ export default function EditVacancy({ card }: EditVacancyProps) {
                       fullWidth
                       size="small"
                       placeholder="от"
-                      value={editedVacancy?.salary || ''}
+                      value={vacancyCard?.salary || ''}
                       onChange={(e) => handleFieldChange('salary', e.target.value)}
                       register={register}
                       registerName="salary"
@@ -193,7 +198,7 @@ export default function EditVacancy({ card }: EditVacancyProps) {
                     </Typography>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DemoContainer components={['DatePicker']} sx={{ p: 0 }}>
-                        <DatePicker format="DD.MM.YYYY" sx={{ width: '100%', backgroundColor: '#fff' }} />
+                        <DatePicker format="DD.MM.YYYY" sx={{ width: '100%', backgroundColor: '#fff' }} disabled />
                       </DemoContainer>
                     </LocalizationProvider>
                   </Grid>
@@ -202,23 +207,17 @@ export default function EditVacancy({ card }: EditVacancyProps) {
                     <Typography variant="caption" fontWeight={500}>
                       Локация
                     </Typography>
-                    <Controller
-                      name="location"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          fullWidth
-                          size="small"
-                          sx={{ marginTop: '4px', backgroundColor: '#fff' }}
-                        >
-                          {locationsOpt.map((option) => (
-                            <MenuItem key={option.id} value={option.id}>
-                              {option.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      )}
+                    <Input
+                      type="text"
+                      fullWidth
+                      size="small"
+                      placeholder="Город"
+                      value={vacancyCard?.location.name || ''}
+                      onChange={(e) => handleFieldChange('location', e.target.value)}
+                      register={register}
+                      registerName="location"
+                      error={!!errors.location}
+                      helperText={errors.location?.message}
                     />
                   </Grid>
 
@@ -226,19 +225,17 @@ export default function EditVacancy({ card }: EditVacancyProps) {
                     <Typography variant="caption" fontWeight={500}>
                       Формат работы
                     </Typography>
-                    <Controller
-                      name="schedule"
-                      control={control}
-                      defaultValue={editedVacancy?.schedule || ''}
-                      render={({ field }) => (
-                        <Select {...field} fullWidth size="small" sx={{ marginTop: '4px', backgroundColor: '#fff' }}>
-                          {schedulesOpt.map((option) => (
-                            <MenuItem key={option.id} value={option.id}>
-                              {option.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      )}
+                    <Input
+                      type="text"
+                      fullWidth
+                      size="small"
+                      placeholder="Офис"
+                      value={schedule || ''}
+                      onChange={(e) => handleFieldChange('schedule', e.target.value)}
+                      register={register}
+                      registerName="schedule"
+                      error={!!errors.schedule}
+                      helperText={errors.schedule?.message}
                     />
                   </Grid>
 
@@ -253,38 +250,34 @@ export default function EditVacancy({ card }: EditVacancyProps) {
                       <Typography variant="caption" fontWeight={500}>
                         Уровень
                       </Typography>
-                      <Controller
-                        name="required_education_level"
-                        control={control}
-                        defaultValue={editedVacancy?.required_education_level || ''}
-                        render={({ field }) => (
-                          <Select {...field} fullWidth size="small" sx={{ marginTop: '4px', backgroundColor: '#fff' }}>
-                            {educationLevelOpt.map((option) => (
-                              <MenuItem key={option.id} value={option.id}>
-                                {option.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        )}
+                      <Input
+                        type="text"
+                        fullWidth
+                        size="small"
+                        placeholder="Intern"
+                        value={educationLevel || ''}
+                        onChange={(e) => handleFieldChange('required_education_level', e.target.value)}
+                        register={register}
+                        registerName="required_education_level"
+                        error={!!errors.required_education_level}
+                        helperText={errors.required_education_level?.message}
                       />
                     </Grid>
                     <Grid item xs>
                       <Typography variant="caption" fontWeight={500}>
                         Специализация
                       </Typography>
-                      <Controller
-                        name="specialization"
-                        control={control}
-                        defaultValue={editedVacancy?.specialization || ''}
-                        render={({ field }) => (
-                          <Select {...field} fullWidth size="small" sx={{ marginTop: '4px', backgroundColor: '#fff' }}>
-                            {specializationsOpt.map((option) => (
-                              <MenuItem key={option.id} value={option.id}>
-                                {option.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        )}
+                      <Input
+                        type="text"
+                        fullWidth
+                        size="small"
+                        placeholder="Designer"
+                        value={specialization || ''}
+                        onChange={(e) => handleFieldChange('specialization', e.target.value)}
+                        register={register}
+                        registerName="specialization"
+                        error={!!errors.specialization}
+                        helperText={errors.specialization?.message}
                       />
                     </Grid>
                   </Grid>
@@ -422,33 +415,25 @@ export default function EditVacancy({ card }: EditVacancyProps) {
                     padding: '0',
                     alignContent: 'space-between',
                     alignItems: 'flex-end',
+                    gap: '20px',
                   }}
                 >
                   <Grid item xs={12}>
                     <Typography variant="caption" fontWeight={500}>
                       Технологии, ключевые слова
                     </Typography>
-                    <Controller
-                      name="required_skills"
-                      control={control}
-                      defaultValue={editedVacancy?.required_skills || ''}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          fullWidth
-                          size="small"
-                          sx={{ marginTop: '4px', backgroundColor: '#fff', height: '88px' }}
-                          multiple
-                          value={selectedSkills}
-                          onChange={handleSkillsChange}
-                        >
-                          {skillsOpt.map((option) => (
-                            <MenuItem key={option.id} value={option.id}>
-                              {option.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      )}
+                    <Input
+                      type="text"
+                      fullWidth
+                      rows={3}
+                      multiline
+                      placeholder="Технологии, ключевые слова"
+                      value={skills || ''}
+                      onChange={(e) => handleFieldChange('required_skills', e.target.value)}
+                      register={register}
+                      registerName="required_skills"
+                      error={!!errors.required_skills}
+                      helperText={errors.required_skills?.message}
                     />
                   </Grid>
 
@@ -458,11 +443,11 @@ export default function EditVacancy({ card }: EditVacancyProps) {
                     </Typography>
                     <Input
                       type="text"
-                      rows={19}
+                      rows={16}
                       fullWidth
                       multiline
                       name="text"
-                      value={editedVacancy?.text || ''}
+                      value={vacancyCard?.text || ''}
                       onChange={(e) => handleFieldChange('text', e.target.value)}
                       register={register}
                       registerName="text"
@@ -510,4 +495,6 @@ export default function EditVacancy({ card }: EditVacancyProps) {
       </Box>
     </>
   );
-}
+};
+
+export default EditVacancy;

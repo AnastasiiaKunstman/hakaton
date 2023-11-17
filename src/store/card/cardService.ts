@@ -5,19 +5,6 @@ const API_URL = 'https://tracker-hiring.ddns.net/api';
 const json = localStorage.getItem('user');
 const user = json && JSON.parse(json);
 
-export interface ICardData {
-  id: number
-  name: string
-  location: string
-  text: string
-  salary: string
-  specialization: string
-  schedule: string
-  pub_date: string
-  required_education_level: string
-  required_skills: string
-}
-
 const getCards = async () => {
   const response = await axios.get(`${API_URL}/vacancies/`, {
     headers: {
@@ -28,9 +15,8 @@ const getCards = async () => {
   return response.data;
 };
 
-const getBigCards = async (cardData: any) => {
-  const response = await axios.get(`${API_URL}/vacancies/${cardData.id}`, {
-    params: cardData,
+const getVacancyCard = async (cardID: number | string) => {
+  const response = await axios.get(`${API_URL}/vacancies/${cardID}`, {
     headers: {
       Authorization: `Bearer ${user.access}`,
     },
@@ -51,7 +37,7 @@ const deleteCard = async (cardID: number) => {
 
 const cardService = {
   getCards,
-  getBigCards,
+  getVacancyCard,
   deleteCard,
 };
 

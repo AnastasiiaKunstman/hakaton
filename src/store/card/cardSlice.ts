@@ -1,56 +1,42 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import cardService from './cardService';
 
-export interface IResult {
+export type TVacancyCard = {
   id: number,
   name: string;
   author: string;
   salary: string;
-  location: { id: number; name: string };
-  schedule: ISchedule[];
-  required_education_level: IEducationLevel[],
-  required_skills: ISkill[],
   pub_date: string,
   text: string,
-  specialization: ISpecialization[],
+  location: { id: number, name: string }
+  specialization: string
+  required_skills: {
+    id: number
+    name: string
+  }[]
+  schedule: {
+    id: number
+    name: string
+  }[]
+  required_education_level: {
+    id: number
+    name: string
+  }[]
+};
+
+interface IInitialState {
+  vacancyCard: TVacancyCard[],
+  isLoading: boolean,
+  isError: boolean,
+  isSuccess: boolean,
+  message: string | unknown,
+
 }
 
-interface ISpecialization {
-  id: number
-  name: string
-}
-
-interface ISchedule {
-  id: number
-  name: string
-}
-
-interface IEducationLevel {
-  id: number
-  name: string
-}
-
-interface ISkill {
-  id: number
-  name: string
-}
-
-interface IinitialState {
-  query: string
-  results: IResult[] | null
-  isLoading: boolean
-  isError: boolean
-  isSuccess: boolean
-  message: string | unknown
-}
-
-const initialState: IinitialState = {
-  query: '',
-  results: [],
+const initialState: IInitialState = {
+  vacancyCard: [],
   isLoading: false,
   isError: false,
   isSuccess: false,
@@ -69,11 +55,11 @@ export const getCards = createAsyncThunk(
   },
 );
 
-export const getBigCards = createAsyncThunk(
-  'card/bigGet',
-  async (cardData: any, thunkAPI) => {
+export const getVacancyCard = createAsyncThunk(
+  'card/vacancyCard',
+  async (cardID: number | string, thunkAPI: any) => {
     try {
-      return await cardService.getBigCards(cardData);
+      return await cardService.getVacancyCard(cardID);
     } catch (error) {
       const err = error as AxiosError;
       return thunkAPI.rejectWithValue(err.response?.data);
@@ -99,15 +85,15 @@ const cardSlice = createSlice({
   initialState,
   reducers: {
     closeCard: (state) => {
-      state.results = null;
+      state.vacancyCard = null;
       state.isError = false;
       state.isLoading = false;
       state.isSuccess = false;
       state.message = '';
     },
     setQuery: (state, action) => {
-      state.query = action.payload;
-    },
+      state.vacancyCard = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -117,38 +103,35 @@ const cardSlice = createSlice({
       .addCase(getCards.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.results = action.payload.results;
+        state.vacancyCard = action.payload;
       })
       .addCase(getCards.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.results = null;
+        state.vacancyCard = null;
       })
 
-      .addCase(getBigCards.pending, (state) => {
+      .addCase(getVacancyCard.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getBigCards.fulfilled, (state, action) => {
-        state.results = action.payload.results;
+      .addCase(getVacancyCard.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isError = false;
         state.isSuccess = true;
+        state.vacancyCard = action.payload;
       })
-      .addCase(getBigCards.rejected, (state, action) => {
+      .addCase(getVacancyCard.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        state.vacancyCard = null;
       })
 
       .addCase(deleteCard.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(deleteCard.fulfilled, (state, action) => {
-        // Успешно удаленная карточка
-        const deletedCardId = action.payload;
-        // Обновляем состояние, удаляя карточку с указанным id
-        state.results = state.results.filter((card) => card.id !== deletedCardId);
+      .addCase(deleteCard.fulfilled, (state) => {
+        state.vacancyCard = state.vacancyCard.filter((card) => card.id !== action.payload);
         state.isLoading = false;
         state.isError = false;
       })

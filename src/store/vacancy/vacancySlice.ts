@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
-import vacancyService, { IVacancyData } from './vacancyService';
+import vacancyService from './vacancyService';
 
 export interface IVacancy {
-  id: string
+  id: number
   name: string
-  location: string
+  location: { id: number, name: string }
   text: string
   salary: string
   pub_date: string
@@ -39,9 +39,21 @@ const initialState: IinitialState = {
 
 export const getVacancies = createAsyncThunk(
   'vacancy/get',
-  async (vacancyData: IVacancyData, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      return await vacancyService.getVacancies(vacancyData);
+      return await vacancyService.getVacancies();
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkAPI.rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const getVacancy = createAsyncThunk(
+  'vacancy/get',
+  async (vacancyID: number, thunkAPI) => {
+    try {
+      return await vacancyService.getVacancy(vacancyID);
     } catch (error) {
       const err = error as AxiosError;
       return thunkAPI.rejectWithValue(err.response?.data);
@@ -73,6 +85,19 @@ export const updateVacancy = createAsyncThunk(
   },
 );
 
+export const deleteVacancy = createAsyncThunk(
+  'vacancy/delete',
+  async (vacancyID: number, thunkAPI) => {
+    try {
+      await vacancyService.deleteVacancy(vacancyID);
+      return vacancyID;
+    } catch (error) {
+      const err = error as AxiosError;
+      return thunkAPI.rejectWithValue(err.response?.data);
+    }
+  },
+);
+
 const vacanciesSlice = createSlice({
   name: 'vanacies',
   initialState,
@@ -93,7 +118,9 @@ const vacanciesSlice = createSlice({
         state.isError = true;
       })
 
-      .addCase(getVacancies.pending, (state) => {})
+      .addCase(getVacancies.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(getVacancies.fulfilled, (state, action) => {
         state.vacancyList = action.payload;
         state.isLoading = false;
@@ -104,6 +131,19 @@ const vacanciesSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+
+      .addCase(deleteVacancy.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteVacancy.fulfilled, (state, action) => {
+        state.vacancyList = state.vacancyList.filter((vanacies) => vanacies.id !== action.payload);
+        state.isLoading = false;
+        state.isError = false;
+      })
+      .addCase(deleteVacancy.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
       });
   },
 });

@@ -46,11 +46,32 @@ const updateVacancy = async (vacancyData: IVacancyData) => {
   return response.data;
 };
 
-// Получить полные данные о вакансии
-const getVacancies = async (vacancyData: IVacancyData) => {
-  const response = await axios.get(`${API_URL}/vacancies/${vacancyData.id}`, {
+// Получить созданые вакансии
+const getVacancies = async () => {
+  const response = await axios.get(`${API_URL}/vacancies/`, {
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${user.access}`,
+    },
+  });
+
+  return response.data;
+};
+
+const getVacancy = async (vacancyID: number) => {
+  const response = await axios.get(`${API_URL}/vacancies/${vacancyID}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${user.access}`,
+    },
+  });
+
+  return response.data;
+};
+
+const deleteVacancy = async (vacancyID: number) => {
+  const response = await axios.delete(`${API_URL}/vacancies/${vacancyID}`, {
+    headers: {
       Authorization: `Bearer ${user.access}`,
     },
   });
@@ -61,7 +82,9 @@ const getVacancies = async (vacancyData: IVacancyData) => {
 const vacancyService = {
   createVacancy,
   getVacancies,
+  getVacancy,
   updateVacancy,
+  deleteVacancy,
 };
 
 export default vacancyService;
