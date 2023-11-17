@@ -34,13 +34,12 @@ interface CardProps {
 }
 
 const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const { vacancyCard } = useAppSelector((state) => state.card);
   const [editedVacancy, setEditedVacancy] = useState<IVacancy | null>(null);
 
   const handleFieldChange = (fieldName: string, value: any) => {
@@ -50,7 +49,7 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
     }));
   };
 
-  console.log(vacancyCard);
+  console.log(card);
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
@@ -58,9 +57,7 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
 
   const {
     register,
-    handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({ resolver: yupResolver(vacancyShema) });
 
   // const {
@@ -71,15 +68,15 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
   //   locationsOpt,
   // } = useAppSelector((state) => state.filters);
 
-  const schedule = vacancyCard?.schedule.map((name) => name.name).join(', ');
-  const educationLevel = vacancyCard?.required_education_level.map((name) => name.name).join(', ');
-  const skills = vacancyCard?.required_skills.map((name) => name.name).join(', ');
-  const specialization = vacancyCard?.specialization.map((name) => name.name).join(', ');
+  const schedule = card.schedule.map((name) => name.name).join(', ');
+  const educationLevel = card.required_education_level.map((name) => name.name).join(', ');
+  const skills = card.required_skills.map((name) => name.name).join(', ');
+  const specialization = card.specialization.map((name) => name.name).join(', ');
 
   console.log(schedule, educationLevel, skills);
 
   const [hidden, setHidden] = useState(false);
-  const [selectedSkills, setSelectedSkills] = useState<TSelectedOpt[]>([]);
+  // const [selectedSkills, setSelectedSkills] = useState<TSelectedOpt[]>([]);
 
   // const handleSkillsChange = (event: SelectChangeEvent<typeof selectedSkills>) => {
   //   const {
@@ -104,30 +101,30 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
 
           <form
             noValidate
-            onSubmit={handleSubmit(async (data) => {
-              console.log(data);
-              const transformedData = {
-                ...data,
-                location: data.location,
-                required_skills: selectedSkills.map((id) => ({ id, name: String(id) })),
-                required_education_level: [{ id: Number(data.required_education_level), name: String(data.required_education_level) }],
-                specialization: [{ id: Number(data.specialization), name: String(data.specialization) }],
-                schedule: [{ id: Number(data.schedule), name: String(data.schedule) }],
-              };
-              await dispatch(updateVacancy(transformedData));
-              // const isUpdateSuccessful = updateVacancy(transformedData);
+            // onSubmit={handleSubmit(async (data) => {
+            //   console.log(data);
+            //   const transformedData = {
+            //     ...data,
+            //     location: data.location,
+            //     required_skills: selectedSkills.map((id) => ({ id, name: String(id) })),
+            //     required_education_level: [{ id: Number(data.required_education_level), name: String(data.required_education_level) }],
+            //     specialization: [{ id: Number(data.specialization), name: String(data.specialization) }],
+            //     schedule: [{ id: Number(data.schedule), name: String(data.schedule) }],
+            //   };
+            //   await dispatch(updateVacancy(transformedData));
+            //   // const isUpdateSuccessful = updateVacancy(transformedData);
 
-              if (updateVacancy(transformedData)) {
-                setSnackbarSeverity('success');
-                setSnackbarMessage('Изменения сохранены.');
-              } else {
-                setSnackbarSeverity('error');
-                setSnackbarMessage('Ошибка при редактировании вакансии.');
-              }
+            //   if (updateVacancy(transformedData)) {
+            //     setSnackbarSeverity('success');
+            //     setSnackbarMessage('Изменения сохранены.');
+            //   } else {
+            //     setSnackbarSeverity('error');
+            //     setSnackbarMessage('Ошибка при редактировании вакансии.');
+            //   }
 
-              setSnackbarOpen(true);
-              reset();
-            })}
+            //   setSnackbarOpen(true);
+            //   reset();
+            // })}
           >
 
             <Grid container item xs={12}>
@@ -140,7 +137,7 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                     fullWidth
                     type="text"
                     placeholder="Введите название должности"
-                    value={vacancyCard?.name || ''}
+                    value={card.name || ''}
                     onChange={(e) => handleFieldChange('name', e.target.value)}
                     register={register}
                     registerName="name"
@@ -183,7 +180,7 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                       fullWidth
                       size="small"
                       placeholder="от"
-                      value={vacancyCard?.salary || ''}
+                      value={card.salary || ''}
                       onChange={(e) => handleFieldChange('salary', e.target.value)}
                       register={register}
                       registerName="salary"
@@ -212,7 +209,7 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                       fullWidth
                       size="small"
                       placeholder="Город"
-                      value={vacancyCard?.location.name || ''}
+                      value={card.location.name || ''}
                       onChange={(e) => handleFieldChange('location', e.target.value)}
                       register={register}
                       registerName="location"
@@ -447,7 +444,7 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                       fullWidth
                       multiline
                       name="text"
-                      value={vacancyCard?.text || ''}
+                      value={card.text || ''}
                       onChange={(e) => handleFieldChange('text', e.target.value)}
                       register={register}
                       registerName="text"

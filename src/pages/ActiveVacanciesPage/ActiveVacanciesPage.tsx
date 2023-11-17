@@ -18,11 +18,9 @@ const ActiveVacancy: FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const { vacancyList, isLoading, isError } = useAppSelector((state) => state.vacancies);
+  const { results, isLoading, isError } = useAppSelector((state) => state.vacancies.vacancyList);
 
   const dispatch = useAppDispatch();
-
-  const { results } = vacancyList;
 
   useEffect(() => {
     dispatch(getVacancies());

@@ -15,7 +15,6 @@ export type IVacancy = {
   required_education_level: IEmployment[];
   required_skills: IEmployment[];
   is_archived: boolean;
-  results: IVacancy[];
 };
 
 interface IEmployment {
