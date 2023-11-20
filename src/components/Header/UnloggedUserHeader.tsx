@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export default function UnloggedUserHeader() {
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#1A1B22', height: '65px', boxShadow: 'none' }}>
+    <AppBar position="static" sx={{ backgroundColor: 'transparent', height: '65px', boxShadow: 'none' }}>
       <Container maxWidth="xl">
         <Toolbar>
           <MenuItem component={Link} to="/">

@@ -99,7 +99,7 @@ export const deleteVacancy = createAsyncThunk(
 );
 
 const vacanciesSlice = createSlice({
-  name: 'vanacies',
+  name: 'vacacies',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -122,7 +122,7 @@ const vacanciesSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getVacancies.fulfilled, (state, action) => {
-        state.vacancyList = action.payload;
+        state.vacancyList = action.payload.results;
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
@@ -137,7 +137,7 @@ const vacanciesSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(deleteVacancy.fulfilled, (state, action) => {
-        state.vacancyList = state.vacancyList.filter((vanacies) => vanacies.id !== action.payload);
+        state.vacancyList = state.vacancyList.filter((v) => v.id !== action.payload);
         state.isLoading = false;
         state.isError = false;
       })

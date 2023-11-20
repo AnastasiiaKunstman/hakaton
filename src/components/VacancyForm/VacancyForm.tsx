@@ -28,6 +28,7 @@ import Delete from '../../images/delete.svg';
 import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
 import Snackbars from '../SnackBars/SnackBars';
+import { useNavigate } from 'react-router-dom';
 
 type TSelectedOpt = {
   id: number
@@ -52,6 +53,7 @@ function VacancyForm() {
   } = useForm({ resolver: yupResolver(vacancyShema) });
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     skillsOpt,
@@ -93,13 +95,16 @@ function VacancyForm() {
             specialization: [{ id: Number(data.specialization), name: String(data.specialization) }],
             schedule: [{ id: Number(data.schedule), name: String(data.schedule) }],
           };
-          await dispatch(createVacancy(transformedData));
-          // const isCreateSuccessful = createVacancy(transformedData);
 
-          if (createVacancy(transformedData)) {
+          try {
+            await dispatch(createVacancy(transformedData));
+
             setSnackbarSeverity('success');
             setSnackbarMessage('Вакансия успешно создана.');
-          } else {
+            setTimeout(() => {
+              navigate('/students/');
+            }, 1000);
+          } catch (error) {
             setSnackbarSeverity('error');
             setSnackbarMessage('Ошибка при создании вакансии.');
           }
@@ -432,7 +437,9 @@ function VacancyForm() {
                       {...field}
                       fullWidth
                       size="small"
-                      sx={{ marginTop: '4px', backgroundColor: '#fff', height: '88px' }}
+                      sx={{
+                        marginTop: '4px', backgroundColor: '#fff', height: '88px', alignItems: 'flex-start',
+                      }}
                       multiple
                       value={selectedSkills}
                       onChange={handleSkillsChange}

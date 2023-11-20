@@ -5,7 +5,7 @@
 /* eslint-disable max-len */
 import React, { FC, useEffect, useState } from 'react';
 import {
-  Box, Button, FormControlLabel, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography,
+  Box, Button, Dialog, FormControlLabel, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography,
 } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -31,22 +31,40 @@ type TSelectedOpt = {
 
 interface CardProps {
   card: IVacancy
+  onSave: (updatedData: IVacancy) => void;
+  skillsString: string[];
+  educationLevel: string[];
+  schedule: string;
+  onDelete: () => void;
+  onCancel: () => void;
 }
 
-const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
-  // const dispatch = useAppDispatch();
+const EditVacancy:FC<CardProps> = ({
+  card, onSave, skillsString, educationLevel, schedule, onDelete, onCancel,
+}) => {
+  const dispatch = useAppDispatch();
+  const [editedData, setEditedData] = useState<IVacancy>({ ...card });
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const [editedVacancy, setEditedVacancy] = useState<IVacancy | null>(null);
+  const handleChange = (field: string, value: string | { id: number; name: string }) => {
+    setEditedData((prevData) => ({ ...prevData, [field]: value }));
+  };
 
-  const handleFieldChange = (fieldName: string, value: any) => {
-    setEditedVacancy((prev) => ({
-      ...prev!,
-      [fieldName]: value,
-    }));
+  const handleSave = () => {
+    dispatch(updateVacancy(editedData))
+      .then((response: any) => {
+        onSave(editedData);
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Изменения сохранены.');
+      })
+      .catch((error: any) => {
+        console.error('Ошибка при сохранении данных:', error);
+        setSnackbarSeverity('error');
+        setSnackbarMessage('Ошибка при редактировании вакансии.');
+      });
   };
 
   console.log(card);
@@ -68,12 +86,12 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
   //   locationsOpt,
   // } = useAppSelector((state) => state.filters);
 
-  const schedule = card.schedule.map((name) => name.name).join(', ');
-  const educationLevel = card.required_education_level.map((name) => name.name).join(', ');
-  const skills = card.required_skills.map((name) => name.name).join(', ');
-  const specialization = card.specialization.map((name) => name.name).join(', ');
+  // const schedule = card.schedule.map((name) => name.name).join(', ');
+  // const educationLevel = card.required_education_level.map((name) => name.name).join(', ');
+  // const skills = card.required_skills.map((name) => name.name).join(', ');
+  // const specialization = card.specialization.map((name) => name.name).join(', ');
 
-  console.log(schedule, educationLevel, skills);
+  // console.log(schedule, educationLevel, skills);
 
   const [hidden, setHidden] = useState(false);
   // const [selectedSkills, setSelectedSkills] = useState<TSelectedOpt[]>([]);
@@ -90,6 +108,23 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
 
   const handleHiddenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHidden(event.target.checked);
+  };
+
+  const handleClear = () => {
+    // Очищаем все поля формы, кроме id
+    setEditedData({
+      ...editedData,
+      name: '',
+      location: { id: 0, name: '' },
+      text: '',
+      salary: '',
+      pub_date: '',
+      specialization: [],
+      schedule: [],
+      required_education_level: [],
+      required_skills: [],
+      is_archived: false,
+    });
   };
 
   return (
@@ -137,8 +172,8 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                     fullWidth
                     type="text"
                     placeholder="Введите название должности"
-                    value={card.name || ''}
-                    onChange={(e) => handleFieldChange('name', e.target.value)}
+                    value={editedData.name}
+                    onChange={(e) => handleChange('name', e.target.value)}
                     register={register}
                     registerName="name"
                     error={!!errors.name}
@@ -180,8 +215,8 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                       fullWidth
                       size="small"
                       placeholder="от"
-                      value={card.salary || ''}
-                      onChange={(e) => handleFieldChange('salary', e.target.value)}
+                      value={editedData.salary}
+                      onChange={(e) => handleChange('salary', e.target.value)}
                       register={register}
                       registerName="salary"
                       error={!!errors.salary}
@@ -209,8 +244,8 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                       fullWidth
                       size="small"
                       placeholder="Город"
-                      value={card.location.name || ''}
-                      onChange={(e) => handleFieldChange('location', e.target.value)}
+                      value={editedData.location.name}
+                      onChange={(e) => handleChange('location', { id: editedData.location.id, name: e.target.value })}
                       register={register}
                       registerName="location"
                       error={!!errors.location}
@@ -227,8 +262,8 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                       fullWidth
                       size="small"
                       placeholder="Офис"
-                      value={schedule || ''}
-                      onChange={(e) => handleFieldChange('schedule', e.target.value)}
+                      value={schedule}
+                      onChange={(e) => handleChange('schedule', e.target.value)}
                       register={register}
                       registerName="schedule"
                       error={!!errors.schedule}
@@ -252,8 +287,8 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                         fullWidth
                         size="small"
                         placeholder="Intern"
-                        value={educationLevel || ''}
-                        onChange={(e) => handleFieldChange('required_education_level', e.target.value)}
+                        value={educationLevel}
+                        onChange={(e) => handleChange('required_education_level', e.target.value)}
                         register={register}
                         registerName="required_education_level"
                         error={!!errors.required_education_level}
@@ -269,8 +304,8 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                         fullWidth
                         size="small"
                         placeholder="Designer"
-                        value={specialization || ''}
-                        onChange={(e) => handleFieldChange('specialization', e.target.value)}
+                        value={editedData.specialization}
+                        onChange={(e) => handleChange('specialization', e.target.value)}
                         register={register}
                         registerName="specialization"
                         error={!!errors.specialization}
@@ -425,8 +460,8 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                       rows={3}
                       multiline
                       placeholder="Технологии, ключевые слова"
-                      value={skills || ''}
-                      onChange={(e) => handleFieldChange('required_skills', e.target.value)}
+                      value={skillsString}
+                      onChange={(e) => handleChange('required_skills', e.target.value)}
                       register={register}
                       registerName="required_skills"
                       error={!!errors.required_skills}
@@ -444,8 +479,8 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
                       fullWidth
                       multiline
                       name="text"
-                      value={card.text || ''}
-                      onChange={(e) => handleFieldChange('text', e.target.value)}
+                      value={editedData.text}
+                      onChange={(e) => handleChange('text', e.target.value)}
                       register={register}
                       registerName="text"
                       error={!!errors.text}
@@ -463,18 +498,18 @@ const EditVacancy: React.FC<CardProps> = ({ card }: CardProps) => {
               }}
             >
               <Box className="edit-buttons" textAlign="center">
-                <Button className="edit-button">
+                <Button className="edit-button" onClick={onDelete}>
                   Удалить вакансию
                 </Button>
-                <Button className="edit-button">
-                  В архив
+                <Button className="edit-button" onClick={onCancel}>
+                  Отмена
                 </Button>
               </Box>
               <Box className="edit-buttons">
-                <Button className="clear-button">
-                  Очистить текст
+                <Button className="clear-button" onClick={handleClear}>
+                  Очистить
                 </Button>
-                <Button type="submit" className="publish-button">
+                <Button type="submit" className="publish-button" onClick={handleSave}>
                   Сохранить
                 </Button>
               </Box>

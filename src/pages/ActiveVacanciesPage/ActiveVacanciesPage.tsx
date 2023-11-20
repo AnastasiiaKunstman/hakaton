@@ -8,13 +8,13 @@ import { Link } from 'react-router-dom';
 import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
 import VacancyCard from '../../components/vacancyCard/VacancyCard';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
-import { deleteCard, getVacancies } from '../../store/index';
+import { getVacancies } from '../../store/index';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import Snackbars from '../../components/SnackBars/SnackBars';
 import VacancyFilter from '../../components/Filter/VacancyFilter';
-import { IVacancy } from '../../store/vacancy/vacancySlice';
+import { IVacancy, deleteVacancy } from '../../store/vacancy/vacancySlice';
 
-const ActiveVacancy: FC = () => {
+const ActiveVacancy:FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -30,13 +30,14 @@ const ActiveVacancy: FC = () => {
     setSnackbarOpen(false);
   };
 
-  const handleDeleteCard = (cardID: number) => {
-    dispatch(deleteCard(cardID));
+  const handleDeleteCard = async (vacancyID: number) => {
+    try {
+      await dispatch(deleteVacancy(vacancyID));
 
-    if (deleteCard(cardID)) {
       setSnackbarSeverity('success');
       setSnackbarMessage('Вакансия успешно удалена.');
-    } else {
+    } catch (error) {
+      console.error(error);
       setSnackbarSeverity('error');
       setSnackbarMessage('Ошибка при удалении вакансии.');
     }
@@ -59,6 +60,7 @@ const ActiveVacancy: FC = () => {
           alignItems={vacancyList && vacancyList.length === 0 ? 'center' : 'flex-start'}
           gap={vacancyList && vacancyList.length === 0 ? '8px' : '20px'}
           marginTop="24px"
+          paddingBottom="30px"
         >
           {isLoading && (
           <Box sx={{ textAlign: 'center', paddingTop: '210px', width: '100vw' }}>
@@ -77,13 +79,14 @@ const ActiveVacancy: FC = () => {
             </Box>
           ) : null}
           {!isLoading && !isError && vacancyList !== null
-          && vacancyList?.map((vacancies: IVacancy) => (
+          && (vacancyList.map((vacancies: IVacancy) => (
             <VacancyCard
               key={vacancies.id}
               card={vacancies}
               onDelete={() => handleDeleteCard(vacancies.id)}
             />
-          ))}
+          ))
+          )}
         </Box>
       </Box>
 
