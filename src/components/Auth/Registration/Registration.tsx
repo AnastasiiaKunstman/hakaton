@@ -19,7 +19,7 @@ import './Registration.scss';
 type formRegistration = {
   first_name: string;
   last_name: string;
-  phone: string;
+  phone_number: string;
   email: string;
   password: string;
 };
@@ -96,12 +96,12 @@ const Registration: FC = () => {
             </Grid>
             <Grid item xs={12}>
               <Input
-                type="phoneNumber"
+                type="phone_number"
                 placeholder="Телефон"
                 register={register}
                 registerName="phoneNumber"
-                error={!!errors.phone}
-                helperText={errors.phone?.message}
+                error={!!errors.phone_number}
+                helperText={errors.phone_number?.message}
               />
             </Grid>
             <Grid item xs={12}>

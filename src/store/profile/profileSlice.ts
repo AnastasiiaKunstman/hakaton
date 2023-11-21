@@ -91,20 +91,20 @@ const profileSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-      })
-
-      .addCase(deleteProfile.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(deleteProfile.fulfilled, (state, action) => {
-        state.profile = state.profile.filter((p) => p.id !== action.payload);
-        state.isLoading = false;
-        state.isError = false;
-      })
-      .addCase(deleteProfile.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
       });
+
+    // .addCase(deleteProfile.pending, (state) => {
+    //   state.isLoading = true;
+    // })
+    // .addCase(deleteProfile.fulfilled, (state, action) => {
+    //   state.profile?.filter((profile) => profile.id !== action.payload);
+    //   state.isLoading = false;
+    //   state.isError = false;
+    // })
+    // .addCase(deleteProfile.rejected, (state) => {
+    //   state.isLoading = false;
+    //   state.isError = true;
+    // });
   },
 });
 
