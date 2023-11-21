@@ -35,17 +35,15 @@ const ActiveVacancy:FC = () => {
       await dispatch(deleteVacancy(vacancyID));
 
       setSnackbarSeverity('success');
-      setSnackbarMessage('Вакансия успешно удалена.');
+      setSnackbarMessage('Вакансия успешно удалена');
     } catch (error) {
       console.error(error);
       setSnackbarSeverity('error');
-      setSnackbarMessage('Ошибка при удалении вакансии.');
+      setSnackbarMessage('Ошибка при удалении вакансии');
     }
 
     setSnackbarOpen(true);
   };
-
-  console.log(vacancyList);
 
   return (
     <>
@@ -67,7 +65,7 @@ const ActiveVacancy:FC = () => {
             <CircularProgress />
           </Box>
           )}
-          {isError && <Typography>Ошибка! Что-то пошло не так</Typography>}
+          {isError && <Typography variant="body1" sx={{ textAlign: 'center', paddingTop: '210px' }}>Ошибка! Что-то пошло не так</Typography>}
           {!isLoading && !isError && vacancyList?.length === 0 ? (
             <Box sx={{ textAlign: 'center', paddingTop: '210px' }}>
               <Typography variant="h3" color="#797981">

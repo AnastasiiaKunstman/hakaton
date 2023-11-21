@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable max-len */
-import React, { useState, useEffect, SyntheticEvent, SetStateAction } from 'react';
+import React, {
+  useState, useEffect, SyntheticEvent, SetStateAction,
+} from 'react';
 import {
   Table, TableBody, TableCell, TableHead, TableRow, Autocomplete,
   TableContainer, Grid, Box, Typography, Button, SvgIcon, CircularProgress, TextField,
@@ -94,7 +96,7 @@ function TableDynamic() {
         {/* Фильтры */}
         <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '20px' }}>
           <Grid padding={0} width="194px">
-            <Typography variant="caption" sx={{ marginBottom: '4px' }}>
+            <Typography variant="caption" fontWeight={500}>
               Город
             </Typography>
             <Autocomplete
@@ -104,18 +106,20 @@ function TableDynamic() {
               value={selectedLocation}
               isOptionEqualToValue={(option, value) => option.id === value.id}
               noOptionsText="Нет подходящих вариантов"
+              size="small"
               renderInput={(params) => (
                 <TextField
                   {...params}
                   type="text"
                   placeholder="Москва"
                   name="location"
+                  sx={{ marginTop: '4px' }}
                 />
               )}
             />
           </Grid>
           <Grid padding={0} width="194px">
-            <Typography variant="caption" sx={{ marginBottom: '4px' }}>
+            <Typography variant="caption" fontWeight={500}>
               Формат работы
             </Typography>
             <Autocomplete
@@ -128,13 +132,14 @@ function TableDynamic() {
                 setInputValue(newInputValue);
               }}
               id="controllable-states-demo"
+              size="small"
               options={schedule}
-              sx={{ width: '194px' }}
+              sx={{ width: '194px', marginTop: '4px' }}
               renderInput={(params) => <TextField {...params} placeholder="Офис" />}
             />
           </Grid>
           <Grid padding={0} width="250px">
-            <Typography variant="caption" sx={{ marginBottom: '4px' }}>
+            <Typography variant="caption" fontWeight={500}>
               Навыки
             </Typography>
             <Autocomplete
@@ -145,6 +150,7 @@ function TableDynamic() {
               onChange={handleSkillsChange}
               value={selectedSkills}
               filterSelectedOptions
+              size="small"
               noOptionsText="Нет подходящих вариантов"
               renderInput={(params) => (
                 <TextField
@@ -154,6 +160,7 @@ function TableDynamic() {
                       ? 'Java Script, CSS, HTML'
                       : ''
                   }
+                  sx={{ marginTop: '4px' }}
                 />
               )}
             />

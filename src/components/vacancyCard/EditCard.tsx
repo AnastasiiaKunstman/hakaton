@@ -132,7 +132,7 @@ const EditVacancy:FC<CardProps> = ({
       <LoggedUserHeader />
       <Box maxWidth="xl" sx={{ p: '0 118px' }}>
         <NavigationMenu />
-        <Box maxWidth="xl" key={card.id} sx={{ p: '28px 0 71px' }}>
+        <Box maxWidth="xl" key={card.id} sx={{ p: '20px 0 71px', height: '588px' }}>
 
           <form
             noValidate
@@ -163,7 +163,7 @@ const EditVacancy:FC<CardProps> = ({
           >
 
             <Grid container item xs={12}>
-              <Grid item container xs={5} flexDirection="column" marginRight="42px" width="39%">
+              <Grid item container xs={5} flexDirection="column" marginRight="42px" width="39%" height="588px">
                 <Grid sx={{ p: 0, mb: '20px' }}>
                   <Typography variant="body1" sx={{ marginBottom: '4px', fontWeight: '500' }}>
                     Вакансия
@@ -180,6 +180,7 @@ const EditVacancy:FC<CardProps> = ({
                     helperText={errors.name?.message}
                   />
                 </Grid>
+
                 <Grid
                   item
                   container
@@ -189,7 +190,10 @@ const EditVacancy:FC<CardProps> = ({
                     backgroundColor: '#F1F6FF',
                     borderRadius: '12px',
                     padding: '32px 40px',
-                    gap: '20px',
+                    gap: '16px',
+                    justifyContent: 'center',
+                    height: '500px',
+                    flexWrap: 'nowrap',
                   }}
                 >
                   <Grid container justifyContent="space-between" alignItems="center">
@@ -224,15 +228,44 @@ const EditVacancy:FC<CardProps> = ({
                     />
                   </Grid>
 
-                  <Grid padding={0}>
-                    <Typography variant="caption" fontWeight={500}>
-                      Срок поиска вакансии
-                    </Typography>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DemoContainer components={['DatePicker']} sx={{ p: 0 }}>
-                        <DatePicker format="DD.MM.YYYY" sx={{ width: '100%', backgroundColor: '#fff' }} disabled />
-                      </DemoContainer>
-                    </LocalizationProvider>
+                  <Grid
+                    container
+                    sx={{
+                      padding: '0',
+                      gap: '20px',
+                    }}
+                  >
+                    <Grid xs item>
+                      <Typography variant="caption" fontWeight={500}>
+                        Срок поиска вакансии
+                      </Typography>
+                      <Input
+                        type="text"
+                        size="small"
+                        placeholder="Диапазон действия"
+                        register={register}
+                        registerName="pub_date"
+                        error={!!errors.pub_date}
+                        helperText={errors.pub_date?.message}
+                      />
+                    </Grid>
+                    <Grid xs item>
+                      <Typography variant="caption" fontWeight={500}>
+                        Формат работы
+                      </Typography>
+                      <Input
+                        type="text"
+                        fullWidth
+                        size="small"
+                        placeholder="Офис"
+                        value={schedule}
+                        onChange={(e) => handleChange('schedule', e.target.value)}
+                        register={register}
+                        registerName="schedule"
+                        error={!!errors.schedule}
+                        helperText={errors.schedule?.message}
+                      />
+                    </Grid>
                   </Grid>
 
                   <Grid padding={0}>
@@ -250,24 +283,6 @@ const EditVacancy:FC<CardProps> = ({
                       registerName="location"
                       error={!!errors.location}
                       helperText={errors.location?.message}
-                    />
-                  </Grid>
-
-                  <Grid padding={0}>
-                    <Typography variant="caption" fontWeight={500}>
-                      Формат работы
-                    </Typography>
-                    <Input
-                      type="text"
-                      fullWidth
-                      size="small"
-                      placeholder="Офис"
-                      value={schedule}
-                      onChange={(e) => handleChange('schedule', e.target.value)}
-                      register={register}
-                      registerName="schedule"
-                      error={!!errors.schedule}
-                      helperText={errors.schedule?.message}
                     />
                   </Grid>
 
@@ -457,7 +472,6 @@ const EditVacancy:FC<CardProps> = ({
                     <Input
                       type="text"
                       fullWidth
-                      rows={3}
                       multiline
                       placeholder="Технологии, ключевые слова"
                       value={skillsString}
@@ -475,7 +489,7 @@ const EditVacancy:FC<CardProps> = ({
                     </Typography>
                     <Input
                       type="text"
-                      rows={16}
+                      rows={13}
                       fullWidth
                       multiline
                       name="text"
@@ -498,11 +512,11 @@ const EditVacancy:FC<CardProps> = ({
               }}
             >
               <Box className="edit-buttons" textAlign="center">
-                <Button className="edit-button" onClick={onDelete}>
-                  Удалить вакансию
-                </Button>
                 <Button className="edit-button" onClick={onCancel}>
                   Отмена
+                </Button>
+                <Button className="edit-button" onClick={onDelete}>
+                  Удалить вакансию
                 </Button>
               </Box>
               <Box className="edit-buttons">

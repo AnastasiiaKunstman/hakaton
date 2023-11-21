@@ -56,7 +56,7 @@ export const registrationShema = yup.object().shape({
       'Пароль должен содержать хотя бы одну заглавную букву (A-Z)',
     )
     .required('Пароль обязателен для заполнения'),
-  phone: yup
+  phone_number: yup
     .string()
     .required('Телефон обязателен')
     .matches(
@@ -75,6 +75,7 @@ export const vacancyShema = yup.object().shape({
   required_education_level: yup.string().required('Заполните поле'),
   required_skills: yup.string(),
   text: yup.string().required('Заполните поле'),
+  pub_date: yup.string(),
 });
 
 export const filterShema = yup.object().shape({

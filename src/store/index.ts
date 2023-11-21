@@ -22,14 +22,11 @@ export { createVacancy, getVacancies, getVacancy } from './vacancy/vacancySlice'
 
 export { default as searchReducer } from './search/searchSlice';
 export { default as searchService } from './search/searchService';
-// export { getStudents, setQuery } from './search/searchSlice';
-
-export { default as cardReducer } from './card/cardSlice';
-export { default as cardService } from './card/cardService';
-export {
-  getCards, setQuery, closeCard, deleteCard, getVacancyCard,
-} from './card/cardSlice';
 
 export { default as studentReducer } from './students/studentSlice';
 export { default as studentService } from './students/studentService';
 export { getStudents } from './students/studentSlice';
+
+export { default as profileReducer } from './profile/profileSlice';
+export { default as profileService } from './profile/profileService';
+export { getProfile, deleteProfile, updateProfile } from './profile/profileSlice';

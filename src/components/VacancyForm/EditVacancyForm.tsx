@@ -118,7 +118,7 @@ function EditVacancyForm({ vacancy }: VacancyEditProps) {
   };
 
   return (
-    <Box maxWidth="xl" sx={{ p: '50px 0 0' }}>
+    <Box maxWidth="xl" sx={{ p: '50px 0 0', height: '588px' }}>
 
       <form
         noValidate
@@ -137,7 +137,7 @@ function EditVacancyForm({ vacancy }: VacancyEditProps) {
       >
 
         <Grid container item xs={12}>
-          <Grid item container xs={5} flexDirection="column" marginRight="42px" width="39%">
+          <Grid item container xs={5} flexDirection="column" marginRight="42px" width="39%" height="588px">
             <Grid sx={{ p: 0, mb: '20px' }}>
               <Typography variant="body1" sx={{ marginBottom: '4px', fontWeight: '500' }}>
                 Вакансия
@@ -154,6 +154,7 @@ function EditVacancyForm({ vacancy }: VacancyEditProps) {
                 helperText={errors.name?.message}
               />
             </Grid>
+
             <Grid
               item
               container
@@ -163,7 +164,10 @@ function EditVacancyForm({ vacancy }: VacancyEditProps) {
                 backgroundColor: '#F1F6FF',
                 borderRadius: '12px',
                 padding: '32px 40px',
-                gap: '20px',
+                gap: '16px',
+                justifyContent: 'center',
+                height: '500px',
+                flexWrap: 'nowrap',
               }}
             >
               <Grid container justifyContent="space-between" alignItems="center">
@@ -196,17 +200,48 @@ function EditVacancyForm({ vacancy }: VacancyEditProps) {
                 />
               </Grid>
 
-              <Grid padding={0}>
-                <Typography variant="caption">
-                  Срок поиска вакансии
-                </Typography>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={['DatePicker']}>
-                    <DatePicker format="DD.MM.YYYY" sx={{ width: '100%' }} />
-                  </DemoContainer>
-                </LocalizationProvider>
-              </Grid>
+              <Grid
+                container
+                sx={{
+                  padding: '0',
+                  gap: '20px',
+                }}
+              >
+                <Grid xs item>
+                  <Typography variant="caption" fontWeight={500}>
+                    Срок поиска вакансии
+                  </Typography>
+                  <Input
+                    type="text"
+                    size="small"
+                    placeholder="Диапазон действия"
+                    register={register}
+                    registerName="pub_date"
+                    error={!!errors.pub_date}
+                    helperText={errors.pub_date?.message}
+                  />
+                </Grid>
+                <Grid xs item>
+                  <Typography variant="caption" fontWeight={500}>
+                    Формат работы
+                  </Typography>
+                  <Controller
+                    name="schedule"
+                    control={control}
+                    defaultValue="" // Установите значение по умолчанию, если нужно
+                    render={({ field }) => (
+                      <Select {...field} fullWidth>
+                        {schedulesOpt.map((option) => (
+                          <MenuItem key={option.id} value={option.id}>
+                            {option.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
+                </Grid>
 
+              </Grid>
               <Grid padding={0}>
                 <Typography variant="caption" sx={{ marginBottom: '4px' }}>
                   Локация
@@ -228,26 +263,6 @@ function EditVacancyForm({ vacancy }: VacancyEditProps) {
                       error={!!errors.location}
                       helperText={errors.location?.message}
                     />
-                  )}
-                />
-              </Grid>
-
-              <Grid padding={0}>
-                <Typography id="schedule_select_id_label">
-                  Формат работы
-                </Typography>
-                <Controller
-                  name="schedule"
-                  control={control}
-                  defaultValue="" // Установите значение по умолчанию, если нужно
-                  render={({ field }) => (
-                    <Select {...field} fullWidth>
-                      {schedulesOpt.map((option) => (
-                        <MenuItem key={option.id} value={option.id}>
-                          {option.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
                   )}
                 />
               </Grid>

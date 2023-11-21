@@ -20,6 +20,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { createVacancy } from '../../store';
 import { vacancyShema } from '../../utils/index';
@@ -28,7 +29,6 @@ import Delete from '../../images/delete.svg';
 import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
 import Snackbars from '../SnackBars/SnackBars';
-import { useNavigate } from 'react-router-dom';
 
 type TSelectedOpt = {
   id: number
@@ -81,7 +81,7 @@ function VacancyForm() {
   };
 
   return (
-    <Box maxWidth="xl" sx={{ p: '28px 0 71px' }}>
+    <Box maxWidth="xl" sx={{ p: '20px 0 71px', height: '588px' }}>
 
       <form
         noValidate
@@ -115,7 +115,7 @@ function VacancyForm() {
       >
 
         <Grid container item xs={12}>
-          <Grid item container xs={5} flexDirection="column" marginRight="42px" width="39%">
+          <Grid item container xs={5} flexDirection="column" marginRight="42px" width="39%" height="588px">
             <Grid sx={{ p: 0, mb: '20px' }}>
               <Typography variant="body1" sx={{ marginBottom: '4px', fontWeight: '500' }}>
                 Вакансия
@@ -130,6 +130,7 @@ function VacancyForm() {
                 helperText={errors.name?.message}
               />
             </Grid>
+
             <Grid
               item
               container
@@ -139,7 +140,10 @@ function VacancyForm() {
                 backgroundColor: '#F1F6FF',
                 borderRadius: '12px',
                 padding: '32px 40px',
-                gap: '20px',
+                gap: '16px',
+                justifyContent: 'center',
+                height: '500px',
+                flexWrap: 'nowrap',
               }}
             >
               <Grid container justifyContent="space-between" alignItems="center">
@@ -170,16 +174,51 @@ function VacancyForm() {
                   helperText={errors.salary?.message}
                 />
               </Grid>
-
-              <Grid padding={0}>
-                <Typography variant="caption" fontWeight={500}>
-                  Срок поиска вакансии
-                </Typography>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={['DatePicker']} sx={{ p: 0 }}>
-                    <DatePicker format="DD.MM.YYYY" sx={{ width: '100%', backgroundColor: '#fff' }} />
-                  </DemoContainer>
-                </LocalizationProvider>
+              <Grid
+                container
+                sx={{
+                  padding: '0',
+                  gap: '20px',
+                }}
+              >
+                <Grid xs item>
+                  <Typography variant="caption" fontWeight={500}>
+                    Срок поиска вакансии
+                  </Typography>
+                  <Input
+                    type="text"
+                    size="small"
+                    placeholder="Диапазон действия"
+                    register={register}
+                    registerName="pub_date"
+                    error={!!errors.pub_date}
+                    helperText={errors.pub_date?.message}
+                  />
+                </Grid>
+                <Grid xs item>
+                  <Typography variant="caption" fontWeight={500}>
+                    Формат работы
+                  </Typography>
+                  <Controller
+                    name="schedule"
+                    control={control}
+                    defaultValue="" // значение по умолчанию, если нужно
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        fullWidth
+                        size="small"
+                        sx={{ marginTop: '4px', backgroundColor: '#fff' }}
+                      >
+                        {schedulesOpt.map((option) => (
+                          <MenuItem key={option.id} value={option.id}>
+                            {option.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    )}
+                  />
+                </Grid>
               </Grid>
 
               <Grid padding={0}>
@@ -198,31 +237,6 @@ function VacancyForm() {
                       sx={{ marginTop: '4px', backgroundColor: '#fff' }}
                     >
                       {locationsOpt.map((option) => (
-                        <MenuItem key={option.id} value={option.id}>
-                          {option.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  )}
-                />
-              </Grid>
-
-              <Grid padding={0}>
-                <Typography variant="caption" fontWeight={500}>
-                  Формат работы
-                </Typography>
-                <Controller
-                  name="schedule"
-                  control={control}
-                  defaultValue="" // значение по умолчанию, если нужно
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      fullWidth
-                      size="small"
-                      sx={{ marginTop: '4px', backgroundColor: '#fff' }}
-                    >
-                      {schedulesOpt.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
                           {option.name}
                         </MenuItem>
@@ -288,7 +302,6 @@ function VacancyForm() {
                   />
                 </Grid>
               </Grid>
-
               <Grid
                 container
                 sx={{
@@ -460,7 +473,7 @@ function VacancyForm() {
                 </Typography>
                 <Input
                   type="text"
-                  rows={19}
+                  rows={13}
                   fullWidth
                   multiline
                   name="text"

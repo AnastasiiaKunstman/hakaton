@@ -4,12 +4,12 @@ import {
 } from '@mui/material';
 import { useAppSelector } from '../../store/hooks';
 
-function VacancyFilter() {
+function LocationFilter() {
   const [value, setValue] = React.useState<string | null>(null);
   const [inputValue, setInputValue] = React.useState('');
 
-  const { specializationsOpt } = useAppSelector((state) => state.filters);
-  const specialization = specializationsOpt.map((options) => options.name);
+  const { locationsOpt } = useAppSelector((state) => state.filters);
+  const location = locationsOpt.map((options) => options.name);
 
   return (
     <Box>
@@ -17,12 +17,11 @@ function VacancyFilter() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        gap: '8px',
+        gap: '4px',
         maxWidth: '438px',
-        marginTop: '20px',
       }}
       >
-        <Typography variant="subtitle1" fontWeight={500}>Вакансия</Typography>
+        <Typography variant="subtitle1" fontWeight={500}>Регион</Typography>
         <Autocomplete
           value={value}
           onChange={(event: any, newValue: string | null) => {
@@ -35,12 +34,12 @@ function VacancyFilter() {
           id="controllable-states-demo"
           fullWidth
           size="small"
-          options={specialization}
-          renderInput={(params) => <TextField {...params} placeholder="Например, Fronend разработчик" />}
+          options={location}
+          renderInput={(params) => <TextField {...params} placeholder="Москва" />}
         />
       </Box>
     </Box>
   );
 }
 
-export default VacancyFilter;
+export default LocationFilter;

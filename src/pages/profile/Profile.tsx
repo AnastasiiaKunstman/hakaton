@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Link } from 'react-router-dom';
+/* eslint-disable react/function-component-definition */
+import { useNavigate } from 'react-router-dom';
 import {
   Avatar,
   Typography,
@@ -8,135 +8,89 @@ import {
   Button,
   Box,
   IconButton,
-  InputAdornment,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import LogoutIcon from '@mui/icons-material/Logout';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SearchIcon from '@mui/icons-material/Search';
-import { useState, ChangeEvent, FC } from 'react';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { useState, useEffect, FC } from 'react';
+import Location from '../../images/location.svg';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
-import { registrationShema } from '../../utils/validation/yupSchema';
+import { getProfile, IProfile } from '../../store/profile/profileSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { IVacancy, getVacancies } from '../../store/vacancy/vacancySlice';
+import EditProfile from './EditProfile';
 
-const testData = {
-  avatar: 'https://images.unsplash.com/photo-1693438672953-409b661134fd?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDEwNnx0b3dKWkZza3BHZ3x8ZW58MHx8fHx8',
-  firstName: 'Марина',
-  lastName: 'Егорова',
-  email: 'MarinaHr@mail.ru',
-  telegram: '@good-hr',
-  phoneNumber: '88005553535',
-  company: 'Yandex',
-  password: 'secretWeShouldNotShow!1',
-  info: 'Менеджер по подбору персонала',
-};
+const Profile:FC = () => {
+  const profile = useAppSelector((state) => state.profile.profile);
+  const { vacancyList } = useAppSelector((state) => state.vacancies);
 
-function Profile() {
-  const {
-    register,
-    formState: { errors },
-    // handleSubmit,
-  } = useForm({
-    resolver: yupResolver(registrationShema),
-  });
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getVacancies());
+    dispatch(getProfile());
+  }, [dispatch]);
+
   const [isProfileEdit, setIsProfileEdit] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [telegram, setTelegram] = useState('');
-  const [company, setCompany] = useState('');
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget as HTMLInputElement;
-    const fieldName = (e.currentTarget as HTMLInputElement).id;
-    switch (fieldName) {
-      case 'firstName':
-        setFirstName(value);
-        break;
-      case 'lastName':
-        setLastName(value);
-        break;
-      case 'telegram':
-        setTelegram(value);
-        break;
-      case 'email':
-        setEmail(value);
-        break;
-      case 'phoneNumber':
-        setPhoneNumber(value);
-        break;
-      case 'company':
-        setCompany(value);
-        break;
-      case 'password':
-        setPassword(value);
-        break;
-      default:
-        break;
+  const [profileData, setProfileData] = useState<IProfile | null>(profile ? { ...profile } : null);
+
+  useEffect(() => {
+    if (profile) {
+      setProfileData(profile);
     }
-  };
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   interface UpdateData {
-  //     email: string,
-  //     password: string,
-  //     firstName: string,
-  //     lastName: string,
-  //     company: string,
-  //     phoneNumber: string,
-  //     telegram: string,
-  //   }
-  //   const updateData: UpdateData = {
-  //     email,
-  //     password,
-  //     firstName,
-  //     lastName,
-  //     company,
-  //     phoneNumber,
-  //     telegram,
-  //   };
-  // };
+  }, [profile]);
 
   const handleEditClick = () => {
     setIsProfileEdit(!isProfileEdit);
   };
 
+  const navigate = useNavigate();
+
+  const handleProfileFClose = () => {
+    navigate(-1);
+  };
+
+  const handleChange = (field: string, value: string) => {
+    setProfileData((prevData) => {
+      if (prevData === null) {
+        return null;
+      }
+
+      return { ...prevData, [field]: value };
+    });
+  };
+
+  // console.log(vacancyList);
+  // console.log(profileData);
+
   return (
-    <Box sx={{ pb: '64px', height: '100vh' }}>
+    <Box sx={{ height: '100vh' }}>
       <LoggedUserHeader />
-      <Box sx={{ p: '28px 117px 0' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            mb: 2,
-          }}
-        >
-          <Typography variant="h2" sx={{ fontWeight: 500 }}>
-            Информация профиля
-          </Typography>
-          <IconButton
-            color="inherit"
-            onClick={() => {}}
-            component={Link}
-            to="/login"
-          >
-            <LogoutIcon />
-          </IconButton>
-        </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '28px 117px 20px',
+        }}
+      >
+        <Typography variant="h2" sx={{ fontWeight: 500, lineHeight: '130%' }}>
+          Информация профиля
+        </Typography>
+        <IconButton color="inherit" onClick={handleProfileFClose}>
+          <LogoutIcon />
+        </IconButton>
+      </Box>
+      <Box sx={{ p: '14px 117px 50px' }}>
         {!isProfileEdit
           ? (
-            <Grid container columnSpacing={2} rowSpacing={5}>
+            <Grid container gap="20px">
               <Grid
                 item
-                xs={12}
-                sm={5}
-                md={5}
+                xs={5}
+                sx={{
+                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '20px',
+                }}
               >
                 <Box
                   sx={{
@@ -149,20 +103,16 @@ function Profile() {
                     alignItems: 'center',
                   }}
                 >
-                  <Avatar
-                    alt={testData.firstName}
-                    src={testData.avatar}
-                    sx={{ height: '60px', width: '60px', mr: 2 }}
-                  />
+                  <Avatar alt="Аватар" src={profileData?.avatar} sx={{ height: '60px', width: '60px', mr: 2 }} />
                   <Box>
                     <Typography variant="h3" sx={{ fontWeight: 500, maxWidth: 300, mb: '8px' }}>
-                      {`${testData.lastName} ${testData.firstName}`}
+                      {profileData ? `${profileData.last_name} ${profileData.first_name}` : ''}
                     </Typography>
                     <Typography variant="body1" sx={{ maxWidth: 300 }}>
-                      {testData.info}
+                      Информация
                     </Typography>
                     <Typography variant="body1" sx={{ color: '#5A9BFF' }}>
-                      {testData.email}
+                      {profileData?.email}
                     </Typography>
                     <IconButton
                       sx={{
@@ -178,110 +128,154 @@ function Profile() {
                     </IconButton>
                   </Box>
                 </Box>
-                <Box
+                <Grid
+                  xs
+                  item
                   sx={{
                     border: '1px solid rgba(0, 0, 0, .2)',
                     borderRadius: '12px',
-                    p: 2,
-                    pr: 3,
-                    mt: 2,
-                    position: 'relative',
-                    height: '550px',
+                    padding: '16px 16px 32px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '20px',
+                    justifyContent: 'space-between',
                   }}
                 >
-                  <Typography variant="body1">
-                    Шаблон
-                  </Typography>
-                  <Box
-                    sx={{
-                      borderRadius: '12px',
-                      mt: '28px',
-                      p: 1,
-                      height: '196px',
-                    }}
-                  >
-                    <Typography variant="body2" sx={{ color: '#797981' }}>
-                      В разработке
+                  <Grid>
+                    <Typography variant="caption" fontWeight={500}>
+                      Шаблон
                     </Typography>
-                  </Box>
-                  <Button
-                    onClick={handleEditClick}
-                    sx={{
-                      width: '30px',
-                      height: '30px',
-                      position: 'absolute',
-                      top: 10,
-                      right: 10,
+                    <TextField
+                      fullWidth
+                      placeholder="Здесь будет шаблон"
+                      sx={{ color: '#797981', marginTop: '4px', borderRadius: '4px' }}
+                      variant="outlined"
+                      multiline
+                      minRows={2}
+                      maxRows={12}
+                    />
+                  </Grid>
+                  <Grid>
+                    <Typography variant="caption" fontWeight={500}>
+                      Ссылка или файл
+                    </Typography>
+                    <Box sx={{
+                      display: 'flex', gap: '20px', justifyContent: 'space-between', marginTop: '4px',
                     }}
-                  >
-                    <EditIcon fontSize="small" />
-                  </Button>
-                </Box>
+                    >
+                      <TextField
+                        fullWidth
+                        placeholder="Подготовьте заранее письмо или ссылку на тестовое задание"
+                        sx={{
+                          color: '#797981', borderRadius: '4px',
+                        }}
+                        variant="outlined"
+                        size="small"
+                      />
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          width: '40%', borderRadius: '6px', border: '1px solid #1D6BF3', color: '#1D6BF3', fontFamily: 'YS Text', fontSize: '14px', fontWeight: 500, lineHeight: '20px',
+                        }}
+                      >
+                        Отправить
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
               </Grid>
 
-              <Grid item xs={12} sm={7}>
+              <Grid item xs>
                 <Box
                   sx={{
                     border: '1px solid rgba(0, 0, 0, .2)',
                     borderRadius: '12px',
-                    p: 2,
+                    padding: '16px 16px 32px',
                     position: 'relative',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '20px',
-                    height: '673px',
+                    height: 'max-content',
                   }}
                 >
                   <Box>
                     <Typography variant="h3" sx={{ fontWeight: 500, mb: '8px' }}>
-                      {testData.company}
+                      {profileData?.company}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#797981' }}>
-                      <LocationOnIcon fontSize="small" />
-                      Москва
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <img style={{ width: '24px', height: '24px' }} className="img__location" src={Location} alt="Локация" />
+                      <Typography variant="body2" sx={{ color: '#797981' }}>
+                        Москва
+                      </Typography>
+                    </Box>
                   </Box>
                   <Box>
-                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px' }}>
-                      Вакансии в работе
+                    <Typography variant="caption" fontWeight={500} sx={{ mb: '4px' }}>
+                      Вакансии в работе:
+                      {' '}
+                      {`${vacancyList.length === 0 ? 'У вас еще нет активных вакансий' : `${vacancyList.length}`}`}
                     </Typography>
-                    <TextField
-                      fullWidth
-                      placeholder="У вас еще нет активных вакансий"
-                      variant="outlined"
-                      sx={{ maxWidth: 600, border: 'none' }}
-                    />
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+                      {vacancyList.map((vacancies: IVacancy) => (
+                        <Box
+                          key={vacancies.id}
+                          sx={{
+                            borderRadius: '4px',
+                            backgroundColor: '#F1F6FF',
+                            color: '#1A1B22',
+                            textAlign: 'center',
+                            height: 'min-content',
+                            width: 'max-content',
+                            padding: '6px 12px',
+                            margin: '4px',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <Typography variant="body2" lineHeight="16px">{vacancies.name}</Typography>
+                        </Box>
+                      ))}
+                    </Box>
                   </Box>
                   <Box>
-                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px' }}>
+                    <Typography variant="caption" fontWeight={500}>
                       Сфера деятельности
                     </Typography>
-                    <TextField
-                      fullWidth
-                      placeholder="В разработке"
-                      variant="outlined"
-                      sx={{ maxWidth: 600 }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <SearchIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
+                    <Box sx={{
+                      display: 'flex', gap: '20px', alignItems: 'center', marginTop: '4px',
+                    }}
+                    >
+                      <TextField
+                        fullWidth
+                        size="small"
+                        placeholder="Например, Fintech"
+                        variant="outlined"
+                        sx={{ width: '50%', borderRadius: '4px' }}
+                      />
+                      <Typography variant="body2" sx={{ mb: '8px', color: '#5A9BFF', width: '50%' }}>
+                        Укажите деятельность — это улучшит качество поиска и авто-подбора кандидатов
+                      </Typography>
+                    </Box>
                   </Box>
                   <Box>
-                    <Typography variant="body1" fontWeight={500} sx={{ mb: '8px' }}>
+                    <Typography variant="caption" fontWeight={500}>
                       Описание
                     </Typography>
-                    <TextField
-                      placeholder="В разработке"
-                      fullWidth
-                      variant="outlined"
-                      sx={{ maxWidth: 600 }}
-                      multiline
-                      rows={12.5}
-                    />
+                    <Box sx={{
+                      display: 'flex', gap: '20px', alignItems: 'center', marginTop: '4px',
+                    }}
+                    >
+                      <TextField
+                        placeholder="Подсказка"
+                        variant="outlined"
+                        sx={{ width: '50%', borderRadius: '4px' }}
+                        multiline
+                        minRows={1}
+                        maxRows={12}
+                      />
+                      <Typography variant="body2" sx={{ mb: '8px', color: '#5A9BFF', width: '50%' }}>
+                        Описание кампании сэкономит время и увеличит отклики к вакансии
+                      </Typography>
+                    </Box>
                     <IconButton
                       sx={{
                         width: 30,
@@ -300,170 +294,15 @@ function Profile() {
             </Grid>
           )
           : (
-            <form noValidate>
-              <Grid container spacing={4}>
-                <Grid
-                  item
-                  xs={12}
-                  sm={5}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      mb: 2,
-                    }}
-                  >
-                    <Avatar
-                      alt={testData.firstName}
-                      src={testData.avatar}
-                      sx={{
-                        width: 60,
-                        height: 60,
-                        mr: 8,
-                      }}
-                    />
-                    <Box>
-                      <TextField
-                        sx={{
-                          mb: 2,
-                        }}
-                        required
-                        fullWidth
-                        id="firstName"
-                        label="Имя"
-                        variant="outlined"
-                        defaultValue={testData.firstName}
-                        error={!!errors.first_name}
-                        helperText={errors.first_name ? `${errors.first_name.message}` : ''}
-                        {...register('first_name')}
-                        onChange={handleChange}
-                      />
-                      <TextField
-                        required
-                        fullWidth
-                        id="lastName"
-                        label="Фамилия"
-                        variant="outlined"
-                        defaultValue={testData.lastName}
-                        error={!!errors.last_name}
-                        helperText={errors.last_name ? `${errors.last_name.message}` : ''}
-                        {...register('last_name')}
-                        onChange={handleChange}
-                      />
-                    </Box>
-                  </Box>
-                  <TextField
-                    id="avatar"
-                    fullWidth
-                    label="Аватар"
-                    variant="outlined"
-                    defaultValue={testData.avatar}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={7}
-                >
-                  <TextField
-                    sx={{
-                      mb: 2,
-                    }}
-                    fullWidth
-                    id="company"
-                    label="Компания"
-                    variant="outlined"
-                    defaultValue={testData.company}
-                    onChange={handleChange}
-                  />
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="email"
-                        label="E-mail"
-                        variant="outlined"
-                        defaultValue={testData.email}
-                        error={!!errors.email}
-                        helperText={errors.email ? `${errors.email.message}` : ''}
-                        {...register('email')}
-                        onChange={handleChange}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="password"
-                        label="Пароль"
-                        variant="outlined"
-                        defaultValue={testData.password}
-                        error={!!errors.password}
-                        helperText={errors.password ? `${errors.password.message}` : ''}
-                        {...register('password')}
-                        onChange={handleChange}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        id="telegram"
-                        label="Telegram"
-                        variant="outlined"
-                        defaultValue={testData.telegram}
-                        onChange={handleChange}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        id="phoneNumber"
-                        label="Номер телефона"
-                        variant="outlined"
-                        defaultValue={testData.phoneNumber}
-                        error={!!errors.phone}
-                        helperText={errors.phone ? `${errors.phone.message}` : ''}
-                        {...register('phone')}
-                        onChange={handleChange}
-                      />
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'end',
-                  mt: 3,
-                }}
-              >
-                <Button
-                  sx={{
-                    mr: 2,
-                  }}
-                  variant="text"
-                  color="inherit"
-                  onClick={handleEditClick}
-                >
-                  Отмена
-                </Button>
-                <Button
-                  color="primary"
-                  type="submit"
-                  variant="contained"
-                  onClick={() => {}}
-                >
-                  Сохранить изменения
-                </Button>
-              </Box>
-            </form>
+            <EditProfile
+              key={profile?.id}
+              onChange={handleChange}
+              onClick={handleEditClick}
+            />
           )}
       </Box>
     </Box>
   );
-}
+};
 
 export default Profile;

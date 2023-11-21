@@ -2,16 +2,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 import {
-  Card, CardContent, Box, Typography, Button, SvgIcon, IconButton, Dialog,
+  Card, CardContent, Box, Typography, Button, SvgIcon, IconButton, Dialog, DialogContent,
 } from '@mui/material';
 import './vacancyCard.scss';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { closeCard, getVacancyCard } from '../../store/card/cardSlice';
 import { useAppDispatch } from '../../store/hooks';
-import { IVacancy, updateVacancy } from '../../store/vacancy/vacancySlice';
+import {
+  IVacancy, updateVacancy,
+} from '../../store/vacancy/vacancySlice';
 import EditVacancy from './EditCard';
+import DelCard from './DelCard';
 
 interface VacancyCardProps {
   card: IVacancy
@@ -19,7 +21,8 @@ interface VacancyCardProps {
 }
 
 function VacancyCard({ card, onDelete }: VacancyCardProps) {
-  const [open, setOpen] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const dispatch = useAppDispatch();
 
   const skillsString = card.required_skills.map((name) => name.name);
@@ -27,27 +30,29 @@ function VacancyCard({ card, onDelete }: VacancyCardProps) {
   const educationLevel = card.required_education_level.map((name) => name.name);
   const schedule = card.schedule.map((name) => name.name).join(', ');
 
-  const handelOpenPopup = () => {
-    if (open === true) {
-      setOpen(false);
-      dispatch(closeCard());
-    } else {
-      setOpen(true);
-    }
-  };
-
   const onClickCard = () => {
-    handelOpenPopup();
-    dispatch(getVacancyCard(card.id));
+    setOpenEditDialog(true);
+    setOpenDeleteDialog(false);
   };
 
   const handleSaveChanges = (updatedData: any) => {
     dispatch(updateVacancy(updatedData));
-    setOpen(false);
+    setOpenEditDialog(false);
   };
 
-  const handleCloseDialog = () => {
-    setOpen(false);
+  const onDeleteCard = () => {
+    setOpenDeleteDialog(true);
+    setOpenEditDialog(false);
+  };
+
+  const handleDelete = () => {
+    onDelete();
+    setOpenDeleteDialog(false);
+  };
+
+  const handleCloseDialogs = () => {
+    setOpenEditDialog(false);
+    setOpenDeleteDialog(false);
   };
 
   return (
@@ -77,7 +82,7 @@ function VacancyCard({ card, onDelete }: VacancyCardProps) {
                   </svg>
                 </SvgIcon>
               </IconButton>
-              <IconButton sx={{ width: '24px', height: '24px', padding: 0 }} onClick={onDelete}>
+              <IconButton sx={{ width: '24px', height: '24px', padding: 0 }} onClick={onDeleteCard}>
                 <SvgIcon>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M18 6C17.8125 5.81253 17.5582 5.70721 17.293 5.70721C17.0278 5.70721 16.7735 5.81253 16.586 6L12 10.586L7.414 6C7.22647 5.81253 6.97216 5.70721 6.707 5.70721C6.44184 5.70721 6.18753 5.81253 6 6C5.81253 6.18753 5.70721 6.44184 5.70721 6.707C5.70721 6.97216 5.81253 7.22647 6 7.414L10.586 12L6 16.586C5.81253 16.7735 5.70721 17.0278 5.70721 17.293C5.70721 17.5582 5.81253 17.8125 6 18C6.18753 18.1875 6.44184 18.2928 6.707 18.2928C6.97216 18.2928 7.22647 18.1875 7.414 18L12 13.414L16.586 18C16.7735 18.1875 17.0278 18.2928 17.293 18.2928C17.5582 18.2928 17.8125 18.1875 18 18C18.1875 17.8125 18.2928 17.5582 18.2928 17.293C18.2928 17.0278 18.1875 16.7735 18 16.586L13.414 12L18 7.414C18.1875 7.22647 18.2928 6.97216 18.2928 6.707C18.2928 6.44184 18.1875 6.18753 18 6Z" fill="#797981" />
@@ -128,7 +133,7 @@ function VacancyCard({ card, onDelete }: VacancyCardProps) {
         </CardContent>
       </Card>
 
-      <Dialog fullScreen onClose={handelOpenPopup} aria-labelledby="customized-dialog-title" open={open}>
+      <Dialog fullScreen onClose={handleCloseDialogs} aria-labelledby="customized-dialog-title" open={openEditDialog}>
         <EditVacancy
           key={card.id}
           card={card}
@@ -136,9 +141,27 @@ function VacancyCard({ card, onDelete }: VacancyCardProps) {
           skillsString={skillsString}
           educationLevel={educationLevel}
           schedule={schedule}
-          onDelete={onDelete}
-          onCancel={handleCloseDialog}
+          onDelete={onDeleteCard}
+          onCancel={handleCloseDialogs}
         />
+      </Dialog>
+
+      <Dialog maxWidth="lg" onClose={handleCloseDialogs} open={openDeleteDialog}>
+        <DialogContent sx={{
+          width: '430px',
+          height: '230px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        >
+          <DelCard
+            key={card.id}
+            card={card}
+            onDelete={handleDelete}
+            onCancel={handleCloseDialogs}
+          />
+        </DialogContent>
       </Dialog>
     </>
   );

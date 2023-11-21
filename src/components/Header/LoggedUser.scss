@@ -1,0 +1,19 @@
+.img__logo {
+    width: 20px;
+    height: 18px;
+    cursor: pointer;
+
+    &:hover {
+        opacity: .7;
+    }
+}
+
+.img__header {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+
+    &:hover {
+        opacity: .7;
+    }
+}

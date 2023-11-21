@@ -1,17 +1,17 @@
-# Group-project  
-frontend часть командного проекта в рамках хакатона 
+# YA.PRACTICUM X CAREER TRECK
+Frontend часть командного проекта в рамках хакатона 
 Яндекс Практикум Х Карьерный трек'10.23
 
 ## Над проектом трудились :
-* Yulia Gladysheva - https://github.com/init-yulya
-* Anastasiia Kunstman -  https://github.com/AnastasiiaKunstman
-* Nikita Khomenko - https://github.com/NikitKhom
+* 🙋‍♀️ [Anastasiia Kunstman]
+* [Yulia Gladysheva]
+* [Nikita Khomenko]
 
 ## На этом сайте пользватель сможет:
 Внимание!Проект в процессе доработки!
 
 * Пройти регистрацию с подтверждением
-* Заполнить и в дальнейшем редактировать свой профиль
+* Заполнить и в дальнейшем отредактировать свой профиль
 * Создавать вакнсии и отслеживать/влиять на их статус (вакансию можно отредактировать, удалить, переместить в архив, переместить из архива снова в активные и тп)
 * Просматривать кандидатов, перемещать их в избранное, связываться с ними, фильтровать по заданным параметрам и тп.
 * Открывать и просматривать карточки кандидатов
@@ -19,18 +19,53 @@ frontend часть командного проекта в рамках хака
 ## Используемые технологии
 
 * Ract
+* React Router
 * Redux Toolkit
+* JavaScript
 * TypeScript
 * Material UI
 * Vite
+* Yup
+
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+![Material UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white)
 
 ## Инструкция по сборке
 
-* Клонировать ветку "main" на локальный компьютер - git clone + cсылка
-* Перейти в папку с проектом - cd group-project
-* Установить зависимости - npm install
-* Запустить проект - npm run dev
+✅ Клонировать ветку "main" на локальный компьютер
+
+```
+git clone git@github.com:AnastasiiaKunstman/hakaton.git
+
+```
+✅ Перейти в папку с проектом
+
+```
+cd hakaton
+
+```
+✅ Установить зависимости
+
+```
+npm install
+
+```
+✅ Запустить проект
+
+```
+npm run dev
+
+```
 
 ## Ссылки на проект
 
-Frontend https://group-project-one.vercel.app/
+Frontend: https://hakaton-8fo3lnvnf-anastasiias-projects-4665bb4a.vercel.app/sign-in
+
+
+[Anastasiia Kunstman]: <https://github.com/AnastasiiaKunstman>
+[Yulia Gladysheva]: <https://github.com/init-yulya>
+[Nikita Khomenko]: <https://github.com/NikitKhom>
