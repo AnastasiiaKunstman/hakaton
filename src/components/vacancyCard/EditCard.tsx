@@ -67,8 +67,6 @@ const EditVacancy:FC<CardProps> = ({
       });
   };
 
-  // console.log(card);
-
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
