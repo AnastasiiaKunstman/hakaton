@@ -25,8 +25,7 @@ function TableDynamic() {
   const dispatch = useAppDispatch();
   const location = useLocation();
 
-  const results = useAppSelector((state) => state.student.results);
-  const { isLoading, isError } = useAppSelector((state) => state.student);
+  const { results, isLoading, isError } = useAppSelector((state) => state.student);
 
   useEffect(() => {
     dispatch(getStudents());
@@ -149,7 +148,6 @@ function TableDynamic() {
               onInputChange={(event, newInputValue) => {
                 setInputValue(newInputValue);
               }}
-              id="controllable-states-demo"
               size="small"
               options={schedule}
               sx={{ width: '194px', marginTop: '4px' }}
@@ -222,25 +220,25 @@ function TableDynamic() {
               )}
 
               {location.pathname === '/students/'
-        && results?.map((student) => (
-          <TableActive
-            key={student.id}
-            student={student}
-            onLike={(id, isFavorite) => handleLikeStudent(id, isFavorite)}
-            onDelete={(id, isFavorite) => handleDislikeStudent(id, isFavorite)}
-          />
-        ))}
+                && results?.map((student) => (
+                  <TableActive
+                    key={student.id}
+                    student={student}
+                    onLike={(id, isFavorite) => handleLikeStudent(id, isFavorite)}
+                    onDelete={(id, isFavorite) => handleDislikeStudent(id, isFavorite)}
+                  />
+                ))}
 
               {location.pathname === '/students/save/'
-  && results?.filter((student) => student.is_favorited) // Отфильтровываем только тех студентов, у которых is_favorited: true
-    .map((student) => (
-      <TableActive
-        key={student.id}
-        student={student}
-        onLike={(id, isFavorite) => handleLikeStudent(id, isFavorite)}
-        onDelete={(id, isFavorite) => handleDislikeStudent(id, isFavorite)}
-      />
-    ))}
+                && results?.filter((student) => student.is_favorited) // Отфильтровываем только тех студентов, у которых is_favorited: true
+                  .map((student) => (
+                    <TableActive
+                      key={student.id}
+                      student={student}
+                      onLike={(id, isFavorite) => handleLikeStudent(id, isFavorite)}
+                      onDelete={(id, isFavorite) => handleDislikeStudent(id, isFavorite)}
+                    />
+                  ))}
 
             </TableBody>
           </Table>

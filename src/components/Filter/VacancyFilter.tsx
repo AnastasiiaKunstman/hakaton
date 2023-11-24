@@ -31,7 +31,6 @@ function VacancyFilter() {
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
           }}
-          id="controllable-states-demo"
           fullWidth
           size="small"
           options={specialization}

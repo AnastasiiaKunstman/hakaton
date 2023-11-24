@@ -12,7 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import NavigationMenu from '../navigationMenu/NavigationMenu';
+import NavigationMenu from '../NavigationMenu/NavigationMenu';
 import LoggedUserHeader from '../Header/LoggedUserHeader';
 import Snackbars from '../SnackBars/SnackBars';
 import Input from '../../UI/Input/Input';
@@ -67,7 +67,7 @@ const EditVacancy:FC<CardProps> = ({
       });
   };
 
-  console.log(card);
+  // console.log(card);
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);

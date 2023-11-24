@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
+import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
 
 export default function InvitedStudents() {
