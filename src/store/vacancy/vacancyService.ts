@@ -15,11 +15,11 @@ export interface IVacancyData {
   required_skills: string
 }
 
-const json = localStorage.getItem('user');
-const user = json && JSON.parse(json);
-
 // Создать вакансию
 const createVacancy = async (vacancyData: IVacancyData) => {
+  const json = localStorage.getItem('user');
+  const user = json && JSON.parse(json);
+
   const response = await axios.post(`${API_URL}/vacancies/`, vacancyData, {
     headers: {
       'Content-Type': 'application/json',
@@ -32,6 +32,9 @@ const createVacancy = async (vacancyData: IVacancyData) => {
 
 // Обновить вакансию
 const updateVacancy = async (vacancyData: IVacancyData) => {
+  const json = localStorage.getItem('user');
+  const user = json && JSON.parse(json);
+
   const response = await axios.patch(
     `${API_URL}/vacancies/${vacancyData.id}`,
     vacancyData,
@@ -48,6 +51,9 @@ const updateVacancy = async (vacancyData: IVacancyData) => {
 
 // Получить созданые вакансии
 const getVacancies = async () => {
+  const json = localStorage.getItem('user');
+  const user = json && JSON.parse(json);
+
   const response = await axios.get(`${API_URL}/vacancies/`, {
     headers: {
       'Content-Type': 'application/json',
@@ -59,6 +65,9 @@ const getVacancies = async () => {
 };
 
 const getVacancy = async (vacancyID: number) => {
+  const json = localStorage.getItem('user');
+  const user = json && JSON.parse(json);
+
   const response = await axios.get(`${API_URL}/vacancies/${vacancyID}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -70,6 +79,9 @@ const getVacancy = async (vacancyID: number) => {
 };
 
 const deleteVacancy = async (vacancyID: number) => {
+  const json = localStorage.getItem('user');
+  const user = json && JSON.parse(json);
+
   const response = await axios.delete(`${API_URL}/vacancies/${vacancyID}`, {
     headers: {
       Authorization: `Bearer ${user.access}`,

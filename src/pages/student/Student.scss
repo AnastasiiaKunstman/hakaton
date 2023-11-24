@@ -1,0 +1,72 @@
+.icon-button__like {
+    width: 41px;
+    height: 41px;
+    padding: 0;
+    background-image: url('../../images/Like.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px;
+
+    &:hover {
+        background-image: url('../../images/loke-hover.svg');
+    }
+
+    &.active {
+        background-image: url('../../images/LikeActive.svg');
+    }
+}
+
+.icon-button__match {
+    width: 41px;
+    height: 41px;
+    padding: 0;
+    background-image: url('../../images/circles.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px;
+
+    &:hover {
+        background-image: url('../../images/circles-hover.svg');
+    }
+
+    &.active {
+        background-image: url('../../images/circles-active.svg');
+    }
+}
+
+.icon-button__telegram {
+    width: 41px;
+    height: 41px;
+    padding: 0;
+    background-image: url('../../images/telegram.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px;
+
+    &:hover {
+        background-image: url('../../images/telegram-hover.svg');
+    }
+
+    &.disabled {
+        background-image: url('../../images/telegram-disabled.svg');
+    }
+}
+
+.icon-button__email {
+    width: 41px;
+    height: 41px;
+    padding: 0;
+    background-image: url('../../images/email.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px;
+
+    &:hover {
+        background-image: url('../../images/email-hover.svg');
+    }
+
+    &.disabled {
+        background-image: url('../../images/email-disabled.svg');
+    }
+
+}

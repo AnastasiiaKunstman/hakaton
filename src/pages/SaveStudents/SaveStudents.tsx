@@ -1,24 +1,29 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
-import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+import { Box } from '@mui/material';
 import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
+import VacancyFilter from '../../components/Filter/VacancyFilter';
+import TableDynamic from '../../components/Table/TableDinamic';
 
 export default function SaveStudents() {
   return (
     <>
       <LoggedUserHeader />
-      <Box maxWidth="xl" sx={{ p: '0 118px', height: '92vh' }}>
-        <NavigationMenu />
-        <Box sx={{
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
+      <Box
+        maxWidth="xl"
+        className="StudentsPage"
+        sx={{
+          p: '0 116px',
+          height: '92vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          gap: '20px',
         }}
-        >
-          <Typography variant="h3" color="#797981" paddingTop="310px" textAlign="center">
-            Кажется здесь пока никого нет...
-          </Typography>
-          <HeartBrokenIcon sx={{ color: '#00000052' }} fontSize="large" />
-        </Box>
+      >
+        <NavigationMenu />
+        <VacancyFilter />
+        <TableDynamic />
       </Box>
     </>
   );

@@ -20,6 +20,9 @@ import {
   getEducationLevel,
   getSchedules,
   getLocations,
+  getVacancies,
+  // getStudents,
+  // getFavoriteStudents,
 } from './store/index';
 import PasswordRecovery from './components/Auth/PasswordRecovery/PasswordRecovery';
 import NotFoundError from './components/NotFoundError/NotFoundError';
@@ -30,13 +33,17 @@ function App() {
   // const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getSkills());
-    dispatch(getSpecializations());
-    dispatch(getEducationLevel());
-    dispatch(getSchedules());
-    dispatch(getLocations());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (user) {
+      dispatch(getSkills());
+      dispatch(getSpecializations());
+      dispatch(getEducationLevel());
+      dispatch(getSchedules());
+      dispatch(getLocations());
+      dispatch(getVacancies());
+      // dispatch(getStudents());
+      // dispatch(getFavoriteStudents());
+    }
+  }, [dispatch, user]);
 
   return (
     <Routes>

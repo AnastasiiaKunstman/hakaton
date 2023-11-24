@@ -3,7 +3,6 @@ import {
   authReducer,
   vacancyReducer,
   filtersReducer,
-  searchReducer,
   studentReducer,
   profileReducer,
 } from './index';
@@ -13,7 +12,6 @@ export const store = configureStore({
     auth: authReducer,
     filters: filtersReducer,
     vacancies: vacancyReducer,
-    search: searchReducer,
     student: studentReducer,
     profile: profileReducer,
   },

@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
 import VacancyCard from '../../components/vacancyCard/VacancyCard';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
-import { getVacancies } from '../../store/index';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import Snackbars from '../../components/SnackBars/SnackBars';
 import VacancyFilter from '../../components/Filter/VacancyFilter';
@@ -18,13 +17,9 @@ const ActiveVacancy:FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const { vacancyList, isLoading, isError } = useAppSelector((state) => state.vacancies);
 
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getVacancies());
-  }, [dispatch]);
+  const { vacancyList, isLoading, isError } = useAppSelector((state) => state.vacancies);
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);

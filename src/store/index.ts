@@ -1,5 +1,3 @@
-// Пример: export { default as Компонент } from "./Компонент/Компонент"
-
 export { default as authReducer } from './auth/authSlice';
 export { default as authService } from './auth/authService';
 export {
@@ -20,12 +18,11 @@ export { default as vacancyReducer } from './vacancy/vacancySlice';
 export { default as vacancyService } from './vacancy/vacancyService';
 export { createVacancy, getVacancies, getVacancy } from './vacancy/vacancySlice';
 
-export { default as searchReducer } from './search/searchSlice';
-export { default as searchService } from './search/searchService';
-
 export { default as studentReducer } from './students/studentSlice';
 export { default as studentService } from './students/studentService';
-export { getStudents } from './students/studentSlice';
+export {
+  getStudents, setStudents, getFavoriteStudents, likeStudents, dislikeStudents,
+} from './students/studentSlice';
 
 export { default as profileReducer } from './profile/profileSlice';
 export { default as profileService } from './profile/profileService';

@@ -19,7 +19,6 @@ function VacancyFilter() {
         alignItems: 'flex-start',
         gap: '8px',
         maxWidth: '438px',
-        marginTop: '20px',
       }}
       >
         <Typography variant="subtitle1" fontWeight={500}>Вакансия</Typography>

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-console */
 import {
-  useEffect,
+  // useEffect,
   useState,
 } from 'react';
 import {
@@ -15,12 +15,9 @@ import {
   SelectChangeEvent,
   TextField,
 } from '@mui/material';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { createVacancy } from '../../store';
 import { vacancyShema } from '../../utils/index';
@@ -53,7 +50,7 @@ function VacancyForm() {
   } = useForm({ resolver: yupResolver(vacancyShema) });
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const {
     skillsOpt,
@@ -97,20 +94,15 @@ function VacancyForm() {
           };
 
           try {
-            await dispatch(createVacancy(transformedData));
-
+            await dispatch(createVacancy(transformedData)).unwrap();
             setSnackbarSeverity('success');
             setSnackbarMessage('Вакансия успешно создана.');
-            setTimeout(() => {
-              navigate('/students/');
-            }, 1000);
-          } catch (error) {
+            reset();
+          } catch (err) {
             setSnackbarSeverity('error');
             setSnackbarMessage('Ошибка при создании вакансии.');
           }
-
           setSnackbarOpen(true);
-          reset();
         })}
       >
 

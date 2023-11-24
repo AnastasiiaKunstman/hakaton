@@ -1,178 +1,508 @@
 import {
-  CssBaseline,
-  Container,
   Avatar,
   Typography,
   Grid,
   Box,
   List,
   ListItem,
+  IconButton,
+  TextField,
+  Tab,
+  Button,
 } from '@mui/material';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { SyntheticEvent, useState } from 'react';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import Location from '../../images/location.svg';
+import Vector from '../../images/Vector.svg';
+import { IResult } from '../../store/students/studentSlice';
+import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
+import Book from '../../images/diary.svg';
+import Info from '../../images/info.svg';
+import AI from '../../images/tetris_white.svg';
+import Eye from '../../images/ea.svg';
 
-const testData = {
-  avatar: 'https://funart.pro/uploads/posts/2021-04/1618313148_42-funart_pro-p-kapibara-i-chelovek-zhivotnie-krasivo-foto-42.jpg',
-  firstName: 'Иван',
-  lastName: 'Иванов',
-  email: 'good-hr@ya.ru',
-  telegram: '@good-hr',
-  phoneNumber: '88005553535',
-  skills: [{ id: 1, name: 'React' }, { id: 2, name: 'TypeScript' }, { id: 3, name: 'Redux' }, { id: 4, name: 'MUI' }, { id: 5, name: 'Yup' }],
-  info: 'Middle Frontend Developer',
-  experience: 'Январь 2021 — настоящее время: Frontend-разработчик с 3+ годами опыта в создании динамичных и отзывчивых веб-приложений. Сильные навыки в JavaScript, React, Redux и современных инструментах сборки. Ответственный, внимательный к деталям и ориентированный на результат.',
-  about: 'Frontend-разработчик с 3+ годами опыта в создании динамичных и отзывчивых веб-приложений. Сильные навыки в JavaScript, React, Redux и современных инструментах сборки. Ответственный, внимательный к деталям и ориентированный на результат.',
-  curses: [{ id: 1, name: 'Яндекс.Практикум Backend' }, { id: 2, name: 'Яндекс.Практикум Frontend' }, { id: 3, name: 'Яндекс.Практикум Дизайнер' }],
-};
+interface StudentProps {
+  student: IResult;
+  onFavorite: (studentId: number, isFavorite: boolean) => void;
+  onCancel: () => void;
+}
 
-export default function Student() {
+export default function Student({ student, onFavorite, onCancel }: StudentProps) {
+  const [isFavorite, setIsFavorite] = useState(student.is_favorited);
+  const [value, setValue] = useState('1');
+  const [isClicked, setIsClicked] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsClicked(true);
+  };
+
+  const handleFavoriteClick = () => {
+    onFavorite(student.id, !isFavorite);
+    setIsFavorite(!isFavorite);
+  };
+
+  const edLevel = student.required_education_level?.map((name) => name.name).join(',  ');
+  const skillsString = student.skills.map((name) => name.name);
+
+  const handleChange = (event: SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+
   return (
     <>
-      <CssBaseline />
-      <Container
-        maxWidth="lg"
-        sx={{
-          mt: 5,
-          mb: 2,
-        }}
-      >
-        <Box
-          sx={{
-            border: '1px solid rgba(0, 0, 0, .2)',
-            borderRadius: 2,
-            p: 2,
-            mb: 3,
-            display: 'flex',
-            position: 'relative',
-          }}
-        >
-          <Avatar
-            alt={testData.firstName}
-            src={testData.avatar}
-            sx={{
-              height: 60,
-              width: 60,
-              mr: 2,
-            }}
-          />
-          <Box>
-            <Typography>
-              {`${testData.lastName} ${testData.firstName}`}
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: 14,
-                lineHeight: '14px',
-                maxWidth: 300,
-              }}
-            >
-              {testData.info}
-            </Typography>
-            <Typography
-              component="p"
-              fontSize={12}
-              sx={{
-                opacity: '.5',
-                lineHeight: '14px',
-                mt: 1,
-              }}
-            >
-              <LocationOnIcon fontSize="inherit" />
-              Москва
-            </Typography>
+      <LoggedUserHeader />
+      <Box maxWidth="xl" sx={{ p: '0 118px' }}>
+        <TabContext value={value}>
+          <Box sx={{ borderColor: '#1D6BF3', pt: '28px' }}>
+            <TabList onChange={handleChange} textColor="inherit">
+              <IconButton color="inherit" onClick={onCancel}>
+                <img src={Vector} alt="Стрелка назад" />
+              </IconButton>
+              <Tab
+                label="Резюме кандидата"
+                value="1"
+                sx={{
+                  fontWeight: 500,
+                  lineHeight: '130%',
+                  fontFamily: 'YS Display',
+                  fontSize: '24px',
+                }}
+              />
+              <Tab
+                label="Аналитика"
+                value="2"
+                sx={{
+                  fontWeight: 500,
+                  lineHeight: '130%',
+                  fontFamily: 'YS Display',
+                  fontSize: '24px',
+                }}
+              />
+            </TabList>
           </Box>
-        </Box>
-        <Grid container columnSpacing={5}>
-          <Grid item xs={12} sm={6}>
-            <Typography
-              fontSize={16}
-              fontWeight={500}
-              component="h2"
+
+          <TabPanel value="1">
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '20px',
+                pt: '34px',
+              }}
             >
-              О себе
-            </Typography>
-            <Typography
-              fontSize={14}
-              mb={2}
-            >
-              {testData.about}
-            </Typography>
-            <Typography
-              fontSize={16}
-              fontWeight={500}
-              component="h2"
-            >
-              Опыт работы
-            </Typography>
-            <Typography
-              fontSize={14}
-            >
-              {testData.experience}
-              {testData.experience}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Box display="flex" mb={2}>
-              {testData.skills.map((skill) => (
-                <Typography
-                  sx={{
-                    mr: 2,
-                    pl: 2,
-                    pr: 2,
-                    backgroundColor: '#F1F6FF',
-                    borderRadius: '2px',
-                  }}
-                  key={skill.id}
-                >
-                  {skill.name}
-                </Typography>
-              ))}
+              <Typography variant="h3" sx={{ fontWeight: 500, lineHeight: '110%', color: '#5A9BFF' }}>
+                Вакансия: Название вакансии
+              </Typography>
             </Box>
-            <Typography
-              fontSize={16}
-              fontWeight={500}
-              component="h2"
+
+            <Box
+              maxWidth="lg"
+              sx={{
+                mt: 5,
+                mb: 2,
+                p: 0,
+              }}
             >
-              Сертификаты
-            </Typography>
-            <List>
-              {testData.curses.map((item) => (
-                <ListItem
-                  disablePadding
+              <Box
+                sx={{
+                  border: '1px solid #B5B5B7',
+                  borderRadius: '6px',
+                  padding: '24px',
+                  mb: '42px',
+                  display: 'flex',
+                  position: 'relative',
+                  height: '143px',
+                  gap: '20px',
+                }}
+              >
+                <Avatar
+                  alt={student.first_name}
+                  src={student.avatar}
                   sx={{
-                    fontSize: '14px',
+                    height: 60,
+                    width: 60,
                   }}
-                  key={item.id}
+                />
+                <Box sx={{
+                  display: 'flex', flexDirection: 'column', gap: '12px', width: '100%',
+                }}
                 >
-                  <FiberManualRecordIcon fontSize="inherit" />
-                  {item.name}
-                </ListItem>
-              ))}
-            </List>
-            <Typography
-              fontSize={16}
-              fontWeight={500}
-              component="h2"
+                  <Typography variant="h3" fontWeight={500} lineHeight="110%">
+                    {`${student.first_name} ${student.last_name}`}
+                  </Typography>
+                  <Typography variant="h3" lineHeight="24px">
+                    {edLevel || 'Специализация. '}
+                    {edLevel || 'Уровень'}
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <img style={{ width: '24px', height: '24px' }} className="img__location" src={Location} alt="Локация" />
+                    <Typography
+                      variant="body2"
+                      fontWeight={500}
+                      lineHeight="16px"
+                      color="#797981"
+                    >
+                      {student.location.name}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{
+                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '30%',
+                }}
+                >
+                  <Box sx={{ width: '100%' }}>
+                    <IconButton
+                      onClick={handleFavoriteClick}
+                      className={`icon-button__like ${isFavorite ? 'active' : ''}`}
+                    />
+                    <IconButton
+                      className="icon-button__match"
+                    />
+                    <IconButton>
+                      <img src={Eye} alt="Иконка глаза" />
+                    </IconButton>
+                    <IconButton
+                      className="icon-button__telegram"
+                      component="a"
+                      href={`https://t.me/${student.telegram}`}
+                      target="_blank"
+                    />
+                    <IconButton
+                      className="icon-button__email"
+                      component="a"
+                      href={`mailto:${student.email}`}
+                      target="_blank"
+                    />
+                  </Box>
+                  <Box sx={{ width: '100%' }}>
+                    <TextField
+               // value={student.matching_percentage}
+                      size="small"
+                      fullWidth
+                      placeholder="Совпадение..."
+                      sx={{
+                        textAlign: 'center',
+                        backgroundColor: '#C2E5CE',
+                        padding: 0,
+                      }}
+                    />
+                  </Box>
+                </Box>
+
+              </Box>
+              <Grid container columnSpacing={5} gap="24px">
+                <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <Grid>
+                    <Typography lineHeight="20px" fontWeight={500} variant="body1">
+                      О себе
+                    </Typography>
+                    <Typography variant="body2" lineHeight="20px" mt="8px">
+                      Здесь будет находится информация из резюме кандидата, раздел "О себе"
+                    </Typography>
+                  </Grid>
+                  <Grid>
+                    <Typography lineHeight="20px" fontWeight={500} variant="body1">
+                      Опыт работы
+                    </Typography>
+                    <Typography variant="body2" lineHeight="20px" mt="8px">
+                      Здесь будет находится информация из резюме кандидата, раздел "Опыт работы"
+                    </Typography>
+                  </Grid>
+                </Grid>
+
+                <Grid item xs sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <Box display="flex">
+                    {skillsString.map((skill, id) => (
+                      <Box
+                        key={id}
+                        sx={{
+                          borderRadius: '4px',
+                          backgroundColor: '#F1F6FF',
+                          color: '#1A1B22',
+                          textAlign: 'center',
+                          height: 'min-content',
+                          width: 'max-content',
+                          padding: '6px 12px',
+                          margin: '4px',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <Typography variant="body2">{skill}</Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <img style={{ width: '24px', height: '24px' }} src={Book} alt="Книга" />
+                    <Typography
+                      variant="body2"
+                      fontWeight={500}
+                      lineHeight="16px"
+                      color="#797981"
+                    >
+                      Моё портфолио
+                    </Typography>
+                  </Box>
+
+                  <Typography lineHeight="20px" fontWeight={500} variant="body1">
+                    Сертификаты
+                  </Typography>
+                  <List>
+                    <ListItem
+                      disablePadding
+                      sx={{
+                        fontFamily: 'YS Text',
+                        fontSize: '14px',
+                        lineHeight: '20px',
+                        display: 'flex',
+                        gap: '8px',
+                      }}
+                    >
+                      <FiberManualRecordIcon sx={{ fontSize: 5 }} />
+                      <Typography>
+                        Здесь будет находится информация из резюме кандидата, раздел "Сертификаты"
+                      </Typography>
+                    </ListItem>
+                  </List>
+                  <Typography lineHeight="20px" fontWeight={500} variant="body1">
+                    Технические навыки
+                  </Typography>
+                  <List>
+                    {student.skills.map((skill) => (
+                      <ListItem
+                        disablePadding
+                        key={skill.id}
+                        sx={{
+                          fontFamily: 'YS Text',
+                          fontSize: '14px',
+                          lineHeight: '20px',
+                          display: 'flex',
+                          gap: '8px',
+                        }}
+                      >
+                        <FiberManualRecordIcon sx={{ fontSize: 5 }} />
+                        {skill.name}
+                      </ListItem>
+                    ))}
+                  </List>
+                  <Typography lineHeight="20px" fontWeight={500} variant="body1">
+                    Языки
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Box>
+          </TabPanel>
+
+          <TabPanel value="2">
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '20px',
+                pt: '34px',
+              }}
             >
-              Технические навыки
-            </Typography>
-            <List>
-              {testData.skills.map((skill) => (
-                <ListItem
-                  disablePadding
+              <Typography variant="h3" sx={{ fontWeight: 500, lineHeight: '110%', color: '#5A9BFF' }}>
+                Вакансия: Название вакансии
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <Box sx={{ display: 'flex', gap: '8px' }}>
+                  <Typography variant="body2" sx={{ flineHeight: '16px', color: '#797981' }}>
+                    Анализ текста резюме нейросетью
+                  </Typography>
+                  <img src={Info} alt="Информация" style={{ width: '20px', height: '20px', cursor: 'pointer' }} />
+                </Box>
+                <Button
+                  variant="contained"
                   sx={{
-                    fontSize: '14px',
+                    borderRadius: '6px',
+                    backgroundColor: '#5A9BFF',
+                    boxShadow: 'none',
+                    width: '250px',
+                    padding: '15px 57px',
                   }}
-                  key={skill.id}
+                  onClick={handleButtonClick}
                 >
-                  <FiberManualRecordIcon fontSize="inherit" />
-                  {skill.name}
-                </ListItem>
-              ))}
-            </List>
-          </Grid>
-        </Grid>
-      </Container>
+                  <img
+                    src={AI}
+                    style={{
+                      width: '20px', height: '20px', marginRight: '8px',
+                    }}
+                    alt="Иконка тетриса"
+                  />
+                  Аналитика AI
+                </Button>
+              </Box>
+            </Box>
+            <Box
+              maxWidth="lg"
+              sx={{
+                mt: 5,
+                mb: 2,
+                p: 0,
+              }}
+            >
+              <Box
+                sx={{
+                  border: '1px solid #B5B5B7',
+                  borderRadius: '6px',
+                  padding: '24px',
+                  mb: '21px',
+                  display: 'flex',
+                  position: 'relative',
+                  height: '143px',
+                  gap: '20px',
+                }}
+              >
+                <Avatar
+                  alt={student.first_name}
+                  src={student.avatar}
+                  sx={{
+                    height: 60,
+                    width: 60,
+                  }}
+                />
+                <Box sx={{
+                  display: 'flex', flexDirection: 'column', gap: '12px', width: '100%',
+                }}
+                >
+                  <Typography variant="h3" fontWeight={500} lineHeight="110%">
+                    {`${student.first_name} ${student.last_name}`}
+                  </Typography>
+                  <Typography variant="h3" lineHeight="24px">
+                    {edLevel || 'Специализация. '}
+                    {edLevel || 'Уровень'}
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <img style={{ width: '24px', height: '24px' }} className="img__location" src={Location} alt="Локация" />
+                    <Typography
+                      variant="body2"
+                      fontWeight={500}
+                      lineHeight="16px"
+                      color="#797981"
+                    >
+                      {student.location.name}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{
+                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '30%',
+                }}
+                >
+                  <Box sx={{ width: '100%' }}>
+                    <IconButton
+                      onClick={handleFavoriteClick}
+                      className={`icon-button__like ${isFavorite ? 'active' : ''}`}
+                    />
+                    <IconButton
+                      className="icon-button__match"
+                    />
+                    <IconButton>
+                      <img src={Eye} alt="Иконка глаза" />
+                    </IconButton>
+                    <IconButton
+                      className="icon-button__telegram"
+                      component="a"
+                      href={`https://t.me/${student.telegram}`}
+                      target="_blank"
+                    />
+                    <IconButton
+                      className="icon-button__email"
+                      component="a"
+                      href={`mailto:${student.email}`}
+                      target="_blank"
+                    />
+                  </Box>
+                  <Box sx={{ width: '100%' }}>
+                    <TextField
+                     // value={student.matching_percentage}
+                      size="small"
+                      fullWidth
+                      placeholder="Совпадение..."
+                      sx={{
+                        textAlign: 'center',
+                        backgroundColor: '#C2E5CE',
+                        padding: 0,
+                      }}
+                    />
+                  </Box>
+                </Box>
+
+              </Box>
+              {!isClicked && (
+              <Box
+                marginTop="76px"
+                sx={{
+                  display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center',
+                }}
+              >
+                <Typography lineHeight="110%" color="#5A9BFF" fontWeight={500} variant="h3">
+                  Нажмите на кнопку «Аналитика AI»
+                </Typography>
+                <Typography lineHeight="120%" color="#797981" variant="h3">
+                  для получения результатов
+                </Typography>
+              </Box>
+              )}
+              {isClicked && (
+              <>
+                <Box marginBottom="20px">
+                  <Typography lineHeight="130%" fontWeight={500} variant="h2">
+                    Результаты аналитики:
+                  </Typography>
+                </Box>
+
+                <Grid container columnSpacing={5} gap="24px">
+                  <Grid item xs={12} sm={6} sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <Grid>
+                      <Typography lineHeight="20px" fontWeight={500} variant="body1">
+                        Красные флаги
+                      </Typography>
+                      <TextField
+                        fullWidth
+                        multiline
+                        placeholder="Красные флаги — важные моменты на которые нужно обратить внимание. Например, перерыв в работе больше 6 месяцев или смена работы чаще, чем раз в год."
+                        sx={{ marginTop: '8px' }}
+                      />
+                    </Grid>
+                    <Grid>
+                      <Typography lineHeight="20px" fontWeight={500} variant="body1">
+                        Зеленые флаги
+                      </Typography>
+                      <TextField
+                        fullWidth
+                        multiline
+                        placeholder="Зеленые флаги — важные моменты на которые нужно обратить внимание. Например, последний опыт работы релевантен с вакансией или профильное образование."
+                        sx={{ marginTop: '8px' }}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Grid item xs sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <Grid>
+                      <Typography lineHeight="20px" fontWeight={500} variant="body1">
+                        Общий вывод:
+                      </Typography>
+                      <TextField
+                        fullWidth
+                        multiline
+                        placeholder="Здесь будет находится краткий вывод по общей совместимости кандидата с вакансией и критерии на которых основан вывод."
+                        sx={{ marginTop: '8px' }}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </>
+              )}
+            </Box>
+          </TabPanel>
+
+        </TabContext>
+
+      </Box>
     </>
   );
 }

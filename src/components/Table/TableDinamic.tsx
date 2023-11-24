@@ -1,15 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable max-len */
 import React, {
-  useState, useEffect, SyntheticEvent, SetStateAction,
+  useState, SyntheticEvent, SetStateAction, useEffect,
 } from 'react';
 import {
   Table, TableBody, TableCell, TableHead, TableRow, Autocomplete,
   TableContainer, Grid, Box, Typography, Button, SvgIcon, CircularProgress, TextField,
 } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 import TableActive from './TableActive';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { getStudents } from '../../store/index';
+import {
+  dislikeStudents, getFavoriteStudents, getStudents, likeStudents,
+} from '../../store/index';
 import Delete from '../../images/delete.svg';
 
 type TSelectedOpt = {
@@ -19,15 +23,29 @@ type TSelectedOpt = {
 
 function TableDynamic() {
   const dispatch = useAppDispatch();
-  const { results } = useAppSelector((state) => state.student);
+  const location = useLocation();
+
+  const results = useAppSelector((state) => state.student.results);
   const { isLoading, isError } = useAppSelector((state) => state.student);
+
+  useEffect(() => {
+    dispatch(getStudents());
+    dispatch(getFavoriteStudents());
+  }, [dispatch]);
+
+  // console.log(results);
+  // console.log(results?.filter((student) => student.is_favorited));
 
   const [value, setValue] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
 
-  useEffect(() => {
-    dispatch(getStudents());
-  }, [dispatch]);
+  const handleLikeStudent = async (studentID: number, isFavorite: boolean) => {
+    await dispatch(likeStudents({ studentID, isFavorite }));
+  };
+
+  const handleDislikeStudent = async (studentID: number, isFavorite: boolean) => {
+    await dispatch(dislikeStudents({ studentID, isFavorite }));
+  };
 
   const {
     skillsOpt,
@@ -189,23 +207,40 @@ function TableDynamic() {
             <TableBody>
 
               {isLoading && (
-              <TableRow>
-                <TableCell colSpan={9} style={{ textAlign: 'center', border: 'none' }}>
-                  <CircularProgress />
-                </TableCell>
-              </TableRow>
+                <TableRow>
+                  <TableCell colSpan={9} style={{ textAlign: 'center', border: 'none' }}>
+                    <CircularProgress />
+                  </TableCell>
+                </TableRow>
               )}
               {isError && (
-              <TableRow>
-                <TableCell colSpan={9} style={{ textAlign: 'center', border: 'none' }}>
-                  <Typography>Ошибка! Что-то пошло не так</Typography>
-                </TableCell>
-              </TableRow>
+                <TableRow>
+                  <TableCell colSpan={9} style={{ textAlign: 'center', border: 'none' }}>
+                    <Typography>Ошибка! Что-то пошло не так</Typography>
+                  </TableCell>
+                </TableRow>
               )}
 
-              {results?.map((student) => (
-                <TableActive key={student.id} student={student} />
-              ))}
+              {location.pathname === '/students/'
+        && results?.map((student) => (
+          <TableActive
+            key={student.id}
+            student={student}
+            onLike={(id, isFavorite) => handleLikeStudent(id, isFavorite)}
+            onDelete={(id, isFavorite) => handleDislikeStudent(id, isFavorite)}
+          />
+        ))}
+
+              {location.pathname === '/students/save/'
+  && results?.filter((student) => student.is_favorited) // Отфильтровываем только тех студентов, у которых is_favorited: true
+    .map((student) => (
+      <TableActive
+        key={student.id}
+        student={student}
+        onLike={(id, isFavorite) => handleLikeStudent(id, isFavorite)}
+        onDelete={(id, isFavorite) => handleDislikeStudent(id, isFavorite)}
+      />
+    ))}
 
             </TableBody>
           </Table>

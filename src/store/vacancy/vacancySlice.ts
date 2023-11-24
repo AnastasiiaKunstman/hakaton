@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
@@ -51,9 +52,9 @@ export const getVacancies = createAsyncThunk(
 
 export const getVacancy = createAsyncThunk(
   'vacancy/get',
-  async (vacancyID: number, thunkAPI) => {
+  (vacancyID: number, thunkAPI) => {
     try {
-      return await vacancyService.getVacancy(vacancyID);
+      return vacancyService.getVacancy(vacancyID);
     } catch (error) {
       const err = error as AxiosError;
       return thunkAPI.rejectWithValue(err.response?.data);
@@ -63,9 +64,9 @@ export const getVacancy = createAsyncThunk(
 
 export const createVacancy = createAsyncThunk(
   'vacancy/create',
-  async (vacancyData: any, thunkAPI) => {
+  (vacancyData: any, thunkAPI) => {
     try {
-      return await vacancyService.createVacancy(vacancyData);
+      return vacancyService.createVacancy(vacancyData);
     } catch (error) {
       const err = error as AxiosError;
       return thunkAPI.rejectWithValue(err.response?.data);
@@ -75,9 +76,9 @@ export const createVacancy = createAsyncThunk(
 
 export const updateVacancy = createAsyncThunk(
   'vacancy/update',
-  async (vacancyData: any, thunkAPI) => {
+  (vacancyData: any, thunkAPI) => {
     try {
-      return await vacancyService.updateVacancy(vacancyData);
+      return vacancyService.updateVacancy(vacancyData);
     } catch (error) {
       const err = error as AxiosError;
       return thunkAPI.rejectWithValue(err.response?.data);
@@ -87,9 +88,9 @@ export const updateVacancy = createAsyncThunk(
 
 export const deleteVacancy = createAsyncThunk(
   'vacancy/delete',
-  async (vacancyID: number, thunkAPI) => {
+  (vacancyID: number, thunkAPI) => {
     try {
-      await vacancyService.deleteVacancy(vacancyID);
+      vacancyService.deleteVacancy(vacancyID);
       return vacancyID;
     } catch (error) {
       const err = error as AxiosError;
@@ -122,10 +123,10 @@ const vacanciesSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getVacancies.fulfilled, (state, action) => {
-        state.vacancyList = action.payload.results;
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
+        state.vacancyList = action.payload.results;
       })
       .addCase(getVacancies.rejected, (state, action) => {
         state.isLoading = false;

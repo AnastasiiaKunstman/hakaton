@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { Switch, SwitchProps, styled } from '@mui/material';
 
 export const IOSSwitch = styled((props: SwitchProps) => (

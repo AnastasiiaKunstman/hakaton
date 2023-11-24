@@ -14,11 +14,11 @@ export interface IProfileData {
   is_active: boolean
 }
 
-const json = localStorage.getItem('user');
-const user = json && JSON.parse(json);
-
 // Обновить информацию о пользователе
 const updateProfile = async (profileData: IProfileData) => {
+  const json = localStorage.getItem('user');
+  const user = json && JSON.parse(json);
+
   const response = await axios.patch(
     `${API_URL}/users/me/`,
     profileData,
@@ -35,6 +35,9 @@ const updateProfile = async (profileData: IProfileData) => {
 
 // Получить информацию о пользователе
 const getProfile = async () => {
+  const json = localStorage.getItem('user');
+  const user = json && JSON.parse(json);
+
   const response = await axios.get(`${API_URL}/users/me/`, {
     headers: {
       'Content-Type': 'application/json',
@@ -47,6 +50,9 @@ const getProfile = async () => {
 
 // Удалить пользователя
 const deleteProfile = async (profileID: number) => {
+  const json = localStorage.getItem('user');
+  const user = json && JSON.parse(json);
+
   const response = await axios.delete(`${API_URL}/users/${profileID}/`, {
     headers: {
       Authorization: `Bearer ${user.access}`,

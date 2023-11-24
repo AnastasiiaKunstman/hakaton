@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
 import axios from 'axios';
 
 const API_URL = 'https://tracker-hiring.ddns.net/api';
@@ -19,10 +22,11 @@ const login = async ({ email, password }: IUserData) => {
   const response = await axios.get(`${API_URL}/users/me/`, {
     headers: { Authorization: `Bearer ${tokenData.data.access}` },
   });
-  response.data && localStorage.setItem(
-    'user',
-    JSON.stringify({ ...response.data, ...tokenData.data }),
-  );
+  response.data
+    && localStorage.setItem(
+      'user',
+      JSON.stringify({ ...response.data, ...tokenData.data }),
+    );
   return response.data;
 };
 

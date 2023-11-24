@@ -1,16 +1,16 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import authService from './authService';
 
-export interface IUser {
-  id?: number
+interface IUser {
   email: string
   first_name?: string
   last_name?: string
-  phone_number?: string
+  phone?: string
   avatar?: string
-  telegram?: string;
-  company?: string;
+  date_joined?: string
   password: string
   access?: string
   refresh?: string
@@ -37,12 +37,11 @@ const initialState: IinitialState = {
 };
 
 // Регистрация
-// TODO Доделать типизацию
 export const signUp = createAsyncThunk(
   'auth/signUp',
   async (userData: IUser, thunkAPI) => {
     try {
-      return authService
+      return await authService
         .signUp(userData)
         .then((res) => authService.login(userData));
     } catch (error) {
@@ -57,7 +56,8 @@ export const login = createAsyncThunk(
   'auth/login',
   async (userData: IUser, thunkAPI) => {
     try {
-      return await authService.login(userData);
+      const data = await authService.login(userData);
+      return { user: data };
     } catch (error) {
       const err = error as AxiosError;
       return thunkAPI.rejectWithValue(err.response?.data);
@@ -66,7 +66,7 @@ export const login = createAsyncThunk(
 );
 
 // Выход
-export const logout = createAsyncThunk('auth/logout', async (data) => {
+export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout();
 });
 
