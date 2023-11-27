@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SxProps, TextField, TextFieldProps } from '@mui/material';
 import './Input.scss';
 

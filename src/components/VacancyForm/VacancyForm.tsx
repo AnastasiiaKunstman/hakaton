@@ -1,9 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable no-console */
-import {
-  // useEffect,
-  useState,
-} from 'react';
+import { useState } from 'react';
 import {
   Grid,
   Button,
@@ -17,7 +14,7 @@ import {
 } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { createVacancy } from '../../store';
 import { vacancyShema } from '../../utils/index';
@@ -37,8 +34,12 @@ function VacancyForm() {
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
+    navigate('/students/');
   };
 
   const {
@@ -46,11 +47,7 @@ function VacancyForm() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({ resolver: yupResolver(vacancyShema) });
-
-  const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
 
   const {
     skillsOpt,
@@ -97,12 +94,12 @@ function VacancyForm() {
             await dispatch(createVacancy(transformedData)).unwrap();
             setSnackbarSeverity('success');
             setSnackbarMessage('Вакансия успешно создана.');
-            reset();
+            setSnackbarOpen(true);
           } catch (err) {
             setSnackbarSeverity('error');
             setSnackbarMessage('Ошибка при создании вакансии.');
+            setSnackbarOpen(true);
           }
-          setSnackbarOpen(true);
         })}
       >
 
@@ -151,7 +148,7 @@ function VacancyForm() {
                   Очистить фильтры
                 </Button>
               </Grid>
-              <Grid padding={0}>
+              <Grid padding={0} sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <Typography variant="caption" fontWeight={500}>
                   Зарплата или вилка
                 </Typography>
@@ -389,6 +386,10 @@ function VacancyForm() {
                     border: '1px solid #1D6BF3',
                     boxShadow: 'none',
                     borderRadius: '6px',
+                    '&:hover': {
+                      color: '#fff',
+                      backgroundColor: '#1D6BF3',
+                    },
                   }}
                 >
                   Из шаблонов Яндекс Практикума
@@ -405,6 +406,10 @@ function VacancyForm() {
                     borderRadius: '6px',
                     justifyContent: 'center',
                     gap: '20px',
+                    '&:hover': {
+                      color: '#fff',
+                      backgroundColor: '#1D6BF3',
+                    },
                   }}
                 >
                   <img
@@ -459,7 +464,7 @@ function VacancyForm() {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <Typography variant="caption" fontWeight={500}>
                   Описание работы
                 </Typography>
@@ -495,7 +500,6 @@ function VacancyForm() {
         </Box>
       </form>
 
-      {/* Компонент Snackbar */}
       <Snackbars
         open={snackbarOpen}
         onClose={handleCloseSnackbar}

@@ -101,10 +101,10 @@ export const authSlice = createSlice({
       .addCase(login.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, action: PayloadAction<{ user: IUser }>) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
+        state.user = action.payload.user;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
@@ -120,4 +120,3 @@ export const authSlice = createSlice({
 
 export const { reset } = authSlice.actions;
 export default authSlice.reducer;
-

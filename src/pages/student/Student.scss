@@ -70,3 +70,16 @@
     }
 
 }
+
+.icon-button__info {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background-image: url('../../images/info.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    &:hover {
+        background-image: url('../../images/info-hover.svg');
+    }
+}

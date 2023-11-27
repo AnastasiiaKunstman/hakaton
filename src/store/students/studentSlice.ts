@@ -57,7 +57,7 @@ const initialState: IinitialState = {
 };
 
 export const getStudents = createAsyncThunk(
-  'student/get',
+  'student/getStudents',
   (_, thunkAPI) => {
     try {
       return studentService.getStudents();
@@ -69,7 +69,7 @@ export const getStudents = createAsyncThunk(
 );
 
 export const getFavoriteStudents = createAsyncThunk(
-  'student/get',
+  'student/getFavoriteStudents',
   (_, thunkAPI) => {
     try {
       return studentService.getFavoriteStudents();
@@ -118,7 +118,7 @@ const studentSlice = createSlice({
       }
     },
     removeFromFavorites: (state, action: PayloadAction<number>) => {
-      state.results = state.results?.map((student) => (
+      state.results = (state.results || []).map((student) => (
         student.id === action.payload ? { ...student, isFavorite: false } : student
       ));
     },
@@ -134,6 +134,25 @@ const studentSlice = createSlice({
         state.results = action.payload.results;
       })
       .addCase(getStudents.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      .addCase(getFavoriteStudents.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getFavoriteStudents.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        // Комбинируем результаты из getStudents и отфильтрованные результаты из getFavoriteStudents
+        state.results = state.results?.map((student) => {
+          // eslint-disable-next-line max-len
+          const favoriteStudent = action.payload.find((favStudent: IResult) => favStudent.id === student.id);
+          return favoriteStudent ? { ...student, is_favorited: true } : student;
+        }) || [];
+      })
+      .addCase(getFavoriteStudents.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -155,9 +174,6 @@ const studentSlice = createSlice({
         state.isError = true;
       })
 
-      .addCase(dislikeStudents.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(dislikeStudents.fulfilled, (state, action: PayloadAction<number>) => {
         // Обновляем статус isFavorite у студента с указанным ID
         state.results = state.results?.map((student) => (

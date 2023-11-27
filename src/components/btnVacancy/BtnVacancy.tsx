@@ -39,7 +39,7 @@ const BtnVacancy: FC = () => {
             <Button className="edit-button">
               Удалить вакансию
             </Button>
-            <Button className="edit-button">
+            <Button className="cancel-button">
               В архив
             </Button>
           </Box>

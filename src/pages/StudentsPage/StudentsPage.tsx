@@ -13,7 +13,6 @@ export default function StudentsPage() {
       <LoggedUserHeader />
       <Box
         maxWidth="xl"
-        className="StudentsPage"
         sx={{
           p: '0 116px',
           height: '92vh',

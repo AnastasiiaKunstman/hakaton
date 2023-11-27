@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import {
-  TableCell, TableRow, TextField, Avatar, Checkbox, IconButton, Dialog,
+  TableCell, TableRow, TextField, Avatar, Checkbox, IconButton, Dialog, SxProps,
 } from '@mui/material';
 import Student from '../../pages/student/Student';
 import './TableActive.scss';
@@ -75,7 +75,13 @@ function TableActive({ student, onLike, onDelete }: StudentTableProps) {
 
   return (
     <>
-      <TableRow sx={{ cursor: 'pointer' }}>
+      <TableRow sx={{
+        cursor: 'pointer',
+        '&:hover': {
+          backgroundColor: '#F1F6FF',
+        },
+      }}
+      >
         <TableCell>{student.id}</TableCell>
         <TableCell>
           <Checkbox

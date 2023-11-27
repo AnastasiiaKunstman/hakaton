@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable max-len */
@@ -25,25 +26,25 @@ function TableDynamic() {
   const dispatch = useAppDispatch();
   const location = useLocation();
 
-  const { results, isLoading, isError } = useAppSelector((state) => state.student);
+  const {
+    results, isLoading, isError, isSuccess,
+  } = useAppSelector((state) => state.student);
 
   useEffect(() => {
     dispatch(getStudents());
     dispatch(getFavoriteStudents());
-  }, [dispatch]);
-
-  // console.log(results);
-  // console.log(results?.filter((student) => student.is_favorited));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [value, setValue] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState('');
 
   const handleLikeStudent = async (studentID: number, isFavorite: boolean) => {
-    await dispatch(likeStudents({ studentID, isFavorite }));
+    await dispatch(likeStudents({ studentID, isFavorite })).unwrap();
   };
 
   const handleDislikeStudent = async (studentID: number, isFavorite: boolean) => {
-    await dispatch(dislikeStudents({ studentID, isFavorite }));
+    await dispatch(dislikeStudents({ studentID, isFavorite })).unwrap();
   };
 
   const {
@@ -74,6 +75,24 @@ function TableDynamic() {
   ) => {
     setSelectedSkills([...selectedSkill]);
   };
+
+  // компонент для отображения загрузки
+  const LoadingComponent = (
+    <TableRow>
+      <TableCell colSpan={9} style={{ textAlign: 'center', border: 'none' }}>
+        <CircularProgress />
+      </TableCell>
+    </TableRow>
+  );
+
+  // компонент для отображения ошибки
+  const ErrorComponent = (
+    <TableRow>
+      <TableCell colSpan={9} style={{ textAlign: 'center', border: 'none' }}>
+        <Typography>Ошибка! Кажется что-то пошло не так...</Typography>
+      </TableCell>
+    </TableRow>
+  );
 
   return (
     <Box>
@@ -204,23 +223,11 @@ function TableDynamic() {
             </TableHead>
             <TableBody>
 
-              {isLoading && (
-                <TableRow>
-                  <TableCell colSpan={9} style={{ textAlign: 'center', border: 'none' }}>
-                    <CircularProgress />
-                  </TableCell>
-                </TableRow>
-              )}
-              {isError && (
-                <TableRow>
-                  <TableCell colSpan={9} style={{ textAlign: 'center', border: 'none' }}>
-                    <Typography>Ошибка! Что-то пошло не так</Typography>
-                  </TableCell>
-                </TableRow>
-              )}
-
-              {location.pathname === '/students/'
-                && results?.map((student) => (
+              {isLoading ? LoadingComponent : null}
+              {isError ? ErrorComponent : null}
+              {isSuccess && (
+              <>
+                {location.pathname === '/students/' && results?.map((student) => (
                   <TableActive
                     key={student.id}
                     student={student}
@@ -229,8 +236,8 @@ function TableDynamic() {
                   />
                 ))}
 
-              {location.pathname === '/students/save/'
-                && results?.filter((student) => student.is_favorited) // Отфильтровываем только тех студентов, у которых is_favorited: true
+                {location.pathname === '/students/save/' && results
+                  ?.filter((student) => student.is_favorited)
                   .map((student) => (
                     <TableActive
                       key={student.id}
@@ -239,7 +246,8 @@ function TableDynamic() {
                       onDelete={(id, isFavorite) => handleDislikeStudent(id, isFavorite)}
                     />
                   ))}
-
+              </>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

@@ -21,7 +21,7 @@ import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { vacancyShema } from '../../utils/index';
-import { IVacancy, updateVacancy } from '../../store/vacancy/vacancySlice';
+import { IVacancy, getVacancy, updateVacancy } from '../../store/vacancy/vacancySlice';
 import '../btnVacancy/BtnVacancy.scss';
 
 type TSelectedOpt = {
@@ -43,15 +43,18 @@ const EditVacancy:FC<CardProps> = ({
   card, onSave, skillsString, educationLevel, schedule, onDelete, onCancel,
 }) => {
   const dispatch = useAppDispatch();
-  const [editedData, setEditedData] = useState<IVacancy>({ ...card });
+
+  const [editedData, setEditedData] = useState<IVacancy>(card);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const handleChange = (field: string, value: string | { id: number; name: string }) => {
+  const handleChange = (field: string, value: string | TSelectedOpt) => {
     setEditedData((prevData) => ({ ...prevData, [field]: value }));
   };
+
+  // console.log(card);
 
   const handleSave = () => {
     dispatch(updateVacancy(editedData))
@@ -422,6 +425,10 @@ const EditVacancy:FC<CardProps> = ({
                         border: '1px solid #1D6BF3',
                         boxShadow: 'none',
                         borderRadius: '6px',
+                        '&:hover': {
+                          color: '#fff',
+                          backgroundColor: '#1D6BF3',
+                        },
                       }}
                     >
                       Из шаблонов Яндекс Практикума
@@ -510,7 +517,7 @@ const EditVacancy:FC<CardProps> = ({
               }}
             >
               <Box className="edit-buttons" textAlign="center">
-                <Button className="edit-button" onClick={onCancel}>
+                <Button className="cancel-button" onClick={onCancel}>
                   Отмена
                 </Button>
                 <Button className="edit-button" onClick={onDelete}>

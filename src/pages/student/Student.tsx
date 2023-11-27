@@ -9,20 +9,21 @@ import {
   TextField,
   Tab,
   Button,
+  Tabs,
+  Tooltip,
 } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { SyntheticEvent, useState } from 'react';
 import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Location from '../../images/location.svg';
 import Vector from '../../images/Vector.svg';
 import { IResult } from '../../store/students/studentSlice';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
 import Book from '../../images/diary.svg';
-import Info from '../../images/info.svg';
 import AI from '../../images/tetris_white.svg';
 import Eye from '../../images/ea.svg';
+import './Student.scss';
 
 interface StudentProps {
   student: IResult;
@@ -30,7 +31,9 @@ interface StudentProps {
   onCancel: () => void;
 }
 
-export default function Student({ student, onFavorite, onCancel }: StudentProps) {
+const longText = 'Анализ текста резюме при помощи нейросети. AI отметит важные моменты и проверит соответствие резюме под вакансию.';
+
+function Student({ student, onFavorite, onCancel }: StudentProps) {
   const [isFavorite, setIsFavorite] = useState(student.is_favorited);
   const [value, setValue] = useState('1');
   const [isClicked, setIsClicked] = useState(false);
@@ -57,7 +60,13 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
       <Box maxWidth="xl" sx={{ p: '0 118px' }}>
         <TabContext value={value}>
           <Box sx={{ borderColor: '#1D6BF3', pt: '28px' }}>
-            <TabList onChange={handleChange} textColor="inherit">
+            <Tabs
+              onChange={handleChange}
+              value={value}
+              textColor="inherit"
+              indicatorColor="primary"
+              aria-label="inherit tabs example"
+            >
               <IconButton color="inherit" onClick={onCancel}>
                 <img src={Vector} alt="Стрелка назад" />
               </IconButton>
@@ -81,7 +90,7 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
                   fontSize: '24px',
                 }}
               />
-            </TabList>
+            </Tabs>
           </Box>
 
           <TabPanel value="1">
@@ -119,8 +128,8 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
                 }}
               >
                 <Avatar
-                  alt={student.first_name}
-                  src={student.avatar}
+                  alt={student?.first_name}
+                  src={student?.avatar}
                   sx={{
                     height: 60,
                     width: 60,
@@ -131,7 +140,7 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
                 }}
                 >
                   <Typography variant="h3" fontWeight={500} lineHeight="110%">
-                    {`${student.first_name} ${student.last_name}`}
+                    {`${student?.first_name} ${student?.last_name}`}
                   </Typography>
                   <Typography variant="h3" lineHeight="24px">
                     {edLevel || 'Специализация. '}
@@ -145,7 +154,7 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
                       lineHeight="16px"
                       color="#797981"
                     >
-                      {student.location.name}
+                      {student?.location.name}
                     </Typography>
                   </Box>
                 </Box>
@@ -155,6 +164,7 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
                 >
                   <Box sx={{ width: '100%' }}>
                     <IconButton
+                      aria-label="like"
                       onClick={handleFavoriteClick}
                       className={`icon-button__like ${isFavorite ? 'active' : ''}`}
                     />
@@ -177,12 +187,12 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
                       target="_blank"
                     />
                   </Box>
-                  <Box sx={{ width: '100%' }}>
+                  <Box>
                     <TextField
-               // value={student.matching_percentage}
                       size="small"
+                      disabled
                       fullWidth
-                      placeholder="Совпадение..."
+                      placeholder="Совпадение 80%"
                       sx={{
                         textAlign: 'center',
                         backgroundColor: '#C2E5CE',
@@ -308,13 +318,29 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
               <Typography variant="h3" sx={{ fontWeight: 500, lineHeight: '110%', color: '#5A9BFF' }}>
                 Вакансия: Название вакансии
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Box sx={{ display: 'flex', gap: '8px' }}>
-                  <Typography variant="body2" sx={{ flineHeight: '16px', color: '#797981' }}>
-                    Анализ текста резюме нейросетью
-                  </Typography>
-                  <img src={Info} alt="Информация" style={{ width: '20px', height: '20px', cursor: 'pointer' }} />
-                </Box>
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+              }}
+              >
+                <Button
+                  sx={{
+                    display: 'flex',
+                    color: '#797981',
+                    '&:hover': {
+                      color: '#1D6BF3',
+                      backgroundColor: 'transparent',
+                    },
+                  }}
+                  endIcon={(
+                    <Tooltip title={longText}>
+                      <IconButton className="icon-button__info" />
+                    </Tooltip>
+                  )}
+                >
+                  Анализ текста резюме нейросетью
+                </Button>
                 <Button
                   variant="contained"
                   sx={{
@@ -323,6 +349,10 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
                     boxShadow: 'none',
                     width: '250px',
                     padding: '15px 57px',
+                    '&:hover': {
+                      backgroundColor: '#1D6BF3',
+                      boxShadow: 'none',
+                    },
                   }}
                   onClick={handleButtonClick}
                 >
@@ -394,6 +424,7 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
                 >
                   <Box sx={{ width: '100%' }}>
                     <IconButton
+                      aria-label="like"
                       onClick={handleFavoriteClick}
                       className={`icon-button__like ${isFavorite ? 'active' : ''}`}
                     />
@@ -416,12 +447,12 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
                       target="_blank"
                     />
                   </Box>
-                  <Box sx={{ width: '100%' }}>
+                  <Box>
                     <TextField
-                     // value={student.matching_percentage}
                       size="small"
+                      disabled
                       fullWidth
-                      placeholder="Совпадение..."
+                      placeholder="Совпадение 80%"
                       sx={{
                         textAlign: 'center',
                         backgroundColor: '#C2E5CE',
@@ -506,3 +537,5 @@ export default function Student({ student, onFavorite, onCancel }: StudentProps)
     </>
   );
 }
+
+export default Student;

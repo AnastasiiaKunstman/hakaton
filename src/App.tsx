@@ -21,8 +21,6 @@ import {
   getSchedules,
   getLocations,
   getVacancies,
-  // getStudents,
-  // getFavoriteStudents,
 } from './store/index';
 import PasswordRecovery from './components/Auth/PasswordRecovery/PasswordRecovery';
 import NotFoundError from './components/NotFoundError/NotFoundError';
@@ -40,8 +38,6 @@ function App() {
       dispatch(getSchedules());
       dispatch(getLocations());
       dispatch(getVacancies());
-      // dispatch(getStudents());
-      // dispatch(getFavoriteStudents());
     }
   }, [dispatch, user]);
 

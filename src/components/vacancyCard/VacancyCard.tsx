@@ -10,7 +10,7 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import {
-  IVacancy, updateVacancy,
+  IVacancy, getVacancy, updateVacancy,
 } from '../../store/vacancy/vacancySlice';
 import EditVacancy from './EditCard';
 import DelCard from './DelCard';
