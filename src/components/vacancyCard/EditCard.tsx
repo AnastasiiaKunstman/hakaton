@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import NavigationMenu from '../NavigationMenu/NavigationMenu';
+import NavigationMenu from '../navigationMenu/NavigationMenu';
 import LoggedUserHeader from '../Header/LoggedUserHeader';
 import Snackbars from '../SnackBars/SnackBars';
 import Input from '../../UI/Input/Input';

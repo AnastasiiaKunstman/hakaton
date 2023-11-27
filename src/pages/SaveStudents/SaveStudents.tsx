@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
+import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
 import VacancyFilter from '../../components/Filter/VacancyFilter';
 import TableDynamic from '../../components/Table/TableDinamic';
