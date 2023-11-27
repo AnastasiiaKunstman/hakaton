@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import {
   Avatar,
   Typography,
@@ -133,6 +134,7 @@ function Student({ student, onFavorite, onCancel }: StudentProps) {
                   sx={{
                     height: 60,
                     width: 60,
+                    cursor: 'pointer',
                   }}
                 />
                 <Box sx={{
@@ -187,18 +189,18 @@ function Student({ student, onFavorite, onCancel }: StudentProps) {
                       target="_blank"
                     />
                   </Box>
-                  <Box>
-                    <TextField
-                      size="small"
-                      disabled
-                      fullWidth
-                      placeholder="Совпадение 80%"
-                      sx={{
-                        textAlign: 'center',
-                        backgroundColor: '#C2E5CE',
-                        padding: 0,
-                      }}
-                    />
+                  <Box
+                    sx={{
+                      backgroundColor: '#C2E5CE',
+                      padding: 0,
+                      height: '36px',
+                      borderRadius: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography variant="body2">Совпадение 80%</Typography>
                   </Box>
                 </Box>
 
@@ -270,7 +272,7 @@ function Student({ student, onFavorite, onCancel }: StudentProps) {
                         gap: '8px',
                       }}
                     >
-                      <FiberManualRecordIcon sx={{ fontSize: 5 }} />
+                      {/* <FiberManualRecordIcon sx={{ fontSize: 5 }} /> */}
                       <Typography>
                         Здесь будет находится информация из резюме кандидата, раздел "Сертификаты"
                       </Typography>
@@ -393,6 +395,7 @@ function Student({ student, onFavorite, onCancel }: StudentProps) {
                   sx={{
                     height: 60,
                     width: 60,
+                    cursor: 'pointer',
                   }}
                 />
                 <Box sx={{
@@ -447,18 +450,18 @@ function Student({ student, onFavorite, onCancel }: StudentProps) {
                       target="_blank"
                     />
                   </Box>
-                  <Box>
-                    <TextField
-                      size="small"
-                      disabled
-                      fullWidth
-                      placeholder="Совпадение 80%"
-                      sx={{
-                        textAlign: 'center',
-                        backgroundColor: '#C2E5CE',
-                        padding: 0,
-                      }}
-                    />
+                  <Box
+                    sx={{
+                      backgroundColor: '#C2E5CE',
+                      padding: 0,
+                      height: '36px',
+                      borderRadius: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography variant="body2">Совпадение 80%</Typography>
                   </Box>
                 </Box>
 

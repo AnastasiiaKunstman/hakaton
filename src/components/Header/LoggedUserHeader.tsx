@@ -38,8 +38,8 @@ const LoggedUserHeader:FC = () => {
         backgroundColor: '#1A1B22', height: '60px', boxShadow: 'none', padding: '0 46px',
       }}
     >
-      <Container maxWidth="xl">
-        <Toolbar>
+      <Box maxWidth="xl" sx={{ height: '60px' }}>
+        <Toolbar sx={{ height: '60px' }}>
           <MenuItem component={Link} to="/">
             <img className="img__logo" src={Logo} alt="Логотип" />
           </MenuItem>
@@ -83,7 +83,7 @@ const LoggedUserHeader:FC = () => {
                   borderColor: 'white',
                   fontSize: '14px',
                   borderRadius: '6',
-                  '&.MuiButtonBase-root:hover': { opacity: '0.7', borderColor: 'white' },
+                  '&.MuiButtonBase-root:hover': { opacity: '0.7', borderColor: 'white', boxShadow: 'none', backgroundColor: 'transparent' },
                 }}
               >
                 Выйти
@@ -91,7 +91,7 @@ const LoggedUserHeader:FC = () => {
             </MenuItem>
           </Box>
         </Toolbar>
-      </Container>
+      </Box>
     </AppBar>
   );
 };

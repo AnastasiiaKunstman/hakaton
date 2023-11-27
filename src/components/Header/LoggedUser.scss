@@ -5,15 +5,19 @@
 
     &:hover {
         opacity: .7;
+        box-shadow: 'none';
     }
 }
 
 .img__header {
+    padding: 0;
     width: 24px;
     height: 24px;
     cursor: pointer;
 
     &:hover {
         opacity: .7;
+        box-shadow: 'none';
+        background-color: transparent;
     }
 }

@@ -66,7 +66,7 @@ npm run dev
 
 ## Ссылки на проект
 
-Frontend: https://hakaton-8fo3lnvnf-anastasiias-projects-4665bb4a.vercel.app/
+Frontend: https://hakaton-b4i6lyf2i-anastasiias-projects-4665bb4a.vercel.app/
 
 
 [Anastasiia Kunstman]: <https://github.com/AnastasiiaKunstman>

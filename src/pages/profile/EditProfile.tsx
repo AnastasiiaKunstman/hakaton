@@ -20,6 +20,7 @@ import LocationFilter from '../../components/Filter/LocationFilter';
 import { IVacancy, deleteVacancy } from '../../store/vacancy/vacancySlice';
 import CloseIcon from '../../images/close_12.svg';
 import Link from '../../images/link.svg';
+import LinkH from '../../images/link-hover.svg';
 
 interface EditProfileProps {
   onChange: (field: string, value: string) => void
@@ -206,7 +207,13 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick }) => {
                   <Button
                     variant="outlined"
                     sx={{
-                      width: '50%', border: '1px solid #1D6BF3', color: '#1D6BF3', fontFamily: 'YS Text', fontSize: '14px', fontWeight: 500, lineHeight: '20px',
+                      width: '50%',
+                      border: '1px solid #1D6BF3',
+                      color: '#1D6BF3',
+                      fontFamily: 'YS Text',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      lineHeight: '20px',
                     }}
                   >
                     <img src={Link} alt="Ссылка" />
@@ -214,7 +221,17 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick }) => {
                   <Button
                     variant="outlined"
                     sx={{
-                      width: '50%', border: '1px solid #1D6BF3', color: '#1D6BF3', fontFamily: 'YS Text', fontSize: '14px', fontWeight: 500, lineHeight: '20px',
+                      width: '50%',
+                      border: '1px solid #1D6BF3',
+                      color: '#1D6BF3',
+                      fontFamily: 'YS Text',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      lineHeight: '20px',
+                      '&:hover': {
+                        color: '#fff',
+                        backgroundColor: '#1D6BF3',
+                      },
                     }}
                   >
                     Запомнить шаблон
@@ -320,9 +337,16 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick }) => {
           }}
         >
           <Button
-            sx={{ mr: 2, color: '#00000042', borderRadius: '6px' }}
+            sx={{
+              mr: 2,
+              color: '#B5B5B7',
+              borderRadius: '6px',
+              '&:hover': {
+                color: '#fff',
+                backgroundColor: '#1D6BF3',
+              },
+            }}
             variant="outlined"
-            color="inherit"
             onClick={onClick}
           >
             Отмена
@@ -340,6 +364,10 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick }) => {
               fontFamily: 'YS Text',
               fontSize: '14px',
               lineHeight: '20px',
+              '&:hover': {
+                backgroundColor: '#1D6BF3',
+                boxShadow: 'none',
+              },
             }}
           >
             Сохранить
