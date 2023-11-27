@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable react/function-component-definition */
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
   Box, Typography, CircularProgress,
 } from '@mui/material';

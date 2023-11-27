@@ -5,13 +5,10 @@
 /* eslint-disable max-len */
 import React, { FC, useEffect, useState } from 'react';
 import {
-  Box, Button, Dialog, FormControlLabel, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography,
+  Box, Button, FormControlLabel, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography,
 } from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import NavigationMenu from '../NavigationMenu/NavigationMenu';
 import LoggedUserHeader from '../Header/LoggedUserHeader';
 import Snackbars from '../SnackBars/SnackBars';
