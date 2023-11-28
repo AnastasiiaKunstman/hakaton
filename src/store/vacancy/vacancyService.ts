@@ -36,7 +36,7 @@ const updateVacancy = async (vacancyData: IVacancyData) => {
   const user = json && JSON.parse(json);
 
   const response = await axios.patch(
-    `${API_URL}/vacancies/${vacancyData.id}`,
+    `${API_URL}/vacancies/${vacancyData.id}/`,
     vacancyData,
     {
       headers: {

@@ -3,7 +3,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable max-len */
-import React, { FC, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent, FC, useEffect, useState,
+} from 'react';
 import {
   Box, Button, FormControlLabel, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography,
 } from '@mui/material';
@@ -16,7 +18,7 @@ import Input from '../../UI/Input/Input';
 import Delete from '../../images/delete.svg';
 import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppDispatch } from '../../store/hooks';
 import { vacancyShema } from '../../utils/index';
 import { IVacancy, getVacancy, updateVacancy } from '../../store/vacancy/vacancySlice';
 import '../btnVacancy/BtnVacancy.scss';
@@ -27,91 +29,84 @@ type TSelectedOpt = {
 };
 
 interface CardProps {
-  card: IVacancy
-  onSave: (updatedData: IVacancy) => void;
+  vacancy: IVacancy;
   skillsString: string[];
   educationLevel: string[];
   schedule: string;
+  formattedDate: string;
   onDelete: () => void;
   onCancel: () => void;
 }
 
 const EditVacancy:FC<CardProps> = ({
-  card, onSave, skillsString, educationLevel, schedule, onDelete, onCancel,
+  vacancy, skillsString, educationLevel, schedule, formattedDate, onDelete, onCancel,
 }) => {
   const dispatch = useAppDispatch();
-
-  const [editedData, setEditedData] = useState<IVacancy>(card);
-
+  const [formData, setFormData] = useState<IVacancy>({} as IVacancy);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
-
-  const handleChange = (field: string, value: string | TSelectedOpt) => {
-    setEditedData((prevData) => ({ ...prevData, [field]: value }));
-  };
-
-  // console.log(card);
-
-  const handleSave = () => {
-    dispatch(updateVacancy(editedData))
-      .then((response: any) => {
-        onSave(editedData);
-        setSnackbarSeverity('success');
-        setSnackbarMessage('Изменения сохранены.');
-      })
-      .catch((error: any) => {
-        console.error('Ошибка при сохранении данных:', error);
-        setSnackbarSeverity('error');
-        setSnackbarMessage('Ошибка при редактировании вакансии.');
-      });
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
 
   const {
     register,
     formState: { errors },
   } = useForm({ resolver: yupResolver(vacancyShema) });
 
-  // const {
-  //   skillsOpt,
-  //   educationLevelOpt,
-  //   specializationsOpt,
-  //   schedulesOpt,
-  //   locationsOpt,
-  // } = useAppSelector((state) => state.filters);
+  useEffect(() => {
+    // обновить состояние формы, используя данные вакансии
+    if (vacancy) {
+      setFormData({
+        id: vacancy.id,
+        is_archived: vacancy.is_archived,
+        name: vacancy.name,
+        location: vacancy.location.id,
+        text: vacancy.text,
+        salary: vacancy.salary,
+        pub_date: vacancy.pub_date,
+        specialization: vacancy.specialization,
+        schedule: vacancy.schedule,
+        required_education_level: vacancy.required_education_level,
+        required_skills: vacancy.required_skills,
+      });
+    }
+  }, [vacancy]);
 
-  // const schedule = card.schedule.map((name) => name.name).join(', ');
-  // const educationLevel = card.required_education_level.map((name) => name.name).join(', ');
-  // const skills = card.required_skills.map((name) => name.name).join(', ');
-  // const specialization = card.specialization.map((name) => name.name).join(', ');
+  console.log(vacancy);
 
-  // console.log(schedule, educationLevel, skills);
+  const handleFormChange = (fieldName: string | number, event: ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [fieldName]: event.target.value,
+    });
+  };
+
+  const handleSave = async () => {
+    try {
+      await dispatch(updateVacancy(formData)).unwrap();
+      setSnackbarSeverity('success');
+      setSnackbarMessage('Изменения сохранены.');
+      setSnackbarOpen(true);
+    } catch (error: any) {
+      console.error('Ошибка при сохранении данных:', error);
+      setSnackbarSeverity('error');
+      setSnackbarMessage('Ошибка при редактировании вакансии.');
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
 
   const [hidden, setHidden] = useState(false);
-  // const [selectedSkills, setSelectedSkills] = useState<TSelectedOpt[]>([]);
-
-  // const handleSkillsChange = (event: SelectChangeEvent<typeof selectedSkills>) => {
-  //   const {
-  //     target: { value },
-  //   } = event;
-
-  //   const selectedValues: TSelectedOpt[] = typeof value === 'string' ? value.split(',').map((item) => ({ id: Number(item), name: String(item) })) : value;
-
-  //   setSelectedSkills(selectedValues);
-  // };
 
   const handleHiddenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHidden(event.target.checked);
   };
 
   const handleClear = () => {
-    // Очищаем все поля формы, кроме id
-    setEditedData({
-      ...editedData,
+    setFormData({
+      ...formData,
       name: '',
       location: { id: 0, name: '' },
       text: '',
@@ -130,35 +125,9 @@ const EditVacancy:FC<CardProps> = ({
       <LoggedUserHeader />
       <Box maxWidth="xl" sx={{ p: '0 118px' }}>
         <NavigationMenu />
-        <Box maxWidth="xl" key={card.id} sx={{ p: '20px 0 71px', height: '588px' }}>
+        <Box maxWidth="xl" key={vacancy.id} sx={{ p: '20px 0 71px', height: '588px' }}>
 
-          <form
-            noValidate
-            // onSubmit={handleSubmit(async (data) => {
-            //   console.log(data);
-            //   const transformedData = {
-            //     ...data,
-            //     location: data.location,
-            //     required_skills: selectedSkills.map((id) => ({ id, name: String(id) })),
-            //     required_education_level: [{ id: Number(data.required_education_level), name: String(data.required_education_level) }],
-            //     specialization: [{ id: Number(data.specialization), name: String(data.specialization) }],
-            //     schedule: [{ id: Number(data.schedule), name: String(data.schedule) }],
-            //   };
-            //   await dispatch(updateVacancy(transformedData));
-            //   // const isUpdateSuccessful = updateVacancy(transformedData);
-
-            //   if (updateVacancy(transformedData)) {
-            //     setSnackbarSeverity('success');
-            //     setSnackbarMessage('Изменения сохранены.');
-            //   } else {
-            //     setSnackbarSeverity('error');
-            //     setSnackbarMessage('Ошибка при редактировании вакансии.');
-            //   }
-
-            //   setSnackbarOpen(true);
-            //   reset();
-            // })}
-          >
+          <form noValidate onSubmit={handleSave}>
 
             <Grid container item xs={12}>
               <Grid item container xs={5} flexDirection="column" marginRight="42px" width="39%" height="588px">
@@ -170,8 +139,8 @@ const EditVacancy:FC<CardProps> = ({
                     fullWidth
                     type="text"
                     placeholder="Введите название должности"
-                    value={editedData.name}
-                    onChange={(e) => handleChange('name', e.target.value)}
+                    value={formData.name || ''}
+                    onChange={(e) => handleFormChange('name', e)}
                     register={register}
                     registerName="name"
                     error={!!errors.name}
@@ -217,8 +186,8 @@ const EditVacancy:FC<CardProps> = ({
                       fullWidth
                       size="small"
                       placeholder="от"
-                      value={editedData.salary}
-                      onChange={(e) => handleChange('salary', e.target.value)}
+                      value={formData.salary || ''}
+                      onChange={(e) => handleFormChange('salary', e)}
                       register={register}
                       registerName="salary"
                       error={!!errors.salary}
@@ -235,12 +204,14 @@ const EditVacancy:FC<CardProps> = ({
                   >
                     <Grid xs item>
                       <Typography variant="caption" fontWeight={500}>
-                        Срок поиска вакансии
+                        Дата создания вакансии
                       </Typography>
                       <Input
                         type="text"
                         size="small"
                         placeholder="Диапазон действия"
+                        value={formattedDate || ''}
+                        onChange={(e) => handleFormChange('pub_date', e)}
                         register={register}
                         registerName="pub_date"
                         error={!!errors.pub_date}
@@ -256,8 +227,8 @@ const EditVacancy:FC<CardProps> = ({
                         fullWidth
                         size="small"
                         placeholder="Офис"
-                        value={schedule}
-                        onChange={(e) => handleChange('schedule', e.target.value)}
+                        value={schedule || ''}
+                        onChange={(e) => handleFormChange('schedule', e)}
                         register={register}
                         registerName="schedule"
                         error={!!errors.schedule}
@@ -275,8 +246,8 @@ const EditVacancy:FC<CardProps> = ({
                       fullWidth
                       size="small"
                       placeholder="Город"
-                      value={editedData.location.name}
-                      onChange={(e) => handleChange('location', { id: editedData.location.id, name: e.target.value })}
+                      value={vacancy.location?.name || ''}
+                      onChange={(e) => handleFormChange(formData.location?.id, e)}
                       register={register}
                       registerName="location"
                       error={!!errors.location}
@@ -300,8 +271,8 @@ const EditVacancy:FC<CardProps> = ({
                         fullWidth
                         size="small"
                         placeholder="Intern"
-                        value={educationLevel}
-                        onChange={(e) => handleChange('required_education_level', e.target.value)}
+                        value={educationLevel || ''}
+                        onChange={(e) => handleFormChange('required_education_level', e)}
                         register={register}
                         registerName="required_education_level"
                         error={!!errors.required_education_level}
@@ -317,8 +288,8 @@ const EditVacancy:FC<CardProps> = ({
                         fullWidth
                         size="small"
                         placeholder="Designer"
-                        value={editedData.specialization}
-                        onChange={(e) => handleChange('specialization', e.target.value)}
+                        value={formData.specialization || ''}
+                        onChange={(e) => handleFormChange('specialization', e)}
                         register={register}
                         registerName="specialization"
                         error={!!errors.specialization}
@@ -476,8 +447,8 @@ const EditVacancy:FC<CardProps> = ({
                       fullWidth
                       multiline
                       placeholder="Технологии, ключевые слова"
-                      value={skillsString}
-                      onChange={(e) => handleChange('required_skills', e.target.value)}
+                      value={skillsString || ''}
+                      onChange={(e) => handleFormChange('required_skills', e)}
                       register={register}
                       registerName="required_skills"
                       error={!!errors.required_skills}
@@ -495,8 +466,8 @@ const EditVacancy:FC<CardProps> = ({
                       fullWidth
                       multiline
                       name="text"
-                      value={editedData.text}
-                      onChange={(e) => handleChange('text', e.target.value)}
+                      value={formData.text || ''}
+                      onChange={(e) => handleFormChange('text', e)}
                       register={register}
                       registerName="text"
                       error={!!errors.text}
@@ -525,7 +496,7 @@ const EditVacancy:FC<CardProps> = ({
                 <Button className="clear-button" onClick={handleClear}>
                   Очистить
                 </Button>
-                <Button type="submit" className="publish-button" onClick={handleSave}>
+                <Button type="submit" className="publish-button">
                   Сохранить
                 </Button>
               </Box>

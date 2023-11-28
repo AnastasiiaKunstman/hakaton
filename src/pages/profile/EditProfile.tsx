@@ -12,7 +12,6 @@ import {
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { updateProfile } from '../../store/profile/profileSlice';
 import { registrationShema } from '../../utils/validation/yupSchema';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import Snackbars from '../../components/SnackBars/SnackBars';
@@ -20,18 +19,18 @@ import LocationFilter from '../../components/Filter/LocationFilter';
 import { IVacancy, deleteVacancy } from '../../store/vacancy/vacancySlice';
 import CloseIcon from '../../images/close_12.svg';
 import Link from '../../images/link.svg';
-import LinkH from '../../images/link-hover.svg';
+// import LinkH from '../../images/link-hover.svg';
 
 interface EditProfileProps {
   onChange: (field: string, value: string) => void
   onClick: () => void
+  onSave: (e: React.FormEvent) => void
 }
 
-const EditProfile: FC<EditProfileProps> = ({ onChange, onClick }) => {
+const EditProfile: FC<EditProfileProps> = ({ onChange, onClick, onSave }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const { vacancyList } = useAppSelector((state) => state.vacancies);
   const profile = useAppSelector((state) => state.profile.profile);
@@ -40,7 +39,6 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick }) => {
 
   const {
     register,
-    handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(registrationShema),
@@ -50,52 +48,26 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick }) => {
     setSnackbarOpen(false);
   };
 
-  const onDeleteCard = () => {
-    setOpenDeleteDialog(true);
-  };
-
-  const handleCloseDialogs = () => {
-    setOpenDeleteDialog(false);
-  };
-
   const handleDeleteCard = async (vacancyID: number) => {
     try {
       await dispatch(deleteVacancy(vacancyID));
 
       setSnackbarSeverity('success');
       setSnackbarMessage('Вакансия успешно удалена.');
+      setSnackbarOpen(true);
     } catch (error) {
       console.error(error);
       setSnackbarSeverity('error');
       setSnackbarMessage('Ошибка при удалении вакансии.');
+      setSnackbarOpen(true);
     }
-
-    setSnackbarOpen(true);
   };
 
   return (
     <>
       <form
         noValidate
-        onSubmit={handleSubmit(async (data) => {
-          console.log(data);
-
-          const updateData = {
-            ...data,
-          };
-
-          try {
-            await dispatch(updateProfile(updateData));
-
-            setSnackbarSeverity('success');
-            setSnackbarMessage('Изменения сохранены.');
-          } catch (error) {
-            setSnackbarSeverity('error');
-            setSnackbarMessage('Ошибка при создании вакансии.');
-          }
-
-          setSnackbarOpen(true);
-        })}
+        onSubmit={onSave}
       >
         <Grid container gap="40px">
           <Grid
@@ -123,10 +95,10 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick }) => {
                 }}
                 >
                   <Grid xs item>
-                    <Typography variant="body2" fontWeight={500}>Фамилия и имя</Typography>
+                    <Typography variant="body2" fontWeight={500}>Имя</Typography>
                     <TextField
                       fullWidth
-                      placeholder="Фамилия и имя"
+                      placeholder="Имя"
                       variant="outlined"
                       size="small"
                       sx={{ marginTop: '4px' }}
@@ -134,18 +106,20 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick }) => {
                       error={!!errors.first_name}
                       helperText={errors.first_name ? `${errors.first_name.message}` : ''}
                       {...register('first_name')}
+                      // eslint-disable-next-line max-len
                       onChange={(e) => onChange('first_name', e.target.value)}
                     />
                   </Grid>
                   <Grid xs item>
-                    <Typography variant="body2" fontWeight={500}>Должность</Typography>
+                    <Typography variant="body2" fontWeight={500}>Фамилия</Typography>
                     <TextField
                       sx={{ marginTop: '4px' }}
                       fullWidth
                       size="small"
-                      placeholder="Должность"
+                      placeholder="Фамилия"
                       variant="outlined"
                       defaultValue={profile?.last_name}
+                      onChange={(e) => onChange('last_name', e.target.value)}
                     />
                   </Grid>
 

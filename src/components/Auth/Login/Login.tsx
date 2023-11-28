@@ -4,16 +4,15 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../../UI/Input/Input';
-import { getVacancies, login } from '../../../store/index';
+import { login } from '../../../store/index';
 import { loginShema } from '../../../utils/index';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import './Login.scss';
-import Snackbars from '../../SnackBars/SnackBars';
 
 interface Inputs {
   email: string

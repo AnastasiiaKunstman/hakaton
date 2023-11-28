@@ -14,7 +14,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useState, useEffect, FC } from 'react';
 import Location from '../../images/location.svg';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
-import { getProfile, IProfile } from '../../store/profile/profileSlice';
+import { getProfile, IProfile, updateProfile } from '../../store/profile/profileSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { IVacancy, getVacancies } from '../../store/vacancy/vacancySlice';
 import EditProfile from './EditProfile';
@@ -22,7 +22,6 @@ import EditProfile from './EditProfile';
 const Profile:FC = () => {
   const profile = useAppSelector((state) => state.profile.profile);
   const { vacancyList } = useAppSelector((state) => state.vacancies);
-
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -58,6 +57,16 @@ const Profile:FC = () => {
 
       return { ...prevData, [field]: value };
     });
+  };
+
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      dispatch(updateProfile(profileData));
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
   };
 
   // console.log(vacancyList);
@@ -296,8 +305,9 @@ const Profile:FC = () => {
           : (
             <EditProfile
               key={profile?.id}
-              onChange={handleChange}
               onClick={handleEditClick}
+              onChange={handleChange}
+              onSave={handleSave}
             />
           )}
       </Box>

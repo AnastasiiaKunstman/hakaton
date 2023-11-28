@@ -8,10 +8,8 @@ import './vacancyCard.scss';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { useAppDispatch } from '../../store/hooks';
-import {
-  IVacancy, getVacancy, updateVacancy,
-} from '../../store/vacancy/vacancySlice';
+// import { useAppDispatch } from '../../store/hooks';
+import { IVacancy } from '../../store/vacancy/vacancySlice';
 import EditVacancy from './EditCard';
 import DelCard from './DelCard';
 
@@ -23,21 +21,16 @@ interface VacancyCardProps {
 function VacancyCard({ card, onDelete }: VacancyCardProps) {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const skillsString = card.required_skills.map((name) => name.name);
   const formattedDate = format(new Date(card.pub_date), 'dd.MM');
   const educationLevel = card.required_education_level.map((name) => name.name);
   const schedule = card.schedule.map((name) => name.name).join(', ');
 
-  const onClickCard = () => {
+  const handleCardClick = () => {
     setOpenEditDialog(true);
     setOpenDeleteDialog(false);
-  };
-
-  const handleSaveChanges = (updatedData: any) => {
-    dispatch(updateVacancy(updatedData));
-    setOpenEditDialog(false);
   };
 
   const onDeleteCard = () => {
@@ -75,7 +68,7 @@ function VacancyCard({ card, onDelete }: VacancyCardProps) {
               {card.name}
             </Typography>
             <Box className="icon-box">
-              <IconButton sx={{ width: '24px', padding: 0 }} onClick={onClickCard}>
+              <IconButton sx={{ width: '24px', padding: 0 }} onClick={handleCardClick}>
                 <SvgIcon>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M22.0252 1.97528C21.3997 1.35077 20.552 1 19.6681 1C18.7842 1 17.9365 1.35077 17.311 1.97528L2.34784 16.9384C1.91934 17.3645 1.57959 17.8714 1.34824 18.4296C1.11689 18.9879 0.99853 19.5864 1.00001 20.1907V22.0795C1.00001 22.3235 1.09694 22.5575 1.26948 22.7301C1.44202 22.9026 1.67603 22.9995 1.92003 22.9995H3.80883C4.41306 23.0012 5.01163 22.8831 5.56989 22.6519C6.12814 22.4207 6.63499 22.081 7.06109 21.6526L22.0252 6.68853C22.6494 6.0631 23 5.21555 23 4.3319C23 3.44826 22.6494 2.60071 22.0252 1.97528ZM5.76019 20.3517C5.2413 20.8672 4.54021 21.1574 3.80883 21.1595H2.84005V20.1907C2.83912 19.8281 2.91011 19.469 3.04893 19.134C3.18774 18.7991 3.39161 18.495 3.64875 18.2394L15.0045 6.88357L17.1206 8.99961L5.76019 20.3517ZM20.7234 5.38762L18.4178 7.69411L16.3018 5.58267L18.6082 3.27618C18.7472 3.13754 18.9121 3.02763 19.0935 2.95271C19.2749 2.8778 19.4693 2.83935 19.6656 2.83956C19.8619 2.83978 20.0562 2.87865 20.2374 2.95396C20.4187 3.02927 20.5833 3.13954 20.722 3.27848C20.8606 3.41742 20.9705 3.58231 21.0454 3.76373C21.1204 3.94515 21.1588 4.13955 21.1586 4.33583C21.1584 4.53211 21.1195 4.72642 21.0442 4.90768C20.9689 5.08894 20.8586 5.25358 20.7197 5.39222L20.7234 5.38762Z" fill="#797981" />
@@ -124,7 +117,7 @@ function VacancyCard({ card, onDelete }: VacancyCardProps) {
             ))}
           </Box>
           <Box className="date">
-            <Button className="date_btn" variant="contained" href="#contained-buttons" onClick={onClickCard}>Перейти</Button>
+            <Button className="date_btn" variant="contained" href="#contained-buttons" onClick={handleCardClick}>Перейти</Button>
             <Box sx={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
               <KeyboardArrowDownIcon className="icon-button" color="disabled" fontSize="small" />
               <Typography variant="body2">{formattedDate}</Typography>
@@ -136,8 +129,8 @@ function VacancyCard({ card, onDelete }: VacancyCardProps) {
       <Dialog fullScreen onClose={handleCloseDialogs} aria-labelledby="customized-dialog-title" open={openEditDialog}>
         <EditVacancy
           key={card.id}
-          card={card}
-          onSave={handleSaveChanges}
+          vacancy={card}
+          formattedDate={formattedDate}
           skillsString={skillsString}
           educationLevel={educationLevel}
           schedule={schedule}

@@ -134,6 +134,27 @@ const vacanciesSlice = createSlice({
         state.message = action.payload;
       })
 
+      .addCase(updateVacancy.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateVacancy.fulfilled, (state, action) => {
+        const updatedVacancy = action.payload;
+        const index = state.vacancyList.findIndex((v) => v.id === updatedVacancy.id);
+
+        if (index !== -1) {
+          // Обновляем существующую вакансию новыми данными
+          state.vacancyList[index] = updatedVacancy;
+        }
+
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateVacancy.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
+
       .addCase(deleteVacancy.pending, (state) => {
         state.isLoading = true;
       })

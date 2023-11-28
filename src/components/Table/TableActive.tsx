@@ -109,6 +109,7 @@ function TableActive({ student, onLike, onDelete }: StudentTableProps) {
           <TextField
           // value={student.matching_percentage}
             size="small"
+            disabled
             sx={{
               width: '100px',
               textAlign: 'center',
