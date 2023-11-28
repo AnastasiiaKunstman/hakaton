@@ -73,7 +73,7 @@ const EditVacancy:FC<CardProps> = ({
 
   console.log(vacancy);
 
-  const handleFormChange = (fieldName: string | number, event: ChangeEvent<HTMLInputElement>) => {
+  const handleFormChange = (fieldName: string | number, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [fieldName]: event.target.value,
