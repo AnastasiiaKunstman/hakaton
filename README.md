@@ -1,6 +1,6 @@
 # YA.PRACTICUM X CAREER TRACK 2023
 Frontend часть командного проекта в рамках хакатона 
-Яндекс Практикум Х Карьерный трек'10.23
+Яндекс Практикум Х Карьерный трек'10-11.23
 
 ## Над проектом трудились :
 * 🙋‍♀️ [Anastasiia Kunstman]
@@ -70,7 +70,7 @@ Frontend: https://hakaton-b4i6lyf2i-anastasiias-projects-4665bb4a.vercel.app/
 
 ## Диплом
 
-|<img width="700" alt="Кунстман Анастасия (rus)" src="/src/images/Диплом.JPG">|  
+<img width="700" alt="Кунстман Анастасия (rus)" src="/src/images/Диплом.JPG">
 
 [Anastasiia Kunstman]: <https://github.com/AnastasiiaKunstman>
 [Yulia Gladysheva]: <https://github.com/init-yulya>
