@@ -13,10 +13,10 @@ import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registrationShema } from '../../utils/validation/yupSchema';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Snackbars from '../../components/SnackBars/SnackBars';
 import LocationFilter from '../../components/Filter/LocationFilter';
-import { IVacancy, deleteVacancy } from '../../store/vacancy/vacancySlice';
+import { IVacancy, deleteVacancy } from '../../features/vacancy/vacancySlice';
 import CloseIcon from '../../images/close_12.svg';
 import Link from '../../images/link.svg';
 // import LinkH from '../../images/link-hover.svg';
@@ -221,7 +221,7 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick, onSave }) => {
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '20px',
+              gap: '25px',
               height: '593px',
             }}
           >
@@ -287,7 +287,7 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick, onSave }) => {
                 sx={{ width: '50%', borderRadius: '4px', marginTop: '4px' }}
               />
             </Box>
-            <Box>
+            <Box sx={{ height: '100%' }}>
               <Typography variant="body2" fontWeight={500}>
                 Описание компании
               </Typography>
@@ -297,7 +297,7 @@ const EditProfile: FC<EditProfileProps> = ({ onChange, onClick, onSave }) => {
                 fullWidth
                 sx={{ borderRadius: '4px', marginTop: '4px' }}
                 multiline
-                rows={12}
+                rows={11}
               />
             </Box>
 

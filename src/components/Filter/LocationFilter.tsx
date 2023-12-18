@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Box, Typography, TextField, Autocomplete,
 } from '@mui/material';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../app/hooks';
 
 function LocationFilter() {
   const [value, setValue] = React.useState<string | null>(null);

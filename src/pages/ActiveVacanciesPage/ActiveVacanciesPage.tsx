@@ -8,10 +8,10 @@ import { Link } from 'react-router-dom';
 import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
 import VacancyCard from '../../components/vacancyCard/VacancyCard';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Snackbars from '../../components/SnackBars/SnackBars';
 import VacancyFilter from '../../components/Filter/VacancyFilter';
-import { IVacancy, deleteVacancy } from '../../store/vacancy/vacancySlice';
+import { IVacancy, deleteVacancy } from '../../features/vacancy/vacancySlice';
 
 const ActiveVacancy:FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);

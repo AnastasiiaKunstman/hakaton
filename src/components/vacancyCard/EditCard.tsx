@@ -4,10 +4,10 @@
 /* eslint-disable no-console */
 /* eslint-disable max-len */
 import React, {
-  ChangeEvent, FC, useEffect, useState,
+  FC, useEffect, useState,
 } from 'react';
 import {
-  Box, Button, FormControlLabel, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography,
+  Box, Button, FormControlLabel, Grid, MenuItem, Select, TextField, Typography,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -18,15 +18,10 @@ import Input from '../../UI/Input/Input';
 import Delete from '../../images/delete.svg';
 import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import { vacancyShema } from '../../utils/index';
-import { IVacancy, getVacancy, updateVacancy } from '../../store/vacancy/vacancySlice';
+import { IVacancy, updateVacancy } from '../../features/vacancy/vacancySlice';
 import '../btnVacancy/BtnVacancy.scss';
-
-type TSelectedOpt = {
-  id: number
-  name: string
-};
 
 interface CardProps {
   vacancy: IVacancy;
@@ -53,7 +48,6 @@ const EditVacancy:FC<CardProps> = ({
   } = useForm({ resolver: yupResolver(vacancyShema) });
 
   useEffect(() => {
-    // обновить состояние формы, используя данные вакансии
     if (vacancy) {
       setFormData({
         id: vacancy.id,
@@ -72,6 +66,8 @@ const EditVacancy:FC<CardProps> = ({
   }, [vacancy]);
 
   console.log(vacancy);
+
+  const specialization = vacancy?.specialization?.map((name) => name.name).join(', ');
 
   const handleFormChange = (fieldName: string | number, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -122,6 +118,7 @@ const EditVacancy:FC<CardProps> = ({
 
   return (
     <>
+
       <LoggedUserHeader />
       <Box maxWidth="xl" sx={{ p: '0 118px' }}>
         <NavigationMenu />
@@ -246,8 +243,8 @@ const EditVacancy:FC<CardProps> = ({
                       fullWidth
                       size="small"
                       placeholder="Город"
-                      value={vacancy.location?.name || ''}
-                      onChange={(e) => handleFormChange(formData.location?.id, e)}
+                      value={vacancy.location.name || ''}
+                      onChange={(e) => handleFormChange(formData.location.id, e)}
                       register={register}
                       registerName="location"
                       error={!!errors.location}
@@ -288,7 +285,7 @@ const EditVacancy:FC<CardProps> = ({
                         fullWidth
                         size="small"
                         placeholder="Designer"
-                        value={formData.specialization || ''}
+                        value={specialization || ''}
                         onChange={(e) => handleFormChange('specialization', e)}
                         register={register}
                         registerName="specialization"
@@ -415,13 +412,7 @@ const EditVacancy:FC<CardProps> = ({
                         gap: '20px',
                       }}
                     >
-                      <img
-                        src={AI}
-                        style={{
-                          color: '#797981', width: '20px', height: '20px',
-                        }}
-                        alt="Иконка тетриса"
-                      />
+                      <img src={AI} alt="" />
                       Генерация текста нейросетью
                     </Button>
                   </Grid>

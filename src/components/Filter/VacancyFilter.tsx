@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import {
   Box, Typography, TextField, Autocomplete,
 } from '@mui/material';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../app/hooks';
 
 function VacancyFilter() {
   const [value, setValue] = React.useState<string | null>(null);
@@ -33,6 +34,7 @@ function VacancyFilter() {
           }}
           fullWidth
           size="small"
+          noOptionsText="Нет подходящих вариантов"
           options={specialization}
           renderInput={(params) => <TextField {...params} placeholder="Например, Fronend разработчик" />}
         />

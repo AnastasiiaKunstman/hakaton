@@ -2,11 +2,11 @@
 /* eslint-disable react/function-component-definition */
 import React, { FC } from 'react';
 import {
-  AppBar, Box, Toolbar, IconButton, Container, Button, MenuItem,
+  AppBar, Box, Toolbar, IconButton, Button, MenuItem,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../store/hooks';
-import { logout } from '../../store/index';
+import { useAppDispatch } from '../../app/hooks';
+import { logout } from '../../app/index';
 import Logo from '../../images/H.svg';
 import User from '../../images/userActive.svg';
 import './LoggedUser.scss';

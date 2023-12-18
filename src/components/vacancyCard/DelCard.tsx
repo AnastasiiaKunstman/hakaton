@@ -3,7 +3,7 @@ import { FC } from 'react';
 import {
   Typography, Button, Box, IconButton,
 } from '@mui/material';
-import { IVacancy } from '../../store/vacancy/vacancySlice';
+import { IVacancy } from '../../features/vacancy/vacancySlice';
 import CloseIcon from '../../images/close_mini.svg';
 
 interface DelCardProps {

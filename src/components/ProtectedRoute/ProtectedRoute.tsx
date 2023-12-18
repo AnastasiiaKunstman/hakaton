@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../app/hooks';
 
 function ProtectedRoute({ element: Component, ...props }: any) {
   const { user } = useAppSelector((state) => state.auth);

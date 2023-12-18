@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import '../fonts/fonts.css';
+import '../vendor/fonts/fonts.css';
 
 const theme = createTheme({
   palette: {

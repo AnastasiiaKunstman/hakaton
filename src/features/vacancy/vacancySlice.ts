@@ -7,7 +7,10 @@ import vacancyService from './vacancyService';
 export type IVacancy = {
   id: number;
   name: string;
-  location: { id: number; name: string };
+  location: {
+    id: number;
+    name: string;
+  };
   text: string;
   salary: string;
   pub_date: string;
@@ -39,7 +42,7 @@ const initialState: IInitialState = {
 };
 
 export const getVacancies = createAsyncThunk(
-  'vacancy/get',
+  'vacancy/getVacancies',
   async (_, thunkAPI) => {
     try {
       return await vacancyService.getVacancies();
@@ -51,7 +54,7 @@ export const getVacancies = createAsyncThunk(
 );
 
 export const getVacancy = createAsyncThunk(
-  'vacancy/get',
+  'vacancy/getVacancy',
   (vacancyID: number, thunkAPI) => {
     try {
       return vacancyService.getVacancy(vacancyID);
@@ -129,6 +132,24 @@ const vacanciesSlice = createSlice({
         state.vacancyList = action.payload.results;
       })
       .addCase(getVacancies.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      .addCase(getVacancy.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getVacancy.fulfilled, (state, action) => {
+        console.log('getVacancy.fulfilled', action.payload);
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        const updatedVacancy = action.payload;
+        // eslint-disable-next-line max-len
+        state.vacancyList = state.vacancyList.map((vacacies) => (vacacies.id === updatedVacancy.id ? updatedVacancy : vacacies));
+      })
+      .addCase(getVacancy.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

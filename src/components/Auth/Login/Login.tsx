@@ -9,9 +9,9 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../../UI/Input/Input';
-import { login } from '../../../store/index';
+import { login } from '../../../app/index';
 import { loginShema } from '../../../utils/index';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import './Login.scss';
 
 interface Inputs {

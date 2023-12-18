@@ -8,7 +8,7 @@ Frontend часть командного проекта в рамках хака
 * [Nikita Khomenko]
 
 ## На этом сайте пользватель сможет:
-Внимание!Проект в процессе доработки!
+<sup>_\*проект в процессе доработки!_</sup>
 
 * Пройти регистрацию с подтверждением
 * Заполнить и в дальнейшем отредактировать свой профиль
@@ -68,6 +68,9 @@ npm run dev
 
 Frontend: https://hakaton-b4i6lyf2i-anastasiias-projects-4665bb4a.vercel.app/
 
+## Диплом
+
+|<img width="700" alt="Кунстман Анастасия (rus)" src="/src/images/Диплом.JPG">|  
 
 [Anastasiia Kunstman]: <https://github.com/AnastasiiaKunstman>
 [Yulia Gladysheva]: <https://github.com/init-yulya>

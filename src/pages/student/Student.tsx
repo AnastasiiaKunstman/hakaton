@@ -19,7 +19,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import Location from '../../images/location.svg';
 import Vector from '../../images/Vector.svg';
-import { IResult } from '../../store/students/studentSlice';
+import { IResult } from '../../features/students/studentSlice';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
 import Book from '../../images/diary.svg';
 import AI from '../../images/tetris_white.svg';

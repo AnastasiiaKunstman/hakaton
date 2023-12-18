@@ -11,10 +11,10 @@ import {
 } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import TableActive from './TableActive';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   dislikeStudents, getFavoriteStudents, getStudents, likeStudents,
-} from '../../store/index';
+} from '../../app/index';
 import Delete from '../../images/delete.svg';
 
 type TSelectedOpt = {
@@ -168,6 +168,7 @@ function TableDynamic() {
                 setInputValue(newInputValue);
               }}
               size="small"
+              noOptionsText="Нет подходящих вариантов"
               options={schedule}
               sx={{ width: '194px', marginTop: '4px' }}
               renderInput={(params) => <TextField {...params} placeholder="Офис" />}

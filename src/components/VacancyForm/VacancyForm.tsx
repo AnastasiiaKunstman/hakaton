@@ -15,8 +15,8 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { createVacancy } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { createVacancy } from '../../app/index';
 import { vacancyShema } from '../../utils/index';
 import Input from '../../UI/Input/Input';
 import Delete from '../../images/delete.svg';

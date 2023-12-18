@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import {
-  TableCell, TableRow, TextField, Avatar, Checkbox, IconButton, Dialog, SxProps,
+  TableCell, TableRow, TextField, Avatar, Checkbox, IconButton, Dialog,
 } from '@mui/material';
 import Student from '../../pages/student/Student';
 import './TableActive.scss';

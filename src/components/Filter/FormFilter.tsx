@@ -8,7 +8,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { IOSSwitch } from '../../utils/constans/Switch';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../app/hooks';
 import Delete from '../../images/delete.svg';
 import { vacancyShema } from '../../utils/validation/yupSchema';
 import Input from '../../UI/Input/Input';

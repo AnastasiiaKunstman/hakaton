@@ -8,10 +8,10 @@ import './vacancyCard.scss';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { format } from 'date-fns';
 import { useState } from 'react';
-// import { useAppDispatch } from '../../store/hooks';
-import { IVacancy } from '../../store/vacancy/vacancySlice';
+import { IVacancy } from '../../features/vacancy/vacancySlice';
 import EditVacancy from './EditCard';
 import DelCard from './DelCard';
+// import { useAppDispatch } from '../../store/hooks';
 
 interface VacancyCardProps {
   card: IVacancy
@@ -27,6 +27,16 @@ function VacancyCard({ card, onDelete }: VacancyCardProps) {
   const formattedDate = format(new Date(card.pub_date), 'dd.MM');
   const educationLevel = card.required_education_level.map((name) => name.name);
   const schedule = card.schedule.map((name) => name.name).join(', ');
+
+  // const handelGetVacancy = async (cardID: number) => {
+  //   console.log('Перед вызовом dispatch');
+  //   try {
+  //     await dispatch(getVacancy(cardID)).unwrap();
+  //     console.log('После успешного вызова dispatch');
+  //   } catch (error) {
+  //     console.error('Ошибка при вызове dispatch:', error);
+  //   }
+  // };
 
   const handleCardClick = () => {
     setOpenEditDialog(true);

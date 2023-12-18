@@ -14,9 +14,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useState, useEffect, FC } from 'react';
 import Location from '../../images/location.svg';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
-import { getProfile, IProfile, updateProfile } from '../../store/profile/profileSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { IVacancy, getVacancies } from '../../store/vacancy/vacancySlice';
+import { getProfile, IProfile, updateProfile } from '../../features/profile/profileSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { IVacancy, getVacancies } from '../../features/vacancy/vacancySlice';
 import EditProfile from './EditProfile';
 
 const Profile:FC = () => {
@@ -184,7 +184,18 @@ const Profile:FC = () => {
                       <Button
                         variant="outlined"
                         sx={{
-                          width: '40%', borderRadius: '6px', border: '1px solid #1D6BF3', color: '#1D6BF3', fontFamily: 'YS Text', fontSize: '14px', fontWeight: 500, lineHeight: '20px',
+                          width: '40%',
+                          borderRadius: '6px',
+                          border: '1px solid #1D6BF3',
+                          color: '#1D6BF3',
+                          fontFamily: 'YS Text',
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          lineHeight: '20px',
+                          '&:hover': {
+                            color: '#fff',
+                            backgroundColor: '#1D6BF3',
+                          },
                         }}
                       >
                         Отправить
@@ -204,7 +215,7 @@ const Profile:FC = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '20px',
-                    height: 'max-content',
+                    height: '100%',
                   }}
                 >
                   <Box>

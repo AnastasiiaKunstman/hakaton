@@ -11,8 +11,8 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Input from '../../../UI/Input/Input';
-import { signUp } from '../../../store/index';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { signUp } from '../../../app/index';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { registrationShema } from '../../../utils/index';
 import './Registration.scss';
 
