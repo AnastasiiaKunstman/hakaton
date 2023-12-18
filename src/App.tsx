@@ -13,7 +13,7 @@ import CreateVacancy from './pages/CreateVacancy/CreateVacancy';
 import ActiveVacancy from './pages/ActiveVacanciesPage/ActiveVacanciesPage';
 import ArchivedVacancy from './pages/ArchivedVacanciesPage/ArchivedVacanciesPage';
 import Student from './pages/student/Student';
-import { useAppDispatch, useAppSelector } from './store/hooks';
+import { useAppDispatch, useAppSelector } from './app/hooks';
 import {
   getSkills,
   getSpecializations,
@@ -21,7 +21,7 @@ import {
   getSchedules,
   getLocations,
   getVacancies,
-} from './store/index';
+} from './app/index';
 import PasswordRecovery from './components/Auth/PasswordRecovery/PasswordRecovery';
 import NotFoundError from './components/NotFoundError/NotFoundError';
 
