@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
@@ -7,7 +8,7 @@ import {
 import './vacancyCard.scss';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { IVacancy } from '../../features/vacancy/vacancySlice';
 import EditVacancy from './EditCard';
 import DelCard from './DelCard';
@@ -18,7 +19,7 @@ interface VacancyCardProps {
   onDelete: () => void
 }
 
-function VacancyCard({ card, onDelete }: VacancyCardProps) {
+const VacancyCard:FC<VacancyCardProps> = ({ card, onDelete }) => {
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   // const dispatch = useAppDispatch();
@@ -168,6 +169,6 @@ function VacancyCard({ card, onDelete }: VacancyCardProps) {
       </Dialog>
     </>
   );
-}
+};
 
 export default VacancyCard;
