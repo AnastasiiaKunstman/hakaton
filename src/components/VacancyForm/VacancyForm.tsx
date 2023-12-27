@@ -20,10 +20,10 @@ import { createVacancy } from '../../app/index';
 import { vacancyShema } from '../../utils/index';
 import Input from '../../UI/Input/Input';
 import Delete from '../../images/delete.svg';
-import AI from '../../images/tetris_transparant.svg';
+// import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
 import Snackbars from '../SnackBars/SnackBars';
-import BtnVacancy from '../BtnVacancy/BtnVacancy';
+import BtnVacancy from '../BtnVacancy/BtnVacancy.scss';
 
 type TSelectedOpt = {
   id: number
