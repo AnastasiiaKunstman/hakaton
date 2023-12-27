@@ -23,7 +23,7 @@ import Delete from '../../images/delete.svg';
 // import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
 import Snackbars from '../SnackBars/SnackBars';
-import BtnVacancy from '../BtnVacancy/BtnVacancy';
+import BtnVacancy from '../btnVacancy/BtnVacancy';
 
 type TSelectedOpt = {
   id: number
