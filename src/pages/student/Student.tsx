@@ -34,7 +34,7 @@ interface StudentProps {
 
 const longText = 'Анализ текста резюме при помощи нейросети. AI отметит важные моменты и проверит соответствие резюме под вакансию.';
 
-function Student({ student, onFavorite, onCancel }: StudentProps) {
+export default function Student({ student, onFavorite, onCancel }: StudentProps) {
   const [isFavorite, setIsFavorite] = useState(student.is_favorited);
   const [value, setValue] = useState('1');
   const [isClicked, setIsClicked] = useState(false);
@@ -540,5 +540,3 @@ function Student({ student, onFavorite, onCancel }: StudentProps) {
     </>
   );
 }
-
-export default Student;
