@@ -4,7 +4,7 @@ import {
   TableCell, TableRow, TextField, Avatar, Checkbox, IconButton, Dialog,
 } from '@mui/material';
 import './TableActive.scss';
-import Student from '../../pages/Student/Student';
+import Student from '../../pages/student/Student';
 
 interface StudentTableProps {
   student: IStudent

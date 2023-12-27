@@ -23,8 +23,8 @@ import {
 import PasswordRecovery from './components/Auth/PasswordRecovery/PasswordRecovery';
 import NotFoundError from './components/NotFoundError/NotFoundError';
 import Comparison from './pages/Comparison/Comparison';
-import Profile from './pages/Profile/Profile';
-import Student from './pages/Student/Student';
+import Profile from './pages/profile/Profile';
+import Student from './pages/student/Student';
 
 function App() {
   const dispatch = useAppDispatch();
