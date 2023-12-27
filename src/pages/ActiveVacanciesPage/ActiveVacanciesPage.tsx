@@ -6,12 +6,12 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
-import VacancyCard from '../../components/VacancyCard/VacancyCard';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Snackbars from '../../components/SnackBars/SnackBars';
 import VacancyFilter from '../../components/Filter/VacancyFilter';
 import { IVacancy, deleteVacancy } from '../../features/vacancy/vacancySlice';
+import VacancyCard from '../../components/VacancyCard/VacancyCard';
 
 const ActiveVacancy:FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);

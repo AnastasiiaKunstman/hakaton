@@ -4,7 +4,6 @@ import {
 import { useEffect } from 'react';
 import Auth from './components/Auth/Auth';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
-import Profile from './pages/Profile/Profile';
 import StudentsPage from './pages/StudentsPage/StudentsPage';
 import ViewedStudent from './pages/ViewedStudents/ViewedStudents';
 import InvitedStudents from './pages/InvitedStudents/InvitedStudents';
@@ -12,7 +11,6 @@ import SaveStudents from './pages/SaveStudents/SaveStudents';
 import CreateVacancy from './pages/CreateVacancy/CreateVacancy';
 import ActiveVacancy from './pages/ActiveVacanciesPage/ActiveVacanciesPage';
 import ArchivedVacancy from './pages/ArchivedVacanciesPage/ArchivedVacanciesPage';
-import Student from './pages/Student/Student';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import {
   getSkills,
@@ -25,6 +23,8 @@ import {
 import PasswordRecovery from './components/Auth/PasswordRecovery/PasswordRecovery';
 import NotFoundError from './components/NotFoundError/NotFoundError';
 import Comparison from './pages/Comparison/Comparison';
+import Profile from './pages/Profile/Profile';
+import Student from './pages/Student/Student';
 
 function App() {
   const dispatch = useAppDispatch();

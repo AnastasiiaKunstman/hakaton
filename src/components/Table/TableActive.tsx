@@ -3,8 +3,8 @@ import React from 'react';
 import {
   TableCell, TableRow, TextField, Avatar, Checkbox, IconButton, Dialog,
 } from '@mui/material';
-import Student from '../../pages/Student/Student';
 import './TableActive.scss';
+import Student from '../../pages/Student/Student';
 
 interface StudentTableProps {
   student: IStudent
