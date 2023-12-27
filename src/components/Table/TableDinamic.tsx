@@ -102,13 +102,13 @@ function TableDynamic() {
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="subtitle1" fontWeight={500}>Настройка фильтров поиска</Typography>
-          <Box sx={{ maxWidth: '295px' }}>
+          <Box sx={{ display: 'flex', gap: '20px' }}>
 
             <Button
               type="button"
               size="small"
               sx={{
-                color: '#1D6BF3', fontSize: '14px', lineHeight: '20px', marginRight: '20px',
+                color: '#1D6BF3', fontSize: '14px', lineHeight: '20px',
               }}
             >
               <SvgIcon sx={{ width: '24px', height: '24px', marginRight: '4px' }}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
+import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
 // import VacancyCard from '../../components/vacancyCard/VacancyCard';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
 import VacancyFilter from '../../components/Filter/VacancyFilter';

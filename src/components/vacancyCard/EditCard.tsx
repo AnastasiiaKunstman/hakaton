@@ -7,18 +7,19 @@ import React, {
   FC, useEffect, useState,
 } from 'react';
 import {
+  Autocomplete,
   Box, Button, FormControlLabel, Grid, MenuItem, Select, TextField, Typography,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import NavigationMenu from '../navigationMenu/NavigationMenu';
+import NavigationMenu from '../NavigationMenu/NavigationMenu';
 import LoggedUserHeader from '../Header/LoggedUserHeader';
 import Snackbars from '../SnackBars/SnackBars';
 import Input from '../../UI/Input/Input';
 import Delete from '../../images/delete.svg';
 import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { vacancyShema } from '../../utils/index';
 import { IVacancy, updateVacancy } from '../../features/vacancy/vacancySlice';
 import '../btnVacancy/BtnVacancy.scss';
@@ -53,7 +54,7 @@ const EditVacancy:FC<CardProps> = ({
         id: vacancy.id,
         is_archived: vacancy.is_archived,
         name: vacancy.name,
-        location: vacancy.location.id,
+        location: vacancy.location,
         text: vacancy.text,
         salary: vacancy.salary,
         pub_date: vacancy.pub_date,

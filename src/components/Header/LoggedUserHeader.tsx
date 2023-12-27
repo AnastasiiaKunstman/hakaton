@@ -2,7 +2,7 @@
 /* eslint-disable react/function-component-definition */
 import React, { FC } from 'react';
 import {
-  AppBar, Box, Toolbar, IconButton, Button, MenuItem,
+  AppBar, Box, Toolbar, Button, MenuItem,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
@@ -35,63 +35,59 @@ const LoggedUserHeader:FC = () => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: '#1A1B22', height: '60px', boxShadow: 'none', padding: '0 46px',
+        backgroundColor: '#1A1B22', height: 'max-content', boxShadow: 'none', padding: '0 78px',
       }}
     >
-      <Box maxWidth="xl" sx={{ height: '60px' }}>
-        <Toolbar sx={{ height: '60px' }}>
-          <MenuItem component={Link} to="/">
-            <img className="img__logo" src={Logo} alt="Логотип" />
+      <Toolbar>
+        <MenuItem component={Link} to="/vacancies/active">
+          <img className="img__logo" src={Logo} alt="Логотип" />
+        </MenuItem>
+        <Box sx={{
+          display: 'flex', alignItems: 'center', width: '100%', paddingLeft: '20px',
+        }}
+        >
+          {pages.map((page) => (
+            <Button
+              key={page.id}
+              sx={{
+                textTransform: 'none',
+                p: '20px',
+                '&.MuiButtonBase-root:hover': { color: 'white' },
+                color: page.path === window.location.pathname ? 'white' : '#B5B5B7',
+              }}
+              component={Link}
+              to={page.path}
+            >
+              {page.name}
+            </Button>
+          ))}
+          <Box sx={{ flexGrow: 1 }} />
+          <MenuItem sx={{ padding: 0, height: '100%' }}>
+            <Button
+              color="secondary"
+              component={Link}
+              to="/profile"
+              sx={{ padding: 0 }}
+            >
+              <img className="img__header" src={User} alt="Профиль" />
+            </Button>
           </MenuItem>
-          <Box sx={{ flexGrow: 1, display: { md: 'inline-flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.id}
-                sx={{
-                  textTransform: 'none',
-                  p: '20px',
-                  '&.MuiButtonBase-root:hover': { color: 'white' },
-                  color: page.path === window.location.pathname ? 'white' : '#B5B5B7',
-                }}
-                component={Link}
-                to={page.path}
-              >
-                {page.name}
-              </Button>
-            ))}
-            <Box sx={{ flexGrow: 1 }} />
-            <MenuItem>
-              <IconButton
-                color="secondary"
-                component={Link}
-                to="/profile"
-                sx={{
-
-                  '&.MuiButtonBase-root:hover': { color: 'white' },
-                }}
-              >
-                <img className="img__header" src={User} alt="Профиль" />
-              </IconButton>
-            </MenuItem>
-            <MenuItem sx={{ paddingRight: '24px' }}>
-              <Button
-                variant="outlined"
-                onClick={onLogout}
-                sx={{
-                  textTransform: 'none',
-                  color: 'white',
-                  borderColor: 'white',
-                  fontSize: '14px',
-                  borderRadius: '6',
-                  '&.MuiButtonBase-root:hover': { opacity: '0.7', borderColor: 'white', boxShadow: 'none', backgroundColor: 'transparent' },
-                }}
-              >
-                Выйти
-              </Button>
-            </MenuItem>
-          </Box>
-        </Toolbar>
-      </Box>
+          <Button
+            onClick={onLogout}
+            sx={{
+              border: '1px solid #fff',
+              boxShadow: 'none',
+              color: 'white',
+              fontSize: '14px',
+              '&:hover': {
+                opacity: '0.8',
+              },
+            }}
+          >
+            Выйти
+          </Button>
+        </Box>
+      </Toolbar>
     </AppBar>
   );
 };

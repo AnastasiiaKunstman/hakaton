@@ -27,7 +27,7 @@ type formRegistration = {
 const Registration: FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { user, isSuccess, isError } = useAppSelector((state) => state.auth);
+  const { user } = useAppSelector((state) => state.auth);
 
   const {
     register,
@@ -142,7 +142,7 @@ const Registration: FC = () => {
         <Typography variant="body1" sx={{ fontWeight: 400, color: '#797981' }}>Уже есть аккаунт?</Typography>
         <Link
           className="link"
-          href="/sign-in"
+          href="/signin"
           variant="body2"
           underline="none"
           sx={{ py: 3, color: '#fff' }}

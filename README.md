@@ -4,8 +4,6 @@ Frontend часть командного проекта в рамках хака
 
 ## Над проектом трудились :
 * 🙋‍♀️ [Anastasiia Kunstman]
-* [Yulia Gladysheva]
-* [Nikita Khomenko]
 
 ## На этом сайте пользватель сможет:
 <sup>_\*проект в процессе доработки!_</sup>
@@ -69,5 +67,3 @@ npm run dev
 <img width="700" alt="Кунстман Анастасия (rus)" src="/src/images/Диплом.JPG">
 
 [Anastasiia Kunstman]: <https://github.com/AnastasiiaKunstman>
-[Yulia Gladysheva]: <https://github.com/init-yulya>
-[Nikita Khomenko]: <https://github.com/NikitKhom>

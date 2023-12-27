@@ -52,7 +52,15 @@ const theme = createTheme({
       lineHeight: '16px',
     },
     button: {
+      fontFamily: 'YS Text',
       textTransform: 'none',
+      fontStyle: 'normal',
+      fontWeight: '500',
+      lineHeight: '20px',
+      fontSize: '16px',
+      borderRadius: '6px',
+      boxShadow: 'none',
+      cursor: 'pointer',
     },
   },
 });

@@ -5,8 +5,8 @@ import {
   Box, Typography, CircularProgress,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import NavigationMenu from '../../components/navigationMenu/NavigationMenu';
-import VacancyCard from '../../components/vacancyCard/VacancyCard';
+import NavigationMenu from '../../components/NavigationMenu/NavigationMenu';
+import VacancyCard from '../../components/VacancyCard/VacancyCard';
 import LoggedUserHeader from '../../components/Header/LoggedUserHeader';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import Snackbars from '../../components/SnackBars/SnackBars';

@@ -19,7 +19,7 @@ const BtnVacancy: FC = () => {
         }}
         >
           <Box className="edit-buttons">
-            <Button type="submit" className="clear-button">
+            <Button type="submit" className="save-button">
               Сохранить
             </Button>
             <Button type="submit" className="publish-button">

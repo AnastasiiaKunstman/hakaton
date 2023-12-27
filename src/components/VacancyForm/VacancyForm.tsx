@@ -23,6 +23,7 @@ import Delete from '../../images/delete.svg';
 import AI from '../../images/tetris_transparant.svg';
 import { IOSSwitch } from '../../utils/constans/Switch';
 import Snackbars from '../SnackBars/SnackBars';
+import BtnVacancy from '../BtnVacancy/BtnVacancy';
 
 type TSelectedOpt = {
   id: number
@@ -377,15 +378,12 @@ function VacancyForm() {
                 }}
               >
                 <Button
-                  type="button"
                   fullWidth
                   sx={{
                     height: '40px',
                     backgroundColor: '#fff',
                     color: '#1D6BF3',
                     border: '1px solid #1D6BF3',
-                    boxShadow: 'none',
-                    borderRadius: '6px',
                     '&:hover': {
                       color: '#fff',
                       backgroundColor: '#1D6BF3',
@@ -395,30 +393,25 @@ function VacancyForm() {
                   Из шаблонов Яндекс Практикума
                 </Button>
                 <Button
-                  type="button"
                   fullWidth
+                  disabled
                   sx={{
                     height: '40px',
                     backgroundColor: '#fff',
                     color: '#1D6BF3',
-                    border: '1px solid #1D6BF3',
-                    boxShadow: 'none',
-                    borderRadius: '6px',
+                    border: '1px solid #B5B5B7',
                     justifyContent: 'center',
-                    gap: '20px',
-                    '&:hover': {
-                      color: '#fff',
-                      backgroundColor: '#1D6BF3',
-                    },
+                    gap: '10px',
                   }}
+                  startIcon={(
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="20" viewBox="0 0 26 20" fill="none">
+                      <rect x="0.699219" y="3" width="6.8" height="6.3" stroke="#B5B5B7" />
+                      <rect x="9.2998" y="3" width="6.8" height="6.3" stroke="#B5B5B7" />
+                      <rect x="9.30078" y="10.8" width="6.8" height="6.3" stroke="#B5B5B7" />
+                      <rect x="17.7998" y="10.8" width="6.8" height="6.3" stroke="#B5B5B7" />
+                    </svg>
+                  )}
                 >
-                  <img
-                    src={AI}
-                    style={{
-                      color: '#797981', width: '20px', height: '20px',
-                    }}
-                    alt="Иконка тетриса"
-                  />
                   Генерация текста нейросетью
                 </Button>
               </Grid>
@@ -483,21 +476,7 @@ function VacancyForm() {
             </Grid>
           </Grid>
         </Grid>
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          pt: '27px',
-        }}
-        >
-          <Box className="edit-buttons">
-            <Button type="submit" className="clear-button">
-              Сохранить
-            </Button>
-            <Button type="submit" className="publish-button">
-              Опубликовать вакансию и начать поиск
-            </Button>
-          </Box>
-        </Box>
+        <BtnVacancy />
       </form>
 
       <Snackbars
