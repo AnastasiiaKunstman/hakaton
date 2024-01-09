@@ -25,6 +25,7 @@ import NotFoundError from './components/NotFoundError/NotFoundError';
 import Comparison from './pages/Comparison/Comparison';
 import Profile from './pages/profile/Profile';
 import Student from './pages/student/Student';
+import ProfileModal from './components/profileModal/ProfileModal';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -48,6 +49,7 @@ function App() {
       <Route path="/signup" element={<Auth podComponent="registration" />} />
       <Route path="/password-recovery" element={<PasswordRecovery />} />
       <Route path="/profile" element={<ProtectedRoute element={Profile} />} />
+      <Route path="/profile-modal" element={<ProtectedRoute element={ProfileModal} />} />
       <Route path="/student" element={<ProtectedRoute element={Student} />} />
       <Route path="*" element={<ProtectedRoute element={NotFoundError} />} />
       <Route path="/vacancies" element={<ProtectedRoute element={CreateVacancy} />} />

@@ -115,7 +115,7 @@ const Login = () => {
           <Typography variant="body1" sx={{ fontWeight: 400, color: '#797981' }}>Новый пользователь?</Typography>
           <Link
             className="link"
-            href="/sign-up"
+            href="/signup"
             variant="body2"
             underline="none"
             sx={{ py: 3, color: '#fff' }}
